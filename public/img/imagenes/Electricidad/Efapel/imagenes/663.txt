@@ -1,0 +1,152 @@
+\FUNCIONES\conmutador\interruptor unipolar\conmutador de cruce\doble conmutador\doble interruptor\triple interruptor\pulsador\pulsador luminoso\interruptor para persiana\doble pulsador para persiana\termostato digital con IR\detector de movimiento\regulador/conmutador de luz ferromagnético\regulador/conmutador de luz electrónico\mando general persiana con IR\ mando local persiana con IR\   #variable A
+\MARCOS\blanco\marfil\negro\ #variable B
+\TAPAS-TECLAS\blanco\marfil\negro\blanco mate\negro mate\grafito\plata\platino\champán\ #variable C
+
+#color marco
+$T(3)=
+"BR",
+"MF",
+"PT"
+
+#color tapa-tecla
+$X(9)=
+"BR",
+"MF",
+"PT",
+"BM",
+"PM",
+"GR",
+"PR",
+"PL",
+"CH"
+
+#funcion A
+$Q(16)=
+"21071",
+"21011",
+"21051",
+"21101",
+"21061",
+"21088",
+"21151",
+"21152",
+"21290",
+"21281",
+"21233",
+"21402",
+"21216",
+"21217",
+"21311",
+"21312"
+
+#funcion B tapa/tecla
+$R(16)="50601 T",
+"50601 T",
+"50601 T",
+"50611 T",
+"50611 T",
+"50661 T",
+"50601 T",
+"50602 T",
+"50613 T",
+"50612 T",
+"50742 T",
+"50401 T",
+"50721 T",
+"50721 T",
+"50311 T",
+"50312 T"
+
+#tubo pvc y cableado según A
+$S(16,2)=
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0455","PGENP15.0446",
+"PGENP15.0455","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0455","PGENP15.0447",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0455","PGENP15.0447",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0455","PGENP15.0446",
+"PGENP15.0455","PGENP15.0446"
+
+#rendimiento cableado según A
+%L(16)=
+3,
+2,
+4,
+6,
+3,
+4,
+2,
+2,
+3,
+3,
+3,
+3,
+2,
+2,
+4,
+6
+
+#Descomposición
+PEFA$Q(%A): 1		#Función
+PEFA50910 T$T(%B): 1		#Marco
+PEFA$R(%A)$X(%C): 1		#Tapa-Tecla
+
+$S(%A,1): 8			#Tubo PVC corrugado
+$S(%A,2): (8)*%L(%A)		#Cable
+
+PGENP15.0527: 1		#Caja mecanismo
+PGENP15.0161: 1		#Pequeño material
+
+OGENO01.0005: 0.02		#Albañil
+OGENO01.0041: 0.15 		#Oficial 1ª electricista
+OGENO01.0043: 0.15		#Ayudante electricista
+
+
+#texto tapa
+$F(16)="tecla simple",
+"tecla simple",
+"tecla simple",
+"tecla doble",
+"tecla doble",
+"tecla triple",
+"tecla simple",
+"tecla para mecanismos luminosos o con piloto de señalización",
+"teclas para interruptor para persiana",
+"teclas para doble pulsador conmutador para persiana",
+"tapa para termostato digital con IR",
+"tapa para detector de movimiento",
+"tapa para regulador/conmutador de luz rotativo",
+"tapa para regulador/conmutador de luz rotativo",
+"tapa para mando general de persiana con IR",
+"tapa para mando local de persiana con IR"
+
+#texto funcion
+$G(16,2)=
+"conmutador 10AX - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"interruptor unipolar 10AX - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"conmutador de cruce 10AX - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"doble conmutador 10AX - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"doble interruptor 10AX - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"triple interruptor 16AX - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 2,5 mm2 Cu",
+"pulsador 10A - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"pulsador luminoso 10A - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"interruptor para persiana 10A - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"doble pulsador para persiana 10A - 250V~","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"termostato digital con IR 16A 230V~ -50Hz.","tubo curvable pvc, corrugado negro 20 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 2,5 mm2 Cu",
+"detector de movimiento de 400W 230V~ - 50Hz.","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"regulador/conmutador de luz ferromagnético para lámpara de bajo consumo 250W/VA R,L","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"regulador/conmutador de luz electrónico para lámpara de bajo consumo 450W/VA R,C","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"mando general persiana con IR 6A 230V~ - 50Hz.","tubo curvable pvc, corrugado negro 20 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"mando local persiana con IR 6A 230V~ - 50Hz.","tubo curvable pvc, corrugado negro 20 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu"
+
+\RESUMEN\Efapel Apolo 5000 Standard, $A, $B - $C\
+\TEXTO\Mecanismo Apolo 5000 de EFAPEL de 1 elemento, compuesto de marco ref. 50910 T$T(%B) $B, función $G(%A,1) ref. $Q(%A) y $F(%A) ref. $R(%A)$X(%C) $C, realizado con $G(%A,2), con aislamiento de PVC. La partida incluye caja de mecanismo.\

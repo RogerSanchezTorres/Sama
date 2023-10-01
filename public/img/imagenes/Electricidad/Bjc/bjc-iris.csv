@@ -1,0 +1,57 @@
+﻿ID;ACTIVO;NOMBRE;DESCRIPCION ;PRECIOS SIN IVA;CATEGORIA;ID Impuestos;precio coste;REFERENCIA;PROVEEDOR
+18001;1;Marco 1 elemento horizontal-vertical ;Marco 1 elemento horizontal-vertical;3,38 €;Iris;1;1,69;18001;BJC
+18002;1;Marco 2 elementos horizontal;Marco 2 elementos horizontal;5,30 €;Iris;1;2,65;18002;BJC
+18003;1;Marco 3 elementos horizontal;Marco 3 elementos horizontal;9,35 €;Iris;1;4,675;18003;BJC
+18004;1;Marco 4 elementos horizontal;Marco 4 elementos horizontal;13,39 €;Iris;1;6,695;18004;BJC
+18005;1;Marco 5   elementos horizontal;Marco 5   elementos horizontal;19,75 €;Iris;1;9,875;18005;BJC
+18033;1;Tapa ciega;Tapa ciega;5,59 €;Iris;1;2,795;18033;BJC
+18102;1;Marco 2 elementos vertical;Marco 2 elementos vertical;5,20 €;Iris;1;2,6;18102;BJC
+18103;1;Marco 3 elementos vertical;Marco 3 elementos vertical;9,17 €;Iris;1;4,585;18103;BJC
+18104;1;Marco 4 elementos vertical;Marco 4 elementos vertical;13,13 €;Iris;1;6,565;18104;BJC
+18320;1;Tapa toma R/TV-SAT;Tapa toma R/TV-SAT;4,18 €;Iris;1;2,59;18320;BJC
+18330;1;Tapa toma TV-FM;Tapa toma TV-FM;4,18 €;Iris;1;2,59;18330;BJC
+18482;1;Mecanismo teléfono 6 vías RJ11;Mecanismo teléfono 6 vías RJ11;11,48 €;Iris;1;5,74;18482;BJC
+18505;1;Interruptor unipolar;Interruptor unipolar;5,97 €;Iris;1;2,985;18505;BJC
+18506;1;Conmutador ;Conmutador ;6,67 €;Iris;1;3,335;18506;BJC
+18507;1;Cruzamiento;Cruzamiento;15,45 €;Iris;1;7,725;18507;BJC
+18508;1;Interruptor bipolar;Interruptor bipolar;13,97 €;Iris;1;6,985;18508;BJC
+18509;1;Doble interruptor;Doble interruptor;13,87 €;Iris;1;6,935;18509;BJC
+18510;1;Doble conmutador;Doble conmutador;15,53 €;Iris;1;7,765;18510;BJC
+18511;1;Mecanismo doble pulsador;Mecanismo doble pulsador;12,84 €;Iris;1;6,42;18511;BJC
+18515;1;Conmutador y pulsador;Conmutador y pulsador;12,64 €;Iris;1;6,32;18515;BJC
+18516;1;Pulsador;Pulsador;6,27 €;Iris;1;3,135;18516;BJC
+18524;1;Base Enchufe II+TT lateral ;Base Enchufe II+TT lateral ;5,72 €;Iris;1;2,86;18524;BJC
+18524-USB;1;Base Enchufe Schuko con doble USB 2.4A;Base Enchufe Schuko con doble USB 2.4A;35,00 €;Iris;1;17,5;18524-USB;BJC
+18534;1;Salida de cables;Salida de cables;7,32 €;Iris;1;3,66;18534;BJC
+18536;1;Zumbador 230v con regulación de tono;Zumbador 230v con regulación de tono;22,39 €;Iris;1;11,195;18536;BJC
+18565;1;Pulsador de persiana;Pulsador de persiana;21,66 €;Iris;1;10,8;18565;BJC
+18569;1;Interruptor de persiana;Interruptor de persiana;22,32 €;Iris;1;11,16;18569;BJC
+18586;1;Toma RJ45 categoría 6;Toma RJ45 categoría 6;16,87 €;Iris;1;8,435;18586;BJC
+18705;1;Tecla simple;Tecla simple;2,72 €;Iris;1;1,36;18705;BJC
+18708;1;Tecla interruptor bipolar;Tecla interruptor bipolar;2,99 €;Iris;1;1,495;18708;BJC
+18709;1;Tecla doble;Tecla doble;4,00 €;Iris;1;2;18709;BJC
+18711;1;Tecla doble pulsador persiana;Tecla doble pulsador persiana;4,83 €;Iris;1;2,415;18711;BJC
+18716;1;Tecla pulsador timbre;Tecla pulsador timbre;2,94 €;Iris;1;1,47;18716;BJC
+18717;1;Tecla pulsador luz;Tecla pulsador luz;2,94 €;Iris;1;1,47;18717;BJC
+18724;1;Tapa base enchufe con seguridad;Tapa base enchufe con seguridad;2,46 €;Iris;1;1,23;18724;BJC
+18730;1;Tapa piloto;Tapa piloto;3,33 €;Iris;1;1,665;18730;BJC
+18734;1;Tapa salida de cables;Tapa salida de cables;3,67 €;Iris;1;1,835;18734;BJC
+18760;1;Tapa y botón potenciómetro;Tapa y botón potenciómetro;8,53 €;Iris;1;4,265;18760;BJC
+18765;1;Tecla doble pulsador - interruptor persiana;Tecla doble pulsador - interruptor persiana;4,67 €;Iris;1;2,335;18765;BJC
+18882;1;Tapa toma teléfono RJ11;Tapa toma teléfono RJ11;2,88 €;Iris;1;1,44;18882;BJC
+19582;1;Toma teléfono RJ11;Toma teléfono RJ11;10,81 €;Iris;1;5,405;19582;BJC
+19595;1;Toma conectro hembra RJ45;Toma conectro hembra RJ45;16,12 €;Iris;1;8,06;19595;BJC
+19782;1;Tapa toma teléfono RJ11;Tapa toma teléfono RJ11;2,88 €;Iris;1;1,44;19782;BJC
+19882;1;tapa para adaptador doble RJ11-RJ45;tapa para adaptador doble RJ11-RJ45;3,17 €;Iris;1;1,585;19882;BJC
+19883;1;Tapa para 2 tomas teléfono;Tapa para 2 tomas teléfono;5,93 €;Iris;1;2,965;19883;BJC
+185001;1;Marco 1 elemento IP44 estanco;Marco 1 elemento IP44 estanco;3,71 €;Iris;1;1,855;185001;BJC
+185002;1;Marco 2 elementos IP44 estanco;Marco 2 elementos IP44 estanco;5,81 €;Iris;1;2,905;185002;BJC
+185006;1;Conmutador IP44 estanco;Conmutador IP44 estanco;14,35 €;Iris;1;7,175;185006;BJC
+185007;1;Cruzamineto IP44 estanco;Cruzamineto IP44 estanco;23,50 €;Iris;1;11,75;185007;BJC
+185008;1;Interruptor bipolar IP44 estanco;Interruptor bipolar IP44 estanco;16,87 €;Iris;1;8,435;185008;BJC
+185010;1;Doble conmutador IP44 estanco;Doble conmutador IP44 estanco;27,13 €;Iris;1;13,565;185010;BJC
+185016;1;Pulsador timbre IP44 estanco;Pulsador timbre IP44 estanco;16,42 €;Iris;1;8,21;185016;BJC
+185017;1;Pulsador luz IP44 estanco;Pulsador luz IP44 estanco;16,42 €;Iris;1;8,21;185017;BJC
+185024;1;Base enchufe 2P+TT con seguridad IP44 estanca;Base enchufe 2P+TT con seguridad IP44 estanca;15,47 €;Iris;1;7,735;185024;BJC
+185033;1;Tapa ciega IP44 estanca;Tapa ciega IP44 estanca;6,42 €;Iris;1;3,21;185033;BJC
+185065;1;Doble pulsador persiana IP44 estanco;Doble pulsador persiana IP44 estanco;22,31 €;Iris;1;11,155;185065;BJC

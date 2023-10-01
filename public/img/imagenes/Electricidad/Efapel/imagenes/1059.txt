@@ -1,0 +1,123 @@
+\FUNCIONES\base schuko\doble cargador USB tipo A\toma informática RJ45 Cat. 6 UTP\doble toma informática RJ45 Cat. 6 UTP\toma telefónica (4 cond. P/PRJ 11)\toma R-TV-SAT estrella\toma R-TV estrella\toma R-TV intermedia\toma R-TV final\tapa ciega\ #variable A
+\DISEÑO\diseño Siza Vieira\diseño cuadrado\ #variable B
+\MARCOS\blanco\aluminio\negro\ #variable C
+
+#color 
+$T(3)=
+"BR", 
+"AL",
+"PM"
+
+#funcion A
+$Q(10)=
+"45132 S",
+"45439 S",
+"45976 S",
+"45971 S",
+"45976 S",
+"45543 S",
+"45533 S",
+"45564 S",
+"45554 S",
+"45677 S"
+
+#funcion vieira /cuadrado
+$H(10)=
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459"
+
+ #funciona diseño vieira/cuadrado
+$S(2)=
+"11 T",
+"10 T"
+
+#funcion A
+$U(10)=
+"",
+"",
+"PEFA21978",
+"PEFA21978",
+"PEFA21972",
+"",
+"",
+"",
+"",
+""
+
+#cable segun funcion A
+$F(10)=
+"PGENP15.0447",
+"PGENP15.0447",
+"PGENP22.0859",
+"PGENP22.0859",
+"PGENP22.0859",
+"PGENP22.0839",
+"PGENP22.0839",
+"PGENP22.0839",
+"PGENP22.0839",
+""
+
+#rendimiento cableado según A
+%L(10)=
+3,
+2,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+0
+
+
+#Descomposición
+PEFA$Q(%A)$T(%C): 1
+PEFA$H(%A)$S(%B)$T(%C): 1
+PEFA45993: 1
+$U(%A): 1 
+
+PGENP15.0455: 8		#Tubo PVC corrugado M 20/gp5
+$F(%A): (8)*%L(%A)		#cable
+
+PGENP15.0527: 1		#Caja mecanismo
+PGENP15.0161: 1		#Pequeño material
+
+OGENO01.0005: 0.02		#Albañil
+OGENO01.0041: 0.15 		#Oficial 1ª electricista
+OGENO01.0043: 0.15		#Ayudante electricista
+
+#texto funcion
+$G(10,2)=
+"función base schuko 16A - 250V~"," y cond. unipolar 750 V 2,5 mm2 Cu",
+"función doble cargador USB tipo A"," y cond. unipolar 750 V 2,5 mm2 Cu",
+"función toma informática RJ45 Cat. 6 UTP","",
+"función doble toma informática RJ45 Cat. 6 UTP 250 MHz","",
+"función toma telefónica (4 cond. P/PRJ 11) 50V - 70V~","",
+"función toma R-TV-SAT estrella 4 - 862 MHz: < 1dB. 950 - 2400 MHz: < 3dB. Paso de corriente: 500 mA (DC)."," y cable coaxial RG6",
+"función toma R-TV estrella 4 - 82 MHz: < 1dB. 84 - 108 MHz: < 2dB. 112 - 1000 MHz: < 1dB."," y cable coaxial RG6",
+"función toma R-TV intermedia 4 - 1000 MHz: < 9dB. Pérdidas de inserción: 2dB."," y cable coaxial RG6",
+"función toma R-TV final 4 - 82 MHz: < 5dB. 84 - 108 MHz: < 6dB. 112 - 1000 MHz: < 5dB."," y cable coaxial RG6",
+"tapa ciega",""
+
+$I(10)="",
+"",
+", con conector hembra RJ45 cat. 6 UTP (250 MHz) ref.21978",
+", con conector hembra RJ45 cat. 6 UTP (250 MHz) ref.21978",
+", con conector hembra RJ11 cat. 3 ref.21972",
+"",
+"",
+"",
+"",
+""
+
+\RESUMEN\Efapel Quadro 45, $A, $B $C\
+\TEXTO\Mecanismo Quadro 45 de EFAPEL de 1 elemento, compuesto de marco $B ref. $H(%A)$S(%B)$T(%C) $C, $G(%A,1) ref. $Q(%A)$T(%C)$I(%A) y soporte para mecanismos de empotrar Q45 ref. 45993, realizado con tubo PVC corrugado de color negro de 20 mm, grado de protección IP 545 (UNE 20324)$G(%A,2). La partida incluye caja de mecanismo.\

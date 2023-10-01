@@ -1,0 +1,212 @@
+\FUNCIONES\base schuko\base schuko para tapa articulada\doble cargador USB tipo A\toma informática RJ45 Cat. 6 UTP\doble toma informática RJ45 Cat. 6 UTP\toma telefónica (4 cond. P/PRJ 11)\toma R-TV-SAT estrella\toma R-TV estrella\toma múltiple R-TV-SAT-RJ45 cat. 6 UTP estrella\toma R-TV intermedia\toma R-TV final\salida de cables con 3 terminales\tapa ciega\ #variable A
+\MARCOS\blanco/blanco\marfil/marfil\hielo/hielo\perla/perla\amarillo/hielo\verde/hielo\azul/hielo\anaranjado/hielo\rojo/hielo\anaranjado intenso/gris\rojo intenso/gris\aluminio/aluminio\aluminio/gris\gris/gris\negro/hielo\negro/aluminio\negro/gris\negro/negro\dorado/hielo\dorado/dorado\#variable B
+\TAPAS\blanco\marfil\hielo\perla\aluminio\gris\negro\dorado\ #variable C
+
+$S(20)=	 #colores para función 45439 S
+"BR",
+"MF",
+"GE",
+"PE",
+"GE",
+"GE",
+"GE",
+"GE",
+"GE",
+"IS",
+"IS",
+"AL",
+"IS",
+"IS",
+"GE",
+"AL",
+"IS",
+"PM",
+"GE",
+"DU"
+
+$L(20)=	 #colores para función 21252 S
+"BR",
+"MF",
+"BR",
+"MF",
+"BR",
+"BR",
+"BR",
+"BR",
+"BR",
+"AT",
+"AT",
+"CZ",
+"CZ",
+"AT",
+"PT",
+"PT",
+"PT",
+"PT",
+"MF",
+"MF"
+
+#color marcos
+$T(20)=
+"BB", 
+"MM", 
+"EE", 
+"PP",
+"RG",
+"DG",
+"ZG",
+"JG",
+"VG",
+"TS",
+"BS",
+"AA",
+"AS",
+"SS",
+"PG",
+"PA",
+"PS",
+"RR",
+"UG",
+"UU"
+
+#color tapa-tecla
+$X(8)=
+"BR",
+"MF",
+"GE",
+"PE",
+"AL",
+"IS",
+"PM",
+"DU"
+
+#funcion A
+$Q(13)=
+"21131",
+"21131",
+"45439 S"+$S(%B), #
+"21455",
+"21978",
+"21252 S"+$L(%B), #
+"21543",
+"21533",
+"21544",
+"21564",
+"21554",
+"21173",
+"21222"
+
+#funcion A tapa/tecla
+$R(13)=
+"90632 T",
+"90634 T",
+"90881 T",
+"90751 T",
+"90442 S",
+"90721 T",
+"90775 T",
+"90776 T",
+"90770 T",
+"90776 T",
+"90776 T",
+"90671 T",
+"90677 T"
+
+%H(13)= 	#cantidad funcion
+1,
+1,
+1,
+1,
+2,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1
+
+#cableado 1 y 2 según A
+$J(13,2)=
+"PGENP15.0447","",
+"PGENP15.0447","",
+"PGENP15.0447","",
+"PGENP22.0859","",
+"PGENP22.0859","",
+"PGENP22.XX01","",
+"PGENP22.0839","",
+"PGENP22.0839","",
+"PGENP22.0839","PGENP22.0859",
+"PGENP22.0839","",
+"PGENP22.0839","",
+"PGENP15.0447","",
+"",""
+
+#rendimiento cableado 1 y 2 según A
+%K(13,2)=
+3,0,
+3,0,
+2,0,
+1,0,
+1,0,
+1,0,
+1,0,
+1,0,
+1,1,
+1,0,
+1,0,
+3,0,
+0,0
+
+
+#Descomposición
+PEFA$Q(%A): %H(%A)		#Función
+PEFA90910 T$T(%B): 1		#Marco
+PEFA$R(%A)$X(%C): 1		#Tapa-Tecla
+
+PGENP15.0455: 8		#Tubo PVC corrugado M 20/gp5
+$J(%A,1): (8)*%K(%A,1)		#cable 1
+$J(%A,2): (8)*%K(%A,2)		#cable 2
+
+PGENP15.0527: 1		#Caja mecanismo
+PGENP15.0161: 1		#Pequeño material
+
+OGENO01.0005: 0.02		#Albañil
+OGENO01.0041: 0.15 		#Oficial 1ª electricista
+OGENO01.0043: 0.15		#Ayudante electricista
+
+
+#texto tapa
+$F(13)= "tapa con protección para base schuko",
+"tapa articulada con protección para base schuko (IP44)",
+"tapa central universal Q45",
+"tapa para toma informática RJ45",
+"tapa con soporte para dos conectores RJ45",
+"tapa para regulador/conmutador de luz rotativo",
+"tapa para toma R-TV-SAT",
+"tapa para toma R-TV",
+"tapa para tomas múltiples R-TV-SAT-RJ45 / R-TV-SAT-RJ45-FO",
+"tapa para toma R-TV",
+"tapa para toma R-TV",
+"tapa para salida de cables",
+"tapa ciega"
+
+#texto funcion cables 1 y 2
+$G(13,2)=
+"función base schuko 16A - 250V~"," y conductor unipolar 750 V 2,5 mm2 Cu",
+"función base schuko para tapa articulada 16A - 250V~"," y conductor unipolar 750 V 2,5 mm2 Cu",
+"función doble cargador USB tipo A"," y conductor unipolar 750 V 2,5 mm2 Cu",
+"función toma informática RJ45 Cat. 6 UTP"," y cable UTP cat. 6",
+"función doble toma informática RJ45 Cat. 6 UTP 250 MHz"," y cable UTP cat. 6",
+"función toma telefónica (4 cond. P/PRJ 11) 50V - 70V~"," y cable telefono 4 conductores",
+"función toma R-TV-SAT estrella 4 - 862 MHz: < 1dB. 950 - 2400 MHz: < 3dB. Paso de corriente: 500 mA (DC)."," y cable coaxial RG6",
+"función toma R-TV estrella 4 - 82 MHz: < 1dB. 84 - 108 MHz: < 2dB. 112 - 1000 MHz: < 1dB."," y cable coaxial RG6",
+"función toma múltiple R-TV-SAT-RJ45 cat. 6 UTP estrella 4 - 862 MHz: < 1dB. 950 - 2400 MHz: < 3dB. Paso de corriente: 500 mA (DC)."," cable UTP cat. 6 y cable coaxial RG6",
+"función toma R-TV intermedia 4 - 1000 MHz: < 9dB. Pérdidas de inserción: 2dB."," y cable coaxial RG6",
+"función toma R-TV final 4 - 82 MHz: < 5dB. 84 - 108 MHz: < 6dB. 112 - 1000 MHz: < 5dB."," y cable coaxial RG6",
+"función salida de cables con 3 terminales 3x2,5mm2 - 250V~"," y conductor unipolar 750 V 2,5 mm2 Cu",
+"soporte para tapa ciega",""
+
+\RESUMEN\Efapel Logus 90 Animato, $A, $B - $C\
+\TEXTO\Mecanismo Logus 90 de EFAPEL de 1 elemento, compuesto de marco ref. 90910 T$T(%B) $B, $G(%A,1) ref. $Q(%A) y $F(%A) ref. $R(%A)$X(%C) $C, realizado con tubo PVC corrugado de color negro de 20 mm y grado de protección IP 545 según UNE 20324$G(%A,2), con aislamiento de PVC. La partida incluye caja de mecanismo.\

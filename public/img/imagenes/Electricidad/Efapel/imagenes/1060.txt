@@ -1,0 +1,132 @@
+\FUNCIONES\conmutador\interruptor unipolar\conmutador de cruce\doble conmutador\doble interruptor\pulsador\pulsador luminoso\interruptor para persiana\doble pulsador para persiana\termostato digital con IR\detector de movimiento\mando general persiana con IR\mando local persiana con IR\   #variable A
+
+\DISEÑO\diseño Siza Vieira\diseño cuadrado\ #variable B
+\DISEÑO\blanco\aluminio\negro\ #variable B
+	
+#color 
+$T(3)=
+"BR", 
+"AL",
+"PM"
+
+#funcion A
+$Q(13)=
+"45071 S",
+"45011 S",
+"45051 S",
+"45070 S",
+"45061 S",
+"45151 S",
+"45152 S",
+"45293 S",
+"45281 S",
+"45233 S",
+"45402 S",
+"45311 S",
+"45312 S"
+
+
+#funcion vieira /cuadrado
+$H(13)=
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459",
+"459"
+
+ #funciona diseño vieira/cuadrado
+$S(2)=
+"11 T",
+"10 T"
+
+%R(13)=
+1,
+1,
+1,
+2,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1
+
+
+#funcion A tubo pvc y cableado
+$Z(13,2)=
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0455","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0455","PGENP15.0447",
+"PGENP15.0454","PGENP15.0446",
+"PGENP15.0455","PGENP15.0446",
+"PGENP15.0455","PGENP15.0446"
+
+#rendimiento cableado según A
+%L(13)=
+3,
+2,
+4,
+3,
+3,
+2,
+2,
+3,
+3,
+3,
+3,
+4,
+6
+
+
+#Descomposición
+PEFA$Q(%A)$T(%C):%R(%A)
+PEFA$H(%A)$S(%B)$T(%C): 1
+PEFA45993: 1
+
+$Z(%A,1) :8			#Tubo PVC corrugado
+$Z(%A,2): (8)*%L(%A)		#Cable
+
+PGENP15.0527: 1		#Caja mecanismo
+PGENP15.0161: 1		#Pequeño material
+
+OGENO01.0005: 0.02		#Albañil
+OGENO01.0041: 0.15 		#Oficial 1ª electricista
+OGENO01.0043: 0.15		#Ayudante electricista
+
+#Función, tubo-conducto
+$G(13,2)=
+"Conmutador, 2 mód. blanco","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Interruptor unipolar 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Conmutador de cruce 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Conmutador, 1 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Doble interruptor, 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Pulsador, 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Pulsador luminoso de 250V, 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Interruptor p/persiana, 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Doble pulsador p/persiana 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Termostato digital con IR, 2 mód. aluminio","tubo curvable pvc, corrugado negro 20 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 2,5 mm2 Cu",
+"Detector de movimiento 400W, 2 mód. aluminio","tubo curvable pvc, corrugado negro 16 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Mando general persiana c/IR, 2 mód. aluminio","tubo curvable pvc, corrugado negro 20 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu",
+"Mando local de persiana c/IR, 2 mód. aluminio","tubo curvable pvc, corrugado negro 20 mm, grado prot. IP 545 (UNE 20324) y cond. unipolar 750 V 1,5 mm2 Cu"
+
+
+\RESUMEN\Efapel Quadro 45, $A, $B $C\
+\TEXTO\Mecanismo Quadro 45 de EFAPEL de 1 elemento, compuesto de marco $B ref. $H(%A)$S(%B)$T(%C) $C, función $G(%A,1) ref. $Q(%A)$T(%C) y soporte para mecanismos de empotrar Q45 ref. 45993, realizado con $G(%A,2), con aislamiento de PVC. La partida incluye caja de mecanismo.\
