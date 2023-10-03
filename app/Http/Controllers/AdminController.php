@@ -110,7 +110,6 @@ class AdminController extends Controller
 
     public function storeProduct(Request $request)
     {
-        // Validación de los datos del formulario
         $request->validate([
             'nombre_es' => 'required|max:255',
             'precio_es' => 'required|numeric',
