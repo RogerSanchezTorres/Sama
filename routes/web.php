@@ -38,17 +38,11 @@ Route::post('/contacto', [ContactController::class, 'enviarMensaje'])->name('sub
 //USUARIOS
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user-dashboard');
-
     Route::get('/user/account', [UserController::class, 'account'])->name('user-account');
-
     Route::put('/user/update-personal-details', [UserController::class, 'updatePersonalDetails'])->name('user-update-personal-details');
-
     Route::put('/user/update-billing-details', [UserController::class, 'updateBillingDetails'])->name('user-update-billing-details');
-
     Route::put('/user/update-password', [UserController::class, 'updatePassword'])->name('user-update-password');
-
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user-delete');
-
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });
 
