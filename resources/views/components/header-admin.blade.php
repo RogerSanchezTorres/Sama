@@ -19,7 +19,7 @@
     <div class="logout">
         <form action="{{route('logout')}}" method="POST">
             @csrf
-            <button type="submit" aria-label="Logout">Logout</button>
+            <button type="submit" aria-label="Logout">Cerrar Sesión</button>
         </form>
     </div>
 </div>

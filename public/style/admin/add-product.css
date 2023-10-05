@@ -41,7 +41,7 @@ body {
     width: 25px;
 }
 
-#abrirBuscador{
+#abrirBuscador {
     background: none;
     border: none;
     cursor: pointer;
@@ -49,14 +49,14 @@ body {
 }
 
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
-    z-index: 1000; 
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-contenido {
@@ -69,10 +69,10 @@ body {
 }
 
 .modal-contenido input[type="text"] {
-    width: 98%; 
-    height: 40px; 
-    font-size: 16px; 
-    padding: 10px; 
+    width: 98%;
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
 }
 
 .modal-cerrar {
@@ -96,19 +96,19 @@ body {
     text-align: center;
 }
 
-.nav > li {
+.nav>li {
     display: inline-block;
     position: relative;
     margin-right: 20px;
 }
 
-.nav > li > a {
+.nav>li>a {
     color: black;
     text-decoration: none;
     padding: 10px;
 }
 
-.nav a:hover{
+.nav a:hover {
     color: #ffc106;
 }
 
@@ -119,20 +119,20 @@ body {
     z-index: 1;
 }
 
-.nav > li:hover .submenus {
+.nav>li:hover .submenus {
     display: block;
 }
 
-.submenus > li {
+.submenus>li {
     padding: 10px;
     border-bottom: 1px solid #666;
 }
 
-.submenus > li:last-child {
+.submenus>li:last-child {
     border-bottom: none;
 }
 
-.submenus > li > a {
+.submenus>li>a {
     color: white;
     text-decoration: none;
 }
@@ -333,7 +333,7 @@ form label {
     margin-left: 20px;
 }
 
-.form-group  input{
+.form-group input {
     width: 90%;
     padding: 7px;
     border: 1px solid black;
@@ -341,20 +341,20 @@ form label {
     margin-top: 10px;
 }
 
-#nombre_es{
+#nombre_es {
     width: 500px;
     padding: 10px;
 }
 
-.price{
+.price {
     display: flex;
 }
 
-#precio_es{
+#precio_es {
     width: 150px;
 }
 
-#precio_oferta_es{
+#precio_oferta_es {
     width: 150px;
 }
 
@@ -364,13 +364,17 @@ form label {
 }
 
 .btn-primary {
+    display: block;
+    width: 90%;
+    padding: 10px;
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 10px 20px;
     border-radius: 4px;
-    font-size: 18px;
     cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 30px;
 }
 
 .btn-primary:hover {
@@ -383,10 +387,9 @@ form label {
     padding: 10px;
 }
 
-#main_category{
+#main_category {
     width: 95%;
     padding: 5px;
     border: 1px solid black;
     border-radius: 3px;
 }
-
