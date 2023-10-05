@@ -38,16 +38,25 @@
                 <label for="email">Correo Electrónico:</label>
                 <input type="email" name="email" required>
             </div>
-            
-            <div class="password">
-                <div class="input-box" id="passwd">
-                    <label for="password">Contraseña:</label>
-                    <input type="password" name="password" required>
-                </div>
 
-                <div class="input-box" id="confirm-passwd">
-                    <label for="password_confirmation">Confirmar Contraseña:</label>
-                    <input type="password" name="password_confirmation" required>
+            <div class="input-box" id="password">
+                <label for="password">Contraseña</label>
+
+                <div class="col-md-6">
+                    <input id="txtPassword" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
+            <div class="input-box" id="confirm-password">
+                <label for="password-confirm">{{ __('Confirmar contraseña') }}</label>
+
+                <div class="col-md-6">
+                    <input id="password-confirm" type="password" name="password_confirmation" required autocomplete="new-password">
                 </div>
             </div>
 
