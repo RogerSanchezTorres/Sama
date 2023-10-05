@@ -18,24 +18,23 @@ class ContactMail extends Mailable
         $this->datos = $datos;
     }
 
+
     public function build()
     {
-        $email = $this->from($this->datos['email'], $this->datos['nombre'])
-            ->view('emails.contacto')
-            ->replyTo($this->datos['email'], $this->datos['nombre'])
-            ->subject('Nuevo mensaje de contacto');
+        $mail = $this->view('emails.contacto')
+            ->with([
+                'nombre' => $this->datos['nombre'],
+                'email' => $this->datos['email'],
+                'mensaje' => $this->datos['mensaje'],
+            ]);
 
         if (isset($this->datos['imagen'])) {
-            $imagen = $this->datos['imagen'];
-            $nombreImagen = $imagen->getClientOriginalName();
-            $contenidoImagen = file_get_contents($imagen->getRealPath());
-
-            $email->attachData($contenidoImagen, $nombreImagen, [
-                'mime' => $imagen->getClientMimeType(),
+            $mail->attach($this->datos['imagen']->getRealPath(), [
+                'as' => 'imagen.jpg',
             ]);
         }
 
-        return $email;
+        return $mail;
     }
 }
 

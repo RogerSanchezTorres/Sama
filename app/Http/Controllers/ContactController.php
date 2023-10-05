@@ -21,7 +21,7 @@ class ContactController extends Controller
             'nombre' => 'required',
             'email' => 'required|email',
             'mensaje' => 'required',
-            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif',
+            'imagen' => 'nullable|file',
         ]);
 
         $datos = [

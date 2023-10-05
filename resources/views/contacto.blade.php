@@ -28,7 +28,7 @@
     <div class="container">
         <div class="contact-form">
             <h2>Formulario de contacto</h2>
-            <form method="POST" action="{{ route('submit') }}">
+            <form method="POST" action="{{ route('submit') }}" enctype="multipart/form-data"> 
                 @csrf
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" placeholder="Nombre">
