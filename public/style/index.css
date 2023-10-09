@@ -273,7 +273,7 @@ body {
 
 #imagenes img {
     display: inline-block;
-    animation: scroll 120s infinite linear;
+    animation: scroll 180s infinite linear;
     animation-play-state: running;
     margin-left: 50px;
 
@@ -287,7 +287,7 @@ body {
     }
 
     100% {
-        transform: translateX(calc(-100% * 195));
+        transform: translateX(calc(-100% * 196));
     }
 }
 
