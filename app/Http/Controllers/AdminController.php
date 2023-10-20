@@ -179,17 +179,14 @@ class AdminController extends Controller
             'main_category_id' => 'required|exists:main_categories,id',
         ]);
     
-        // Obtener el producto a actualizar
         $product = Product::find($id);
     
         if (!$product) {
             return redirect()->back()->with('error', 'El producto no se encontró');
         }
     
-        // Actualizar los campos del producto utilizando los datos validados
         $product->update($validated);
     
-        // Redirigir a la página de visualización de productos con un mensaje de éxito
         return redirect()->route('admin.view-products')->with('success', 'Producto actualizado exitosamente');
     
     }
