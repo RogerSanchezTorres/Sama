@@ -30,20 +30,11 @@ class ProductsController extends Controller
         return view('products.show_by_main_category', compact('products', 'mainCategory'));
     }
 
-
-    /*public function showByCategory($categoryId)
-    {
-        $category = Category::findOrFail($categoryId);
-        $products = $category->products()->whereNotNull('img')->get();
-
-        return view('products.show_by_category', compact('products', 'category'));
-    }*/
-
-
     public function showDetail($id)
     {
         $product = Product::findOrFail($id);
+        $comentarios = $product->comentarios;
 
-        return view('products.product_detail', compact('product'));
+        return view('products.product_detail', compact('product', 'comentarios'));
     }
 }

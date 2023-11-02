@@ -297,6 +297,20 @@ body {
     text-decoration: none;
 }
 
+.product-info button{
+    background-color: #3490dc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    top: 140px;
+    left: 700px;
+    text-decoration: none;
+}
+
 .product-info a:hover{
     background-color: #2779bd;
 }
@@ -342,3 +356,56 @@ body {
     font-size: 24px;
     cursor: pointer;
 }
+
+form textarea{
+    width: 400px;
+    margin-left: 10px;
+    border-radius: 3px;
+}
+
+.publicar button{
+    background-color: rgb(41, 39, 39);
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    left: 420px;
+    bottom: 316px;
+}
+
+.publicar button:hover{
+    background-color: #353434;
+}
+
+
+.comentario {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.comentario strong {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.comentario p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #777;
+    text-align: right;
+}
+

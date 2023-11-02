@@ -238,6 +238,7 @@
     <x-footer/>
 
     <script src="{{ asset('js/desplegable.js') }}"></script>
+    <script src="{{ asset('js/footer.js') }}"></script>
 </body>
 
 </html>

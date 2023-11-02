@@ -1,25 +1,25 @@
 <footer id="footer">
     <div id="info-footer">
-        <div class="nosotros">
-            <p class="titulo">Sobre nosotros</p>
-            <div id="info">
+        <div class="nosotros" data-toggle="submenu">
+            <p class="titulo desplegable">Sobre nosotros</p>
+            <div id="info" class="nav-submenu">
                 <a href="{{ route('quienes-somos') }}">Quiénes Somos</a>
                 <a href="{{ route('aviso-legal') }}">Aviso legal</a>
                 <a href="{{ route('cookies') }}">Política de Cookies</a>
                 <a href="{{ route('privacidad') }}">Políticas de Privacidad y RGPD</a>
             </div>
         </div>
-        <div class="categorias">
-            <p class="titulo">Categorias</p>
+        <div class="categorias" data-toggle="submenu">
+            <p class="titulo desplegable">Categorias</p>
             @foreach(\App\Models\MainCategory::all() as $mainCategory)
-            <div id="info">
+            <div id="info" class="nav-submenu">
                 <a href="{{ route('products.showByMainCategory', ['mainCategoryId' => $mainCategory->id]) }}">{{ $mainCategory->nombre }}</a>
             </div>
             @endforeach
         </div>
-        <div class="contacto">
-            <p class="titulo">Contacto</p>
-            <div id="info">
+        <div class="contacto" data-toggle="submenu">
+            <p class="titulo desplegable">Contacto</p>
+            <div id="info" class="nav-submenu">
                 <p class="nombre">Subministres Sama</p>
                 <div class="ubicacion">
                     <img src="{{ asset('img/ubicacion.svg') }}" alt="ubicacion">
@@ -61,7 +61,5 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </footer>

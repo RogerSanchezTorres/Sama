@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\ComentarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,8 @@ Route::get('/productos', [ProductsController::class, 'index'])->name('products.i
 Route::get('producto/{id}', [ProductsController::class, 'showDetail'])->name('products.showDetail');
 Route::get('/productos/categoria/{categoryId}', [ProductsController::class, 'showByCategory'])->name('products.showByCategory');
 Route::get('/productos/main_category/{mainCategoryId}', [ProductsController::class, 'showByMainCategory'])->name('products.showByMainCategory');
+Route::post('/producto/{id}/comentario', [ComentarioController::class, 'store'])->name('comentario.store')->middleware('auth');
+Route::put('/comentario/{id}', [ComentarioController::class, 'update'])->name('comentario.update');
 
 
 //INFORMACION DE LA EMPRESA

@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Admin'
         ]);
 
-        Role::create([
+       Role::create([
             'role' => 'user',
             'description' => 'Usuario Normal',
         ]);
@@ -45,6 +45,15 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('alberto1234'),
             'phoneNumber' => '',
             'role_id' => 1,
+        ]);
+
+        $user = User::create([
+            'name' => 'Roger',
+            'surname' => 'Sánchez Torres',
+            'email' => 'rogerst2002@gmail.com',
+            'password' => Hash::make('roger12345'),
+            'phoneNumber' => '',
+            'role_id' => 2,
         ]);
 
 
