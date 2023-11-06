@@ -251,6 +251,14 @@ a{
     text-decoration: none;
 }
 
+#menu-icon{
+    display: none;
+}
+
+.close-icon{
+    display: none;
+}
+
 h2{
     text-align: center;
 }

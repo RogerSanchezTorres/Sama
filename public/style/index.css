@@ -97,6 +97,14 @@ body {
     text-decoration: none;
 }
 
+#menu-icon{
+    display: none;
+}
+
+.close-icon{
+    display: none;
+}
+
 .img-info {
     display: flex;
     justify-content: center;
@@ -111,7 +119,7 @@ body {
     text-align: center;
 }
 
-#efapel{
+#efapel {
     margin-left: 50px;
     margin-right: 50px;
 }
@@ -341,17 +349,18 @@ body {
     #efapel,
     #sanitarios {
         border-top: 1px solid #ffc106;
-        
+
     }
 
 
-    #simon img{
+    #simon img {
         width: 348px;
     }
 
-    #efapel img{
+    #efapel img {
         width: 348px;
     }
+
     #sanitarios img {
         width: 348px;
         height: 215px;
@@ -400,10 +409,10 @@ body {
     }
 
     .telefono {
-        line-height: 20px; 
+        line-height: 20px;
     }
 
-    
+
 }
 
 @media screen and (max-width: 1150px) {
@@ -428,17 +437,18 @@ body {
     #efapel,
     #sanitarios {
         border-top: 1px solid #ffc106;
-        
+
     }
 
 
-    #simon img{
+    #simon img {
         width: 315px;
     }
 
-    #efapel img{
+    #efapel img {
         width: 315px;
     }
+
     #sanitarios img {
         width: 315px;
     }
@@ -484,10 +494,10 @@ body {
     }
 
     .telefono {
-        line-height: 20px; 
+        line-height: 20px;
     }
 
-    
+
 }
 
 
@@ -512,22 +522,6 @@ body {
         width: 20px;
     }
 
-    .nav>li {
-        margin-right: 10px;
-    }
-
-    .nav>li>a {
-        padding: 5px;
-    }
-
-    .submenus {
-        min-width: 150px;
-    }
-
-    .submenus>li {
-        padding: 5px;
-    }
-
     .img-info {
         flex-direction: column;
     }
@@ -538,7 +532,7 @@ body {
         border-top: 1px solid #ffc106;
         margin-left: 100px;
         margin-right: 100px;
-        
+
     }
 
     #simon img,
@@ -612,7 +606,54 @@ body {
         animation: scroll 180s infinite linear;
         animation-play-state: running;
         margin-left: 10px;
-        /* Ajusta el margen entre las imágenes */
     }
 
+    body.nav-active{
+        overflow: hidden;
+    }
+
+    #nav {
+        display: none;
+        position: fixed;
+        background-color: black;
+        height: 100%;
+        width: 30%;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        z-index: 999;
+    }
+
+    #nav.active {
+        display: block;
+    }
+
+    #menu-icon {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .nav > li {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #nav a{
+        color: #fff;
+    }
+
+    #nav a:hover{
+        color: #ffc106;
+    }
+
+    .close-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #fff;
+    }
 }

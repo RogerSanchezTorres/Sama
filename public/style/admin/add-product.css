@@ -15,6 +15,14 @@ body {
     position: relative;
 }
 
+#menu-icon{
+    display: none;
+}
+
+.close-icon{
+    display: none;
+}
+
 #header a {
     color: #ffc106;
     margin-left: 30px;
