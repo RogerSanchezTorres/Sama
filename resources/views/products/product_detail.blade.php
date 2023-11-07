@@ -33,13 +33,14 @@
             <p class="product-price">Precio: {{ $product->precio_es }}€</p>
             <p>[DESCRIPCION DEL PRODUCTO]</p>
             @if (auth()->check())
-            <button>Comprar</button>
+            <button class="add-to-cart-button" data-product-id="{{ $product->id }}">Comprar</button>
             @else
             <p class="login">Por favor, inicie sesión para comprar.</p>
             <a href="{{ route('login') }}">Iniciar sesión</a>
             @endif
         </div>
     </div>
+
 
     <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post">
         @csrf
@@ -78,6 +79,7 @@
 </html>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/public/js/carrito.js"></script>
 <script>
     $(document).ready(function() {
         // Ocultar los formularios de edición al cargar la página

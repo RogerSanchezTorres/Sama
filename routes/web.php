@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +64,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/store-user', [AdminController::class, 'storeUser'])->name('admin-store-user');
     Route::get('/admin/agregar-producto', [AdminController::class, 'createProduct'])->name('admin-agregar-producto');
     Route::post('/admin/store-producto', [AdminController::class, 'storeProduct'])->name('admin-store-producto');
-
 });
 
 //PRODUCTOS
@@ -73,6 +73,10 @@ Route::get('/productos/categoria/{categoryId}', [ProductsController::class, 'sho
 Route::get('/productos/main_category/{mainCategoryId}', [ProductsController::class, 'showByMainCategory'])->name('products.showByMainCategory');
 Route::post('/producto/{id}/comentario', [ComentarioController::class, 'store'])->name('comentario.store')->middleware('auth');
 Route::put('/comentario/{id}', [ComentarioController::class, 'update'])->name('comentario.update');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::get('/cart/remove/{productId}', [CartController::class, 'removeProduct'])->name('cart.remove');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
 
 
 //INFORMACION DE LA EMPRESA

@@ -29,10 +29,16 @@
         <div id="usuario">
             <a href="{{ route('user-dashboard') }}"> <img src="{{ asset('img/usuario.svg') }}" alt="usuario"> </a>
         </div>
+        <div id="carrito">
+            <a href="{{ route('cart.show') }}"> <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra"> </a>
+        </div>
         @endif
         @else
         <div id="usuario">
             <a href="{{ route('login') }}"> <img src="{{ asset('img/usuario.svg') }}" alt="usuario"> </a>
+        </div>
+        <div id="carrito">
+            <a href="{{ route('login') }}"> <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra"> </a>
         </div>
         @endif
     </div>

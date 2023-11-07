@@ -352,7 +352,6 @@ body {
 
     }
 
-
     #simon img {
         width: 348px;
     }
@@ -367,7 +366,6 @@ body {
         width: 100%;
         text-align: center;
     }
-
 
     #info {
         flex-direction: column;
@@ -412,7 +410,6 @@ body {
         line-height: 20px;
     }
 
-
 }
 
 @media screen and (max-width: 1150px) {
@@ -440,7 +437,6 @@ body {
 
     }
 
-
     #simon img {
         width: 315px;
     }
@@ -452,7 +448,6 @@ body {
     #sanitarios img {
         width: 315px;
     }
-
 
     #info {
         flex-direction: column;
@@ -481,7 +476,6 @@ body {
         margin-left: 10px;
     }
 
-
     .nosotros,
     .categorias,
     .contacto {
@@ -496,7 +490,6 @@ body {
     .telefono {
         line-height: 20px;
     }
-
 
 }
 
@@ -532,7 +525,6 @@ body {
         border-top: 1px solid #ffc106;
         margin-left: 100px;
         margin-right: 100px;
-
     }
 
     #simon img,
