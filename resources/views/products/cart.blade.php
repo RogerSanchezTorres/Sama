@@ -65,72 +65,59 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Recupera la información del carrito de cookies al cargar la página
-            var cart = JSON.parse(getCookie('cart')) || {};
+        // Recupera la información del carrito de localStorage al cargar la página
+        var cart = JSON.parse(localStorage.getItem('cart')) || {};
 
-            // Actualiza los inputs de cantidad con los valores almacenados
-            Object.keys(cart).forEach(function(productId) {
-                var input = document.querySelector('.quantity-input[data-product-id="' + productId + '"]');
-                if (input) {
-                    input.value = cart[productId];
-                    updateTotalPrice(input);
-                }
-            });
-
-            // Actualiza dinámicamente el precio total por ítem cuando se cambia la cantidad
-            document.querySelectorAll('.quantity-input').forEach(function(input) {
-                input.addEventListener('input', function() {
-                    updateTotalPrice(input);
-                    updateCartTotal();
-
-                    // Actualiza la información del carrito en cookies
-                    var productId = input.getAttribute('data-product-id');
-                    cart[productId] = parseFloat(input.value);
-                    setCookie('cart', JSON.stringify(cart), 365); // Caducidad de la cookie en días
-                });
-            });
-
-            // Función para actualizar el precio total
-            function updateTotalPrice(input) {
-                var row = input.closest('.cart-item');
-                var unitPrice = parseFloat(row.querySelector('.unit-price').textContent);
-                var quantity = parseFloat(input.value);
-                var totalPriceElement = row.querySelector('.total-price');
-                var newTotalPrice = (unitPrice * quantity).toFixed(2);
-                totalPriceElement.textContent = newTotalPrice + '€';
-            }
-
-            // Función para actualizar el total del carrito
-            function updateCartTotal() {
-                var cartTotalElement = document.getElementById('cart-total');
-                var cartTotal = 0;
-
-                // Suma los precios totales de cada ítem en el carrito
-                document.querySelectorAll('.total-price').forEach(function(totalPriceElement) {
-                    cartTotal += parseFloat(totalPriceElement.textContent);
-                });
-
-                cartTotalElement.textContent = cartTotal.toFixed(2) + '€';
-            }
-
-            // Función para obtener el valor de una cookie
-            function getCookie(name) {
-                var value = "; " + document.cookie;
-                var parts = value.split("; " + name + "=");
-                if (parts.length === 2) return parts.pop().split(";").shift();
-            }
-
-            // Función para establecer el valor de una cookie
-            function setCookie(name, value, days) {
-                var expires = "";
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = name + "=" + value + expires + "; path=/";
+        // Actualiza los inputs de cantidad con los valores almacenados
+        Object.keys(cart).forEach(function(productId) {
+            var input = document.querySelector('.quantity-input[data-product-id="' + productId + '"]');
+            if (input) {
+                input.value = cart[productId];
+                updateTotalPrice(input);
             }
         });
+
+        // Actualiza dinámicamente el precio total por ítem cuando se cambia la cantidad
+        document.querySelectorAll('.quantity-input').forEach(function(input) {
+            input.addEventListener('input', function() {
+                updateTotalPrice(input);
+                updateCartTotal();
+            });
+        });
+
+        // Función para actualizar el precio total
+        function updateTotalPrice(input) {
+            var row = input.closest('.cart-item');
+            var unitPrice = parseFloat(row.querySelector('.unit-price').textContent);
+            var quantity = parseFloat(input.value);
+            var totalPriceElement = row.querySelector('.total-price');
+            var newTotalPrice = (unitPrice * quantity).toFixed(2);
+            totalPriceElement.textContent = newTotalPrice + '€';
+        }
+
+        // Función para actualizar el total del carrito
+        function updateCartTotal() {
+            var cartTotalElement = document.getElementById('cart-total');
+            var cartTotal = 0;
+
+            // Suma los precios totales de cada ítem en el carrito
+            document.querySelectorAll('.total-price').forEach(function(totalPriceElement) {
+                cartTotal += parseFloat(totalPriceElement.textContent);
+            });
+
+            cartTotalElement.textContent = cartTotal.toFixed(2) + '€';
+        }
+    });
+
+    // Asegura que el carrito se almacene en localStorage cuando la página se descargue
+    window.addEventListener('unload', function() {
+        var cart = {};
+        document.querySelectorAll('.quantity-input').forEach(function(input) {
+            var productId = input.getAttribute('data-product-id');
+            cart[productId] = parseFloat(input.value);
+        });
+        localStorage.setItem('cart', JSON.stringify(cart));
+    });
     </script>
 
 </body>
