@@ -10,6 +10,7 @@ class Product extends Model
         'tipo',
         'nombre_es',
         'precio_es',
+        'descripcion',
         'precio_oferta_es',
         'precio_coste',
         'publicado',
@@ -31,5 +32,10 @@ class Product extends Model
     public function comentarios()
     {
         return $this->hasMany(Comentario::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 }

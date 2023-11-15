@@ -16,7 +16,7 @@ class ComentarioController extends Controller
 
         $comentario = new Comentario();
         $comentario->usuario_id = auth()->user()->id;
-        $comentario->producto_id = $id;
+        $comentario->product_id = $id;
         $comentario->contenido = $request->input('contenido');
         $comentario->save();
 

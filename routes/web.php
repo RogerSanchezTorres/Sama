@@ -74,8 +74,11 @@ Route::get('/productos/main_category/{mainCategoryId}', [ProductsController::cla
 Route::post('/producto/{id}/comentario', [ComentarioController::class, 'store'])->name('comentario.store')->middleware('auth');
 Route::put('/comentario/{id}', [ComentarioController::class, 'update'])->name('comentario.update');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
-Route::get('/cart/remove/{productId}', [CartController::class, 'removeProduct'])->name('cart.remove');
+Route::post('/cart/add/{productId}', [CartController::class, 'addProduct'])->name('cart.add');
+Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/cart/update/{productId}', [CartController::class, 'updateQuantity'])->name('cart.update');
+
 
 
 
