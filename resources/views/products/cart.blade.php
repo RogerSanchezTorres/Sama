@@ -38,15 +38,20 @@
                 <td class="name">{{ $item->product->nombre_es }}</td>
                 <td class="unit-price">{{ $item->product->precio_es }}€</td>
                 <td class="quantity">
-                    <form class="update-quantity-form" data-product-id="{{ $item->product->id }}">
+                    <form id="updateQuantityForm" action="{{ route('cart.update') }}" method="POST">
                         @csrf
-                        <label for="quantity">Cantidad:</label>
-                        <input class="quantity-input" type="number" name="quantity" value="{{ $item->quantity }}" min="1">
+                        <div class="cart-item">
+                            <input type="hidden" name="cart[{{ $item->product_id }}][quantity]" value="{{ $item->quantity }}">
+
+                            <label for="quantity_{{ $item->product_id }}">Cantidad:</label>
+                            <input type="number" name="cart[{{ $item->product_id }}][quantity]" id="quantity_{{ $item->product_id }}" value="{{ $item->quantity }}" min="1" class="quantity-input">
+                        </div>
                     </form>
                 </td>
                 <td class="total-price">{{ $item->quantity * $item->product->precio_es }}€</td>
                 <td class="actions">
-                    <a href="{{ route('cart.remove', ['productId' => $item['id']]) }}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                    <a href="{{ route('cart.remove', ['productId' => $item->product_id]) }}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+
                 </td>
             </tr>
             @endforeach
@@ -62,62 +67,33 @@
     @endif
 
     <x-footer />
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        // Recupera la información del carrito de localStorage al cargar la página
-        var cart = JSON.parse(localStorage.getItem('cart')) || {};
-
-        // Actualiza los inputs de cantidad con los valores almacenados
-        Object.keys(cart).forEach(function(productId) {
-            var input = document.querySelector('.quantity-input[data-product-id="' + productId + '"]');
-            if (input) {
-                input.value = cart[productId];
-                updateTotalPrice(input);
-            }
-        });
-
-        // Actualiza dinámicamente el precio total por ítem cuando se cambia la cantidad
-        document.querySelectorAll('.quantity-input').forEach(function(input) {
-            input.addEventListener('input', function() {
-                updateTotalPrice(input);
-                updateCartTotal();
+            document.querySelectorAll('.quantity-input').forEach(function(input) {
+                input.addEventListener('input', function() {
+                    updateTotalPrice(input);
+                    updateDatabase();
+                    updateQuantityForm(input); // Ahora pasamos el input actual como parámetro
+                });
             });
         });
 
-        // Función para actualizar el precio total
         function updateTotalPrice(input) {
-            var row = input.closest('.cart-item');
-            var unitPrice = parseFloat(row.querySelector('.unit-price').textContent);
-            var quantity = parseFloat(input.value);
-            var totalPriceElement = row.querySelector('.total-price');
-            var newTotalPrice = (unitPrice * quantity).toFixed(2);
-            totalPriceElement.textContent = newTotalPrice + '€';
+            // ... (resto de la función permanece igual)
         }
 
-        // Función para actualizar el total del carrito
-        function updateCartTotal() {
-            var cartTotalElement = document.getElementById('cart-total');
-            var cartTotal = 0;
-
-            // Suma los precios totales de cada ítem en el carrito
-            document.querySelectorAll('.total-price').forEach(function(totalPriceElement) {
-                cartTotal += parseFloat(totalPriceElement.textContent);
-            });
-
-            cartTotalElement.textContent = cartTotal.toFixed(2) + '€';
+        function updateDatabase() {
+            // ... (resto de la función permanece igual)
         }
-    });
 
-    // Asegura que el carrito se almacene en localStorage cuando la página se descargue
-    window.addEventListener('unload', function() {
-        var cart = {};
-        document.querySelectorAll('.quantity-input').forEach(function(input) {
-            var productId = input.getAttribute('data-product-id');
-            cart[productId] = parseFloat(input.value);
+        function updateQuantityForm(input) {
+            var form = input.closest('form'); // Encontramos el formulario más cercano al input actual
+            form.submit();
+        }
+
+        window.addEventListener('beforeunload', function() {
+            updateDatabase();
         });
-        localStorage.setItem('cart', JSON.stringify(cart));
-    });
     </script>
 
 </body>

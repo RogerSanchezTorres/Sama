@@ -77,7 +77,7 @@ Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/add/{productId}', [CartController::class, 'addProduct'])->name('cart.add');
 Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/cart/update/{productId}', [CartController::class, 'updateQuantity'])->name('cart.update');
+Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 
 
 

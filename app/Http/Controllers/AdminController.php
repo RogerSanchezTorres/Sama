@@ -196,6 +196,6 @@ class AdminController extends Controller
         $product = Product::findOrFail($product);
         $product->delete();
 
-        return redirect()->route('admin-view-products')->with('success', 'El usuario ha sido eliminado exitosamente.');
+        return redirect()->route('admin-view-products')->with('success', 'El producto ha sido eliminado exitosamente.');
     }
 }

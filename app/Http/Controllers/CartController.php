@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
-use Illuminate\Support\Facades\Cookie;
 
 class CartController extends Controller
 {
@@ -53,11 +52,16 @@ class CartController extends Controller
 
     public function remove($productId)
     {
-        if (session()->has('cart')) {
+        $user_id = auth()->id();
 
-            $cart = session()->get('cart', []);
-            unset($cart[$productId]);
-            session()->put('cart', $cart);
+        // Buscar el producto en el carrito del usuario
+        $cartItem = Cart::where('user_id', $user_id)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartItem) {
+            // Eliminar el producto del carrito
+            $cartItem->delete();
 
             return redirect()->route('cart.show')->with('success', 'Producto eliminado del carrito');
         }
@@ -65,13 +69,25 @@ class CartController extends Controller
         return redirect()->route('cart.show')->with('error', 'Error al eliminar el producto del carrito');
     }
 
-    public function updateQuantity($productId, Request $request)
-    {
-        $cart = json_decode(session('cart', '{}'), true);
-        $cartItem = &$cart[$productId];
-        $cartItem['quantity'] = $request->input('quantity');
-        session(['cart' => $cart]);
 
-        return redirect()->route('carrito.mostrar');
+    public function updateQuantity(Request $request)
+    {
+        $cartData = $request->input('cart');
+
+        if ($cartData) {
+            foreach ($cartData as $productId => $productData) {
+                $cartItem = Cart::where('product_id', $productId)->first();
+
+                if ($cartItem) {
+                    // Actualizar la cantidad en la base de datos
+                    $cartItem->quantity = $productData['quantity'];
+                    $cartItem->save();
+                }
+            }
+
+            return redirect()->route('cart.show');
+        }
+
+        return response()->json(['error' => 'No se proporcionaron datos válidos.']);
     }
 }
