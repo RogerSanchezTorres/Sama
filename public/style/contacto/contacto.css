@@ -49,6 +49,10 @@ body {
     width: 25px;
 }
 
+#usuario{
+    margin-right: 8px;
+}
+
 /*NAVEGADOR*/
 
 #navegador {
@@ -222,6 +226,14 @@ body {
     margin-left: 10px;
 }
 
+.container {
+    background-color: darkgrey;
+    border: 1px solid black;
+    border-radius: 7px;
+    margin-left: 650px;
+    margin-right: 650px;
+}
+
 .contact-form {
     max-width: 400px;
     margin: 0 auto;
@@ -241,7 +253,7 @@ body {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     border-radius: 3px;
 }
 

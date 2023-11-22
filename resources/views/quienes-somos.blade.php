@@ -15,7 +15,7 @@
 <body>
 
     <x-header />
-    <x-headersama /> 
+    <x-headersama />
     <x-nav />
 
     <div class="somos">
@@ -40,7 +40,7 @@
         </div>
 
     </div>
-
+    <script src="{{ asset('js/footer.js') }}"></script>
 
     <x-footer />
 
