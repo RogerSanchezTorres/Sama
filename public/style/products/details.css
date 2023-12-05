@@ -272,8 +272,15 @@ body {
 }
 
 .descripcion p{
-    width: 680px;
     line-height: 24px;
+}
+
+.descripcion-corta{
+    width: 680px;
+}
+
+.descripcion-larga {
+    width: 900px;
 }
 
 .comprar-btn {
