@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('stock')->nullable();
             $table->string('nombre_es')->nullable();
             $table->double('precio_es')->nullable();
-            $table->string('descripcion')->nullable();
+            $table->string('descripcion', 3000)->nullable();
             $table->double('precio_oferta_es')->nullable();
             $table->double('precio_flash_es')->nullable();
             $table->double('precio_flash_fecha_fin_es')->nullable();

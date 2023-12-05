@@ -73,7 +73,7 @@
                 input.addEventListener('input', function() {
                     updateTotalPrice(input);
                     updateDatabase();
-                    updateQuantityForm(input); // Ahora pasamos el input actual como parámetro
+                    updateQuantityForm(input);
                 });
             });
         });
@@ -87,7 +87,7 @@
         }
 
         function updateQuantityForm(input) {
-            var form = input.closest('form'); // Encontramos el formulario más cercano al input actual
+            var form = input.closest('form');
             form.submit();
         }
 

@@ -54,13 +54,11 @@ class CartController extends Controller
     {
         $user_id = auth()->id();
 
-        // Buscar el producto en el carrito del usuario
         $cartItem = Cart::where('user_id', $user_id)
             ->where('product_id', $productId)
             ->first();
 
         if ($cartItem) {
-            // Eliminar el producto del carrito
             $cartItem->delete();
 
             return redirect()->route('cart.show')->with('success', 'Producto eliminado del carrito');
@@ -79,7 +77,6 @@ class CartController extends Controller
                 $cartItem = Cart::where('product_id', $productId)->first();
 
                 if ($cartItem) {
-                    // Actualizar la cantidad en la base de datos
                     $cartItem->quantity = $productData['quantity'];
                     $cartItem->save();
                 }

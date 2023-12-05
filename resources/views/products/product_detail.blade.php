@@ -31,18 +31,25 @@
         <div class="product-info">
             <h1 class="product-title">{{ $product->nombre_es }}</h1><br>
             <p class="product-price">Precio: {{ $product->precio_es }}€</p>
-            <p>[DESCRIPCION DEL PRODUCTO]</p>
             @if (auth()->check())
-            <button class="comprar-btn" data-product-id="{{ $product->id }}">Comprar</button>
+            <button class="comprar-btn" data-product-id="{{ $product->id }}"><img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra" id="carrito-compra">
+                <p>Añadir al carrito</p>
+            </button>
             @else
-            <p class="login">Por favor, inicie sesión para comprar.</p>
-            <a href="{{ route('login') }}">Iniciar sesión</a>
+            <div id="sesion">
+                <p class="login"><b>Por favor, inicie sesión para comprar.</b></p>
+                <a href="{{ route('login') }}">Iniciar sesión</a>
+            </div>
             @endif
+            <div class="descripcion">
+                <h3>Descripción</h3>
+                <p>{{ $product->descripcion }}</p>
+            </div>
         </div>
     </div>
 
 
-    <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post">
+    <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="comentarios">
         @csrf
         <textarea name="contenido" rows="3" placeholder="Dejanos tu opinion sobre el producto"></textarea>
         <div class="publicar">
@@ -50,8 +57,9 @@
         </div>
     </form><br>
 
-    <h2>Comentarios</h2>
+
     @foreach ($comentarios as $comentario)
+    <h2>Comentarios</h2>
     <div class="comentario">
         <strong>{{ $comentario->usuario->name }} {{ $comentario->usuario->surname }}</strong>
         <p>{{ $comentario->contenido }}</p>

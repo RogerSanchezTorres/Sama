@@ -220,103 +220,99 @@ body {
 
 .product-detail-container {
     display: flex;
-    margin: 20px;
+    justify-content: center;
     padding: 20px;
-    border: 1px solid #ddd;
+    margin: 20px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .product-image {
-    flex: 1;
     text-align: center;
-    padding: 10px;
 }
 
 .product-image img {
     max-width: 100%;
-    max-height: 300px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
     border: 1px solid #ddd;
+    border-radius: 8px;
 }
 
 .no-image {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #777;
     border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
 }
 
 .product-info {
-    flex: 1;
-    padding: 10px;
+    padding: 20px;
 }
 
 .product-title {
-    font-size: 24px;
+    font-size: 1.5em;
     margin-bottom: 10px;
 }
 
 .product-price {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 1.2em;
+    margin-bottom: 15px;
 }
 
-.buy-button {
-    background-color: #3490dc;
-    color: #fff;
-    padding: 10px 20px;
+.descripcion {
+    margin-bottom: 15px;
+}
+
+.descripcion h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    margin-top: 50px;
+}
+
+.descripcion p{
+    width: 680px;
+    line-height: 24px;
+}
+
+.comprar-btn {
+    background-color: #ffc106;
+    color: black;
+    padding: 10px 15px;
+    font-size: 1em;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 5px;
+    right: 0;
+    display: flex;
     cursor: pointer;
-    position: relative;
-    top: 150px;
-    left: 700px;
 }
 
-.buy-button:hover {
-    background-color: #2779bd;
+.comprar-btn p{
+    margin-top: 2px;
 }
 
-.login{
-    padding: 10px 20px;
-    font-size: 14px;
-    position: relative;
-    top: 200px;
-    left: 620px;
-    width: 250px;
+#carrito-compra{
+    width: 20px;
+    margin-right: 5px;
 }
 
-.product-info a{
-    background-color: #3490dc;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    position: relative;
-    top: 140px;
-    left: 700px;
+.comprar-btn:hover{
+    background-color: #ffd557;
+}
+
+.login {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#sesion a{
+    background-color: black;
+    color: #ffc106;
     text-decoration: none;
-}
-
-.product-info button{
-    background-color: #3490dc;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
+    padding: 8px;
     border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    position: relative;
-    top: 140px;
-    left: 700px;
-    text-decoration: none;
-}
-
-.product-info a:hover{
-    background-color: #2779bd;
 }
 
 #abrirBuscador{
@@ -367,15 +363,18 @@ form textarea{
     border-radius: 3px;
 }
 
+#comentarios{
+    display: flex;
+}
+
 .publicar button{
     background-color: rgb(41, 39, 39);
     color: white;
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
-    position: absolute;
-    left: 420px;
-    bottom: 316px;
+    margin-left: 10px;
+    margin-top: 7px;
 }
 
 .publicar button:hover{
