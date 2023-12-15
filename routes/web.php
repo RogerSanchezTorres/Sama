@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/store-user', [AdminController::class, 'storeUser'])->name('admin-store-user');
     Route::get('/admin/agregar-producto', [AdminController::class, 'createProduct'])->name('admin-agregar-producto');
     Route::post('/admin/store-producto', [AdminController::class, 'storeProduct'])->name('admin-store-producto');
+    Route::get('/import-form', [ImportController::class, 'showImportForm'])->name('showImportForm');
+    Route::post('/import-list-excel', [ImportController::class, 'importExcel'])->name('products.import.excel');
 });
 
 //PRODUCTOS

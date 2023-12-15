@@ -8,15 +8,29 @@ class Product extends Model
 {
     protected $fillable = [
         'tipo',
+        'id',
+        'category_id',
+        'main_category_id',
+        'id_interno',
+        'proveedor',
+        'referencia',
+        'marca',
+        'codigo_barras',
+        'stock',
         'nombre_es',
         'precio_es',
         'descripcion',
         'precio_oferta_es',
+        'precio_flash_es',
+        'precio_flash_fecha_fin_es',
         'precio_coste',
         'publicado',
-        'proveedor',
-        'marca',
-        'img'
+        'padre',
+        'ubicacion',
+        'unidades_compra_proveedor',
+        'fecha_proxima_entrada_stock',
+        'nombre_completo',
+        'img',
     ];
 
     public function mainCategory()

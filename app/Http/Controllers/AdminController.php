@@ -177,6 +177,7 @@ class AdminController extends Controller
             'marca' => 'required|string|max:255',
             'proveedor' => 'required|string|max:255',
             'main_category_id' => 'required|exists:main_categories,id',
+            'descripcion' => 'required|string|max:350',
         ]);
     
         $product = Product::find($id);

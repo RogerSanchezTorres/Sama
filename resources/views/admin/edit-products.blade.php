@@ -45,6 +45,8 @@
             </option>
             @endforeach
         </select>
+        <label for="descripcion">Descripción</label>
+        <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
 
         <div class="btnSave">
             <button type="submit" aria-label="Actualizar Producto">Actualizar Producto</button>

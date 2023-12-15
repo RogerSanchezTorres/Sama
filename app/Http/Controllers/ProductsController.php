@@ -37,4 +37,9 @@ class ProductsController extends Controller
 
         return view('products.product_detail', compact('product', 'comentarios'));
     }
+
+    public function showImportForm()
+    {
+        return view('import-form');
+    }
 }

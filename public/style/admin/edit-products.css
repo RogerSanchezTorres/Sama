@@ -295,6 +295,14 @@ input{
 }
 
 
+#descripcion{
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 3px;
+    width: 700px;
+}
+
+
 .btnSave {
     text-align: center;
     margin-top: 35px;

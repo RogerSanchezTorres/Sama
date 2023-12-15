@@ -12,6 +12,9 @@
         <div class="add-user">
             <a href="{{ route('admin-create-user') }}" aria-label="Add user">Añadir Usuarios</a>
         </div>
+        <div class="excel">
+            <a href="{{ route('showImportForm') }}" aria-label="Subir Excel">Subir archivo</a>
+        </div>
         <div class="view-orders">
             <a href="#" aria-label="View orders">Ver Pedidos</a>
         </div>
