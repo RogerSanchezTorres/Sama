@@ -60,7 +60,7 @@
 
     <p class="total">Total: <span id="cart-total">{{ $cartTotal }}</span>€</p>
     <div class="actions">
-        <a href="{{ route('cart.checkout') }}">Finalizar Compra</a>
+        <a href="{{ route('cart.checkout') }}">Realizar Compra</a>
     </div>
     @else
     <p class="empty">El carrito está vacío.</p>

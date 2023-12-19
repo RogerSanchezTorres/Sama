@@ -160,7 +160,7 @@ class AdminController extends Controller
 
         return view('admin.view-products', compact('products'));
     }
-
+    
     public function editProductsForm($id)
     {
         $product = Product::findOrFail($id);
@@ -170,26 +170,26 @@ class AdminController extends Controller
 
     public function updateProducts(Request $request, $id)
     {
+
         $validated = $request->validate([
             'nombre_es' => 'required|string|max:255',
             'precio_es' => 'required|numeric',
             'precio_oferta_es' => 'nullable|numeric',
-            'marca' => 'required|string|max:255',
-            'proveedor' => 'required|string|max:255',
-            'main_category_id' => 'required|exists:main_categories,id',
-            'descripcion' => 'required|string|max:350',
+            'marca' => 'nullable|string|max:255',
+            'proveedor' => 'nullable|string|max:255',
+            'main_category_id' => 'nullable|exists:main_categories,id',
+            'descripcion' => 'nullable|string|max:350',
         ]);
-    
+
         $product = Product::find($id);
-    
+
         if (!$product) {
             return redirect()->back()->with('error', 'El producto no se encontró');
         }
-    
+
         $product->update($validated);
-    
-        return redirect()->route('admin.view-products')->with('success', 'Producto actualizado exitosamente');
-    
+        
+        return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
 
     public function deleteProducts($product)

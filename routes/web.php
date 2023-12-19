@@ -52,8 +52,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 //ADMIN
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/view-products', [AdminController::class, 'viewProducts'])->name('admin-view-products');
-    Route::get('/admin/edit-products/{product}', [AdminController::class, 'editProductsForm'])->name('admin-edit-products');
-    Route::put('/admin/update-products/{product}', [AdminController::class, 'updateProducts'])->name('admin-update-products');
+    Route::get('/admin/edit-products/{id}', [AdminController::class, 'editProductsForm'])->name('admin-edit-products');
+    Route::put('/admin/update-products/{id}', [AdminController::class, 'updateProducts'])->name('admin-update-products');
     Route::delete('/admin/delete-products/{product}', [AdminController::class, 'deleteProducts'])->name('admin-delete-products');
     Route::get('/admin/search-products', [AdminController::class, 'searchProducts'])->name('admin-search-products');
     Route::get('/admin/view-users', [AdminController::class, 'viewUsers'])->name('admin-view-users');
