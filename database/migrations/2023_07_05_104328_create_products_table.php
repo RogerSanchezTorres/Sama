@@ -22,6 +22,8 @@ class CreateProductsTable extends Migration
             $table->string('nombre_es')->nullable();
             $table->double('precio_es')->nullable();
             $table->string('descripcion', 3000)->nullable();
+            $table->string('detalles', 1000)->nullable();
+            $table->json('detalles_lista')->nullable();
             $table->double('precio_oferta_es')->nullable();
             $table->double('precio_flash_es')->nullable();
             $table->double('precio_flash_fecha_fin_es')->nullable();
@@ -33,7 +35,6 @@ class CreateProductsTable extends Migration
             $table->date('fecha_proxima_entrada_stock')->nullable();
             $table->string('nombre_completo')->nullable();
             $table->string('img')->nullable();
-            // Agrega las columnas restantes según tus necesidades
 
             $table->timestamps();
         });

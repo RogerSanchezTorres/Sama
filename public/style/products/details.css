@@ -427,3 +427,74 @@ form textarea{
     text-align: right;
 }
 
+/* Estilo para pestañas */
+.tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.tab {
+    cursor: pointer;
+    padding: 12px 20px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+.tab.active {
+    background-color: #ddd;
+}
+
+/* Estilo para el contenido de las pestañas */
+.tab-content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estilo para el formulario de comentarios */
+#comentarios-form {
+    margin-top: 20px;
+}
+
+#comentarios-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#comentarios-form button {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#comentarios-form button:hover {
+    background-color: #45a049;
+}
+
+#caracteristicas p{
+    font-size: 16px;
+}
+
+#caracteristicas li{
+    list-style: none;
+    margin-top: 13px;
+    margin-left: 8px;
+    font-size: 14px;
+}

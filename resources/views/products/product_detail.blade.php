@@ -48,37 +48,55 @@
         </div>
     </div>
 
+    <ul class="tabs">
+        <li class="tab active" onclick="openTab('comentarios')">Comentarios</li>
+        <li class="tab" onclick="openTab('caracteristicas')">Detalles</li>
+    </ul>
 
-    <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="comentarios">
-        @csrf
-        <textarea name="contenido" rows="3" placeholder="Dejanos tu opinion sobre el producto"></textarea>
-        <div class="publicar">
-            <button type="submit">Publicar Comentario</button>
-        </div>
-    </form><br>
-
-
-    @foreach ($comentarios as $comentario)
-    <h2>Comentarios</h2>
-    <div class="comentario">
-        <strong>{{ $comentario->usuario->name }} {{ $comentario->usuario->surname }}</strong>
-        <p>{{ $comentario->contenido }}</p>
-        <p class="comment-date">{{ $comentario->formatted_date }}</p>
-        @if(auth()->user()->id === $comentario->usuario->id)
-        <button class="edit-comment-btn" data-comment-id="{{ $comentario->id }}">Editar</button>
-        <form id="edit-comment-form-{{ $comentario->id }}" class="edit-comment-form" action="{{ route('comentario.update', ['id' => $comentario->id]) }}" method="post">
+    <div id="comentarios" class="tab-content active">
+        <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="comentarios">
             @csrf
-            @method('PUT')
-            <textarea name="contenido" rows="3">{{ $comentario->contenido }}</textarea>
-            <div class="actualizar">
-                <button type="submit">Actualizar Comentario</button>
+            <textarea name="contenido" rows="3" placeholder="Dejanos tu opinion sobre el producto"></textarea>
+            <div class="publicar">
+                <button type="submit">Publicar Comentario</button>
             </div>
-        </form>
+        </form><br>
 
+
+        @foreach ($comentarios as $comentario)
+        <h2>Comentarios</h2>
+        <div class="comentario">
+            <strong>{{ $comentario->usuario->name }} {{ $comentario->usuario->surname }}</strong>
+            <p>{{ $comentario->contenido }}</p>
+            <p class="comment-date">{{ $comentario->formatted_date }}</p>
+            @if(auth()->user()->id === $comentario->usuario->id)
+            <button class="edit-comment-btn" data-comment-id="{{ $comentario->id }}">Editar</button>
+            <form id="edit-comment-form-{{ $comentario->id }}" class="edit-comment-form" action="{{ route('comentario.update', ['id' => $comentario->id]) }}" method="post">
+                @csrf
+                @method('PUT')
+                <textarea name="contenido" rows="3">{{ $comentario->contenido }}</textarea>
+                <div class="actualizar">
+                    <button type="submit">Actualizar Comentario</button>
+                </div>
+            </form>
+
+            @endif
+        </div>
+        @endforeach
+    </div>
+
+    <div id="caracteristicas" class="tab-content">
+        <p>{{ $product->detalles }}</p>
+        @if ($product->detalles_lista)
+        <ul>
+            @foreach ($product->detailsList() as $detalle)
+            <li>{{ $detalle }}</li>
+            @endforeach
+        </ul>
+        @else
+        <p>No hay detalles disponibles.</p>
         @endif
     </div>
-    @endforeach
-
 
     <x-footer />
 
@@ -91,6 +109,7 @@
 
 <script src="{{ asset('js/carrito.js') }}"></script>
 <script src="{{ asset('js/texto.js') }}"></script>
+<script src="{{ asset('js/comentarios.js') }}"></script>
 <script>
     $(document).ready(function() {
         // Ocultar los formularios de edición al cargar la página

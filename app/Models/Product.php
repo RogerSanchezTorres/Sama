@@ -20,6 +20,8 @@ class Product extends Model
         'nombre_es',
         'precio_es',
         'descripcion',
+        'detalles',
+        'detalles_lista',
         'precio_oferta_es',
         'precio_flash_es',
         'precio_flash_fecha_fin_es',
@@ -32,6 +34,15 @@ class Product extends Model
         'nombre_completo',
         'img',
     ];
+
+    protected $casts = [
+        'detalles_lista' => 'array',
+    ];
+
+    public function detailsList()
+    {
+        return $this->detalles_lista ?? [];
+    }
 
     public function mainCategory()
     {
