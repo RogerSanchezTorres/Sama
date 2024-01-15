@@ -28,7 +28,7 @@
         <form>
             <label for="">Nombre:</label>
             <input type="text" name="name" id="name" value="{{ $user->name }}" aria-label="Insert name">
-            <label for="">Surname:</label>
+            <label for="">Apellidos:</label>
             <input type="text" name="surname" id="surname" value="{{ $user->surname }}" aria-label="Insert surname">
             <label for="">Correo Electrónico:</label>
             <input type="email" name="email" id="email" value="{{ $user->email }}" aria-label="Insert email">

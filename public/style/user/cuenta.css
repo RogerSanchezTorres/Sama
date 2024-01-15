@@ -32,11 +32,11 @@ body {
     margin-top: 30px;
 }
 
-#menu-icon{
+#menu-icon {
     display: none;
 }
 
-.close-icon{
+.close-icon {
     display: none;
 }
 
@@ -49,7 +49,7 @@ body {
     width: 25px;
 }
 
-#usuario{
+#usuario {
     margin-right: 8px;
 }
 
@@ -68,19 +68,19 @@ body {
     text-align: center;
 }
 
-.nav > li {
+.nav>li {
     display: inline-block;
     position: relative;
     margin-right: 20px;
 }
 
-.nav > li > a {
+.nav>li>a {
     color: black;
     text-decoration: none;
     padding: 10px;
 }
 
-.nav a:hover{
+.nav a:hover {
     color: #ffc106;
 }
 
@@ -91,20 +91,20 @@ body {
     z-index: 1;
 }
 
-.nav > li:hover .submenus {
+.nav>li:hover .submenus {
     display: block;
 }
 
-.submenus > li {
+.submenus>li {
     padding: 10px;
     border-bottom: 1px solid #666;
 }
 
-.submenus > li:last-child {
+.submenus>li:last-child {
     border-bottom: none;
 }
 
-.submenus > li > a {
+.submenus>li>a {
     color: white;
     text-decoration: none;
 }
@@ -117,38 +117,38 @@ body {
     height: auto;
 }
 
-#info-footer{
+#info-footer {
     display: flex;
     justify-content: center;
 }
 
-#footer p{
+#footer p {
     color: #ffc106;
 }
 
-#footer a{
+#footer a {
     text-decoration: none;
     color: #ffc106;
     font-size: .88rem;
 }
 
-#info{
+#info {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
 }
 
-.nosotros{
+.nosotros {
     color: #ffc106;
     margin-right: 100px;
     line-height: 25px;
 }
 
-.categorias{
+.categorias {
     color: #ffc106;
 }
 
-.contacto{
+.contacto {
     color: #ffc106;
     margin-left: 100px;
     font-size: .88rem;
@@ -162,20 +162,20 @@ body {
     font-weight: bold;
 }
 
-.nombre{
+.nombre {
     line-height: 25px;
 }
 
-.ubicacion{
+.ubicacion {
     display: flex;
 }
 
-#info-ubicacion{
+#info-ubicacion {
     line-height: 20px;
     margin-left: 5px;
 }
 
-.telefono{
+.telefono {
     display: flex;
     border-top: 1px solid #ffc106;
     border-bottom: 1px solid #ffc106;
@@ -183,53 +183,53 @@ body {
     margin-top: 5px;
 }
 
-.castelldefels{
+.castelldefels {
     margin-left: 10px;
 }
 
-.begues{
+.begues {
     margin-left: 5px;
 }
 
-.correo{
+.correo {
     line-height: 30px;
     display: flex;
 }
 
-.correo a{
+.correo a {
     margin-left: 10px;
 }
 
-.footer-empresa{
+.footer-empresa {
     display: flex;
     justify-content: center;
     margin-top: 30px;
 }
 
-.empresa{
+.empresa {
     display: flex;
     flex-direction: column;
 }
 
-.redes{
+.redes {
     display: flex;
     justify-content: center;
     margin: 5px;
 }
 
-#facebook{
+#facebook {
     margin-right: 10px;
 }
 
-#instagram{
+#instagram {
     margin-left: 10px;
 }
 
 
 .account-settings {
     width: 1100px;
-    margin-left:380px;
-    height: 580px;
+    margin-left: 380px;
+    height: 600px;
     background-color: #EEEEEE;
     border-radius: 20px;
     margin-bottom: 150px;
@@ -238,18 +238,18 @@ body {
 }
 
 
-#biling-details{
+#biling-details {
     border-top: 1px solid #858585;
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
-#update-password{
+#update-password {
     border-top: 1px solid #858585;
 }
 
 
-h3{
+h3 {
     padding: 20px;
 }
 
@@ -260,33 +260,41 @@ form input {
     height: 23px;
 }
 
-label{
+label {
     margin-left: 50px;
+
 
 }
 
-#email{
+#email,
+#address,
+#province,
+#postalCode {
+    margin: 10px 0;
+}
+
+#email {
     width: 200px;
     margin-right: 90px;
 }
 
-#address{
+#address {
     width: 200px;
 }
 
-#province{
+#province {
     margin-right: 150px;
 }
 
-#postalCode{
+#postalCode {
     margin-right: 18px;
 }
 
-.btnSave{
+.btnSave {
     text-align: end;
 }
 
-#save{
+#save {
     width: 110px;
     height: 40px;
     background-color: #374151;
@@ -298,22 +306,22 @@ label{
     margin-top: 10px;
 }
 
-#personal-details #save{
+#personal-details #save {
     margin-left: 975px;
     margin-top: 10px;
 }
 
-#biling-details #save{
+#biling-details #save {
     margin-left: 975px;
     margin-top: 10px;
 }
 
-#update-password #save{
+#update-password #save {
     margin-left: 975px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
-#save:hover{
+#save:hover {
     cursor: pointer;
 }
 
@@ -321,13 +329,13 @@ label{
     color: #fff;
     background-color: #dc3545;
     padding: 5px;
-    margin-top: -5px; 
+    margin-top: -5px;
     font-size: 13px;
     text-align: center;
     margin-top: 10px;
 }
 
-#abrirBuscador{
+#abrirBuscador {
     background: none;
     border: none;
     cursor: pointer;
@@ -335,14 +343,14 @@ label{
 }
 
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
-    z-index: 1000; 
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-contenido {
@@ -355,10 +363,10 @@ label{
 }
 
 .modal-contenido input[type="text"] {
-    width: 98%; 
-    height: 40px; 
-    font-size: 16px; 
-    padding: 10px; 
+    width: 98%;
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
 }
 
 .modal-cerrar {
@@ -367,4 +375,270 @@ label{
     right: 10px;
     font-size: 24px;
     cursor: pointer;
+}
+
+@media screen and (max-width: 1800px) {
+    .account-settings {
+        width: 90%;
+        margin-left: 5%;
+        height: 600px;
+        margin-bottom: 50px;
+        margin-top: 20px;
+    }
+
+    .nav>li {
+        margin-right: 10px;
+    }
+
+    .nav>li>a {
+        padding: 5px;
+    }
+
+    .submenus {
+        min-width: 150px;
+    }
+
+    .submenus>li {
+        padding: 5px;
+    }
+
+    .nosotros,
+    .categorias,
+    .contacto {
+        margin: 20px;
+        margin-top: 0;
+    }
+
+    .titulo {
+        width: 100%;
+    }
+
+    .telefono {
+        line-height: 20px;
+    }
+
+    .account-settings {
+        width: 70%;
+        margin-left: 15%;
+        margin-bottom: 100px;
+        margin-top: 30px;
+    }
+
+
+    #personal-details #save,
+    #biling-details #save,
+    #update-password #save {
+        margin-left: 85%;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 1550px) {
+
+    #update-password label {
+        margin-left: 40px;
+    }
+
+}
+
+@media screen and (max-width: 1480px) {
+    #name {
+        margin-right: 150px;
+    }
+
+    #surname {
+        margin-right: 220px;
+    }
+
+    #email {
+        margin-right: 25px;
+    }
+
+    #city {
+        margin-right: 300px;
+    }
+
+    #province {
+        margin-right: 10px;
+    }
+
+    #password {
+        margin-right: 220px;
+    }
+
+    #password_confirmation {
+        margin-top: 20px;
+    }
+
+    .account-settings {
+        height: 650px;
+    }
+
+}
+
+@media screen and (max-width: 1310px) {
+    #name {
+        margin-right: 120px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .account-settings {
+        width: 90%;
+        margin-left: 5%;
+        height: 620px;
+        margin-bottom: 50px;
+        margin-top: 20px;
+    }
+
+    #name {
+        margin-right: 10px;
+    }
+
+    #surname {
+        margin-right: 20px;
+    }
+
+    #email {
+        margin-right: 50px;
+    }
+
+    #city {
+        margin-right: 20px;
+    }
+
+    #province {
+        margin-right: 120px;
+    }
+
+    #password {
+        margin-right: 20px;
+    }
+
+}
+
+@media screen and (max-width: 1150px) {
+
+    .nav>li {
+        margin-right: 10px;
+    }
+
+    .nav>li>a {
+        padding: 5px;
+    }
+
+    .submenus {
+        min-width: 150px;
+    }
+
+    .submenus>li {
+        padding: 5px;
+    }
+
+    .nosotros,
+    .categorias,
+    .contacto {
+        margin: 20px;
+        margin-top: 0;
+    }
+
+    .account-settings {
+        width: 90%;
+        margin-left: 5%;
+        height: auto;
+        margin-bottom: 50px;
+        margin-top: 20px;
+    }
+
+    h3 {
+        padding: 10px;
+    }
+
+    .account-settings {
+        width: 90%;
+        margin-left: 5%;
+        height: 580px;
+        margin-bottom: 50px;
+        margin-top: 20px;
+    }
+
+    #password {
+        margin-right: 250px;
+    }
+
+}
+
+@media screen and (max-width: 920px) {
+    #surname{
+        margin-right: 120px;
+    }
+
+    #city{
+        margin-right: 120px;
+    }
+
+    #province{
+        margin-right: 10px;
+    }
+
+    #postalCode{
+        margin-right: 100px;
+    }
+
+    #password{
+        margin-right: 10px;
+    }
+
+    .account-settings{
+        height: 610px;
+    }
+
+    body.nav-active {
+        overflow: hidden;
+    }
+
+    #nav {
+        display: none;
+        position: fixed;
+        background-color: black;
+        height: 100%;
+        width: 30%;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        z-index: 999;
+    }
+
+    #nav.active {
+        display: block;
+    }
+
+    #menu-icon {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .nav>li {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #nav a {
+        color: #fff;
+    }
+
+    #nav a:hover {
+        color: #ffc106;
+    }
+
+    .close-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #fff;
+    }
 }
