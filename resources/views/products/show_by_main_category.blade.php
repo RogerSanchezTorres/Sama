@@ -34,8 +34,13 @@
                     @endif
                 </div>
                 <div class="product-info">
-                    <h2>{{ $product->nombre_es }}</h2><br>
-                    <p>Precio: {{ $product->precio_es }}€</p>
+                    <div class="product-title">
+                        <h2>{{ $product->nombre_es }}</h2><br>
+                    </div>
+                    <div class="product-price">
+                        <p>Precio: {{ $product->precio_es }}€</p>
+                    </div>
+
                 </div>
             </a>
         </div>

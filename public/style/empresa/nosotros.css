@@ -15,11 +15,11 @@ body {
     position: relative;
 }
 
-#menu-icon{
+#menu-icon {
     display: none;
 }
 
-.close-icon{
+.close-icon {
     display: none;
 }
 
@@ -49,7 +49,7 @@ body {
     width: 25px;
 }
 
-#usuario{
+#usuario {
     margin-right: 8px;
 }
 
@@ -68,19 +68,19 @@ body {
     text-align: center;
 }
 
-.nav > li {
+.nav>li {
     display: inline-block;
     position: relative;
     margin-right: 20px;
 }
 
-.nav > li > a {
+.nav>li>a {
     color: black;
     text-decoration: none;
     padding: 10px;
 }
 
-.nav a:hover{
+.nav a:hover {
     color: #ffc106;
 }
 
@@ -91,20 +91,20 @@ body {
     z-index: 1;
 }
 
-.nav > li:hover .submenus {
+.nav>li:hover .submenus {
     display: block;
 }
 
-.submenus > li {
+.submenus>li {
     padding: 10px;
     border-bottom: 1px solid #666;
 }
 
-.submenus > li:last-child {
+.submenus>li:last-child {
     border-bottom: none;
 }
 
-.submenus > li > a {
+.submenus>li>a {
     color: white;
     text-decoration: none;
 }
@@ -117,38 +117,38 @@ body {
     height: auto;
 }
 
-#info-footer{
+#info-footer {
     display: flex;
     justify-content: center;
 }
 
-#footer p{
+#footer p {
     color: #ffc106;
 }
 
-#footer a{
+#footer a {
     text-decoration: none;
     color: #ffc106;
     font-size: .88rem;
 }
 
-#info{
+#info {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
 }
 
-.nosotros{
+.nosotros {
     color: #ffc106;
     margin-right: 100px;
     line-height: 25px;
 }
 
-.categorias{
+.categorias {
     color: #ffc106;
 }
 
-.contacto{
+.contacto {
     color: #ffc106;
     margin-left: 100px;
     font-size: .88rem;
@@ -162,20 +162,20 @@ body {
     font-weight: bold;
 }
 
-.nombre{
+.nombre {
     line-height: 25px;
 }
 
-.ubicacion{
+.ubicacion {
     display: flex;
 }
 
-#info-ubicacion{
+#info-ubicacion {
     line-height: 20px;
     margin-left: 5px;
 }
 
-.telefono{
+.telefono {
     display: flex;
     border-top: 1px solid #ffc106;
     border-bottom: 1px solid #ffc106;
@@ -183,97 +183,97 @@ body {
     margin-top: 5px;
 }
 
-.castelldefels{
+.castelldefels {
     margin-left: 10px;
 }
 
-.begues{
+.begues {
     margin-left: 5px;
 }
 
-.correo{
+.correo {
     line-height: 30px;
     display: flex;
 }
 
-.correo a{
+.correo a {
     margin-left: 10px;
 }
 
-.footer-empresa{
+.footer-empresa {
     display: flex;
     justify-content: center;
     margin-top: 30px;
 }
 
-.empresa{
+.empresa {
     display: flex;
     flex-direction: column;
 }
 
-.redes{
+.redes {
     display: flex;
     justify-content: center;
     margin: 5px;
 }
 
-#facebook{
+#facebook {
     margin-right: 10px;
 }
 
-#instagram{
+#instagram {
     margin-left: 10px;
 }
 
-.somos{
+.somos {
     border-bottom: 1px solid grey;
     width: 70%;
     margin-left: 300px;
     line-height: 60px;
 }
 
-h2{
+h2 {
     color: #ffc106;
     font-size: 1.4em;
     width: 70%;
 }
 
-#nuestra-empresa{
+#nuestra-empresa {
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
 
-.informacion-empresa{
+.informacion-empresa {
     line-height: 25px;
     width: 30%;
     font-size: 0.9em;
     margin-right: 200px;
 }
 
-h3{
+h3 {
     margin-top: 20px;
 }
 
-.informacion-empresa li{
+.informacion-empresa li {
     margin-left: 20px;
 }
 
-.lista{
+.lista {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.imagen-empresa{
+.imagen-empresa {
     margin-top: 15px;
 }
 
-.imagen-empresa img{
+.imagen-empresa img {
     width: 550px;
     height: 300px;
 }
 
-#abrirBuscador{
+#abrirBuscador {
     background: none;
     border: none;
     cursor: pointer;
@@ -281,14 +281,14 @@ h3{
 }
 
 .modal {
-    display: none; 
+    display: none;
     position: fixed;
-    z-index: 1000; 
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-contenido {
@@ -301,10 +301,10 @@ h3{
 }
 
 .modal-contenido input[type="text"] {
-    width: 98%; 
-    height: 40px; 
-    font-size: 16px; 
-    padding: 10px; 
+    width: 98%;
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
 }
 
 .modal-cerrar {
@@ -315,78 +315,9 @@ h3{
     cursor: pointer;
 }
 
-@media screen and (max-width: 1500px) {
 
-    .nav>li {
-        margin-right: 10px;
-    }
+@media only screen and (max-width: 768px) {
 
-    .nav>li>a {
-        padding: 5px;
-    }
-
-    .submenus {
-        min-width: 150px;
-    }
-
-    .submenus>li {
-        padding: 5px;
-    }
-
-    .nosotros,
-    .categorias,
-    .contacto {
-        margin: 20px;
-        margin-top: 0;
-    }
-
-    .titulo {
-        width: 100%;
-    }
-
-    .telefono {
-        line-height: 20px;
-    }
-
-}
-
-@media screen and (max-width: 1150px) {
-
-    .nav>li {
-        margin-right: 10px;
-    }
-
-    .nav>li>a {
-        padding: 5px;
-    }
-
-    .submenus {
-        min-width: 150px;
-    }
-
-    .submenus>li {
-        padding: 5px;
-    }
-
-    .nosotros,
-    .categorias,
-    .contacto {
-        margin: 20px;
-        margin-top: 0;
-    }
-
-    .titulo {
-        width: 100%;
-    }
-
-    .telefono {
-        line-height: 20px;
-    }
-
-}
-
-
-@media screen and (max-width: 900px) {
     #header {
         padding-top: 0.3rem;
     }
@@ -449,30 +380,7 @@ h3{
         transform: rotate(180deg);
     }
 
-    #proveedores {
-        margin: 0;
-        border-top: 1px solid #ffc106;
-        border-bottom: 1px solid #ffc106;
-        margin-top: 30px;
-        margin-left: 50px;
-        margin-right: 50px;
-    }
-
-    #imagenes {
-        overflow: hidden;
-        white-space: nowrap;
-        margin-bottom: 30px;
-        z-index: -1;
-    }
-
-    #imagenes img {
-        display: inline-block;
-        animation: scroll 180s infinite linear;
-        animation-play-state: running;
-        margin-left: 10px;
-    }
-
-    body.nav-active{
+    body.nav-active {
         overflow: hidden;
     }
 
@@ -481,7 +389,7 @@ h3{
         position: fixed;
         background-color: black;
         height: 100%;
-        width: 30%;
+        width: 40%;
         top: 0;
         left: 0;
         padding: 20px;
@@ -498,16 +406,16 @@ h3{
         cursor: pointer;
     }
 
-    .nav > li {
+    .nav>li {
         display: block;
         margin-bottom: 10px;
     }
 
-    #nav a{
+    #nav a {
         color: #fff;
     }
 
-    #nav a:hover{
+    #nav a:hover {
         color: #ffc106;
     }
 
@@ -519,5 +427,94 @@ h3{
         font-size: 24px;
         cursor: pointer;
         color: #fff;
+    }
+
+
+    #nuestra-empresa {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .somos {
+        margin-left: 10px;
+        width: 90%;
+        line-height: 40px;
+    }
+
+    h2 {
+        width: 90%;
+    }
+
+    .informacion-empresa {
+        width: 90%;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .imagen-empresa img {
+        width: 90%;
+        height: auto;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+}
+
+@media only screen and (min-width: 769px) {
+    #header {
+        padding-top: 0.3rem;
+    }
+
+    #header a {
+        margin-left: 10px;
+    }
+
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 20px;
+    }
+
+    #buscador img {
+        width: 20px;
+    }
+
+    .img-info {
+        flex-direction: column;
+    }
+
+    .somos {
+        width: 70%;
+        margin-left: 100px;
+        line-height: 60px;
+    }
+
+    .informacion-empresa {
+        line-height: 25px;
+        width: 70%;
+        font-size: 0.9em;
+        margin-left: 10%;
+        margin-right: 20px;
+    }
+
+    .imagen-empresa img {
+        width: 90%;
+        height: auto;
+    }
+
+    .nosotros,
+    .categorias {
+        margin-left: 10px;
+    }
+
+    .desplegable {
+        width: 100%;
+        font-size: .88rem;
+    }
+
+    #footer {
+        position: absolute;
     }
 }

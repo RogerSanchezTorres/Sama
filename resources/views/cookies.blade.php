@@ -15,7 +15,7 @@
 <body>
 
     <x-header />
-    <x-headersama /> 
+    <x-headersama />
     <x-nav />
 
     <div class="cookies">
@@ -42,69 +42,130 @@
         <li type="circle"><b>Las cookies analíticas</b> con propósitos de mantenimiento periódico, y en aras de garantizar el mejor servicio posible al usuario, los sitios web hacen uso normalmente de cookies "analíticas" para recopilar datos estadísticos de la actividad que se realiza sobre la plataforma.</li><br>
         <p><b>Relación y descripción de las cookies que utilizamos en la página web</b></p>
         <p>La tabla que publicamos a continuación recoge de forma esquematizada las cookies que utilizamos en nuestra página web:</p><br>
-        <table>
-            <tr>
-                <th><b>Cookie</b></th>
-                <th><b>Nombre</b></th>
-                <th><b>Finalidad/Más información</b></th>
-                <th><b>Vencimiento</b></th>
-            </tr>
-            <tr>
-                <td class="tabla-cookie">subministressama.es</td>
-                <td class="tabla-nombre">
-                    <p>String alfanumeérico aleatorio</p>
-                    <p>PHPSESSID</p>
-                    <p>prestashopcookieslaw</p>
-                    <p>Home_box_cookie</p>
-                    <p>Product_box_cookie</p>
-                    <p>Category_box_cookie</p>
-                    <p>Custom_box_cookie</p><br>
-                    <p>(Cookies Propias)</p><br>
-                </td>
-                <td><b>La aplicación web</b> utiliza serie de cookies básicas para su correcto funcionamiento, ya que las distintas secciones del sitio web, así como su funcionalidad de comercio electrónico se controla a través de datos y preferencias que dependen en todo momento de la sesión activa del usuario que visita el sitio web y de las acciones que efectua sobre la plataforma. </td>
-                <td>1-30 días</td>
-            </tr>
-            <tr>
-                <td>Addshoppers</td>
-                <td class="tabla-nombre">addshoppers.com</td>
-                <td>Esta cookie pertenece al servicio de addshoppers con el que permitimos a nuestros usuarios la posibilidad de compartir nuestro contenido en sus redes sociales.</td>
-                <td>1-30 días</td>
-            </tr>
-            <tr>
-                <td>Google Analytics</td>
-                <td class="tabla-nombre">
-                    <p>_utma</p>
-                    <p>_utmb</p>
-                    <p>_utmc</p>
-                    <p>_utmv</p>
-                    <p>_utmx</p>
-                    <p>_utmxx</p>
-                    <p>_utmz</p>
-                    <p>_qca</p>
-                    <p>_ga</p>
-                </td>
-                <td>Hacemos uso de Google Analytics en el sitio web para poder hacer un seguimiento de la actividad realizada en él. Las cookies de Google Analytics recopilan información de registro estándar y datos sobre los hábitos de los visitantes de forma anónima. Más información:developers.google.com (en inglés)</td>
-                <td>
-                    <p>2 años</p>
-                    <p>30 minutos</p>
-                    <p>sesión</p>
-                    <p>6 meses</p>
-                    <p>2 años</p>
-                    <p>...</p>
-                </td>
-            </tr>
-            <tr>
-                <td>Facebook</td>
-                <td class="tabla-nombre">Cookie de terceros</td>
-                <td>El almacenamiento local y otras tecnologías parecidas indican cuándo entras en Facebook para que te podamos mostrar amigos a los que también les gusta nuestro sitio o alguna de sus páginas</td>
-                <td>6 meses</td>
-            </tr>
-            <tr>
-                <td>Google YouTube</td>
-                <td class="tabla-nombre">recently_watched_video_id_list</td>
-                <td>Almacena los ajustes de reproducción de Youtube para que no tengas que realizar estos ajustes cada vez que entres en nuestro portal</td>
-                <td>Hasta el cierre del navegador</td>
-            </tr>
+        <table id="table-large">
+                <tr>
+                    <th><b>Cookie</b></th>
+                    <th><b>Nombre</b></th>
+                    <th><b>Finalidad/Más información</b></th>
+                    <th><b>Vencimiento</b></th>
+                </tr>
+                <tr>
+                    <td class="tabla-cookie">subministressama.es</td>
+                    <td class="tabla-nombre">
+                        <p>String alfanumeérico aleatorio</p>
+                        <p>PHPSESSID</p>
+                        <p>prestashopcookieslaw</p>
+                        <p>Home_box_cookie</p>
+                        <p>Product_box_cookie</p>
+                        <p>Category_box_cookie</p>
+                        <p>Custom_box_cookie</p><br>
+                        <p>(Cookies Propias)</p><br>
+                    </td>
+                    <td><b>La aplicación web</b> utiliza serie de cookies básicas para su correcto funcionamiento, ya que las distintas secciones del sitio web, así como su funcionalidad de comercio electrónico se controla a través de datos y preferencias que dependen en todo momento de la sesión activa del usuario que visita el sitio web y de las acciones que efectua sobre la plataforma. </td>
+                    <td>1-30 días</td>
+                </tr>
+                <tr>
+                    <td>Addshoppers</td>
+                    <td class="tabla-nombre">addshoppers.com</td>
+                    <td>Esta cookie pertenece al servicio de addshoppers con el que permitimos a nuestros usuarios la posibilidad de compartir nuestro contenido en sus redes sociales.</td>
+                    <td>1-30 días</td>
+                </tr>
+                <tr>
+                    <td>Google Analytics</td>
+                    <td class="tabla-nombre">
+                        <p>_utma</p>
+                        <p>_utmb</p>
+                        <p>_utmc</p>
+                        <p>_utmv</p>
+                        <p>_utmx</p>
+                        <p>_utmxx</p>
+                        <p>_utmz</p>
+                        <p>_qca</p>
+                        <p>_ga</p>
+                    </td>
+                    <td>Hacemos uso de Google Analytics en el sitio web para poder hacer un seguimiento de la actividad realizada en él. Las cookies de Google Analytics recopilan información de registro estándar y datos sobre los hábitos de los visitantes de forma anónima. Más información:developers.google.com (en inglés)</td>
+                    <td>
+                        <p>2 años</p>
+                        <p>30 minutos</p>
+                        <p>sesión</p>
+                        <p>6 meses</p>
+                        <p>2 años</p>
+                        <p>...</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Facebook</td>
+                    <td class="tabla-nombre">Cookie de terceros</td>
+                    <td>El almacenamiento local y otras tecnologías parecidas indican cuándo entras en Facebook para que te podamos mostrar amigos a los que también les gusta nuestro sitio o alguna de sus páginas</td>
+                    <td>6 meses</td>
+                </tr>
+                <tr>
+                    <td>Google YouTube</td>
+                    <td class="tabla-nombre">recently_watched_video_id_list</td>
+                    <td>Almacena los ajustes de reproducción de Youtube para que no tengas que realizar estos ajustes cada vez que entres en nuestro portal</td>
+                    <td>Hasta el cierre del navegador</td>
+                </tr>
+        </table><br>
+
+        <table id="table-small">
+                <tr>
+                    <th><b>Cookie</b></th>
+                    <td class="tabla-cookie">subministressama.es</td>
+                    <td>Addshoppers</td>
+                    <td>Google Analytics</td>
+                    <td>Facebook</td>
+                    <td>Google YouTube</td>
+                </tr>
+                <tr>
+                    <th><b>Nombre</b></th>
+                    <td class="tabla-nombre">
+                        <p>String alfanumeérico aleatorio</p>
+                        <p>PHPSESSID</p>
+                        <p>prestashopcookieslaw</p>
+                        <p>Home_box_cookie</p>
+                        <p>Product_box_cookie</p>
+                        <p>Category_box_cookie</p>
+                        <p>Custom_box_cookie</p><br>
+                        <p>(Cookies Propias)</p><br>
+                    </td>
+                    <td class="tabla-nombre">addshoppers.com</td>
+                    <td class="tabla-nombre">
+                        <p>_utma</p>
+                        <p>_utmb</p>
+                        <p>_utmc</p>
+                        <p>_utmv</p>
+                        <p>_utmx</p>
+                        <p>_utmxx</p>
+                        <p>_utmz</p>
+                        <p>_qca</p>
+                        <p>_ga</p>
+                    </td>
+                    <td class="tabla-nombre">Cookie de terceros</td>
+                    <td class="tabla-nombre">recently_watched_video_id_list</td>
+                </tr>
+                <tr>
+                    <th><b>Finalidad/Más información</b></th>
+                    <td><b>La aplicación web</b> utiliza serie de cookies básicas para su correcto funcionamiento, ya que las distintas secciones del sitio web, así como su funcionalidad de comercio electrónico se controla a través de datos y preferencias que dependen en todo momento de la sesión activa del usuario que visita el sitio web y de las acciones que efectua sobre la plataforma. </td>
+                    <td>Esta cookie pertenece al servicio de addshoppers con el que permitimos a nuestros usuarios la posibilidad de compartir nuestro contenido en sus redes sociales.</td>
+                    <td>Hacemos uso de Google Analytics en el sitio web para poder hacer un seguimiento de la actividad realizada en él. Las cookies de Google Analytics recopilan información de registro estándar y datos sobre los hábitos de los visitantes de forma anónima. Más información:developers.google.com (en inglés)</td>
+                    <td>El almacenamiento local y otras tecnologías parecidas indican cuándo entras en Facebook para que te podamos mostrar amigos a los que también les gusta nuestro sitio o alguna de sus páginas</td>
+                    <td>Almacena los ajustes de reproducción de Youtube para que no tengas que realizar estos ajustes cada vez que entres en nuestro portal</td>
+                </tr>
+                <tr>
+                    <th><b>Vencimiento</b></th>
+                    <td>1-30 días</td>
+                    <td>1-30 días</td>
+                    <td>
+                        <p>2 años</p>
+                        <p>30 minutos</p>
+                        <p>sesión</p>
+                        <p>6 meses</p>
+                        <p>2 años</p>
+                        <p>...</p>
+                    </td>
+                    <td>6 meses</td>
+                    <td>Hasta el cierre del navegador</td>
+                </tr>
         </table><br>
 
         <p><b>Garantías complementarias – Gestión de cookies: </b> Como garantía complementaria a las anteriormente descritas, el registro de las cookies podrá estar sujeto a su aceptación durante la instalación o puesta al día del navegador usado, y esta aceptación puede en todo momento ser revocada mediante las opciones de configuración de contenidos y privacidad disponibles. Muchos navegadores permiten activar un modo privado mediante el cual las cookies se borran siempre después de su visita. Dependiendo de cada navegador este modo privado, puede tener diferentes nombres. A continuación encontrará una lista de los navegadores más comunes y los diferentes nombres de este “modo privado”:</p><br>

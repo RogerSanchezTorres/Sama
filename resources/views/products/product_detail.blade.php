@@ -62,9 +62,8 @@
             </div>
         </form><br>
 
-
-        @foreach ($comentarios as $comentario)
         <h2>Comentarios</h2>
+        @foreach ($comentarios as $comentario)
         <div class="comentario">
             <strong>{{ $comentario->usuario->name }} {{ $comentario->usuario->surname }}</strong>
             <p>{{ $comentario->contenido }}</p>

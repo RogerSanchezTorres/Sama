@@ -41,7 +41,7 @@ body {
     width: 25px;
 }
 
-#usuario{
+#usuario {
     margin-right: 8px;
 }
 
@@ -101,11 +101,11 @@ body {
     text-decoration: none;
 }
 
-#menu-icon{
+#menu-icon {
     display: none;
 }
 
-.close-icon{
+.close-icon {
     display: none;
 }
 
@@ -331,175 +331,8 @@ body {
     cursor: pointer;
 }
 
-@media screen and (max-width: 1500px) {
-
-    .nav>li {
-        margin-right: 10px;
-    }
-
-    .nav>li>a {
-        padding: 5px;
-    }
-
-    .submenus {
-        min-width: 150px;
-    }
-
-    .submenus>li {
-        padding: 5px;
-    }
-
-    #simon,
-    #efapel,
-    #sanitarios {
-        border-top: 1px solid #ffc106;
-
-    }
-
-    #simon img {
-        width: 348px;
-    }
-
-    #efapel img {
-        width: 348px;
-    }
-
-    #sanitarios img {
-        width: 348px;
-        height: 215px;
-        width: 100%;
-        text-align: center;
-    }
-
-    #info {
-        flex-direction: column;
-    }
-
-    #proveedores {
-        margin: 0;
-        border-top: 1px solid #ffc106;
-        border-bottom: 1px solid #ffc106;
-        margin-top: 30px;
-        margin-left: 165px;
-        margin-right: 160px;
-    }
-
-    #imagenes {
-        overflow: hidden;
-        white-space: nowrap;
-        margin-bottom: 30px;
-        z-index: -1;
-    }
-
-    #imagenes img {
-        display: inline-block;
-        animation: scroll 180s infinite linear;
-        animation-play-state: running;
-        margin-left: 10px;
-    }
-
-
-    .nosotros,
-    .categorias,
-    .contacto {
-        margin: 20px;
-        margin-top: 0;
-    }
-
-    .titulo {
-        width: 100%;
-    }
-
-    .telefono {
-        line-height: 20px;
-    }
-
-}
-
-@media screen and (max-width: 1150px) {
-
-    .nav>li {
-        margin-right: 10px;
-    }
-
-    .nav>li>a {
-        padding: 5px;
-    }
-
-    .submenus {
-        min-width: 150px;
-    }
-
-    .submenus>li {
-        padding: 5px;
-    }
-
-    #simon,
-    #efapel,
-    #sanitarios {
-        border-top: 1px solid #ffc106;
-
-    }
-
-    #simon img {
-        width: 315px;
-    }
-
-    #efapel img {
-        width: 315px;
-    }
-
-    #sanitarios img {
-        width: 315px;
-    }
-
-    #info {
-        flex-direction: column;
-    }
-
-    #proveedores {
-        margin: 0;
-        border-top: 1px solid #ffc106;
-        border-bottom: 1px solid #ffc106;
-        margin-top: 30px;
-        margin-left: 40px;
-        margin-right: 40px;
-    }
-
-    #imagenes {
-        overflow: hidden;
-        white-space: nowrap;
-        margin-bottom: 30px;
-        z-index: -1;
-    }
-
-    #imagenes img {
-        display: inline-block;
-        animation: scroll 180s infinite linear;
-        animation-play-state: running;
-        margin-left: 10px;
-    }
-
-    .nosotros,
-    .categorias,
-    .contacto {
-        margin: 20px;
-        margin-top: 0;
-    }
-
-    .titulo {
-        width: 100%;
-    }
-
-    .telefono {
-        line-height: 20px;
-    }
-
-}
-
-
-@media screen and (max-width: 900px) {
-    #header {
+@media only screen and (max-width: 768px) {
+#header {
         padding-top: 0.3rem;
     }
 
@@ -522,21 +355,18 @@ body {
     .img-info {
         flex-direction: column;
     }
-
     #simon,
     #efapel,
     #sanitarios {
         border-top: 1px solid #ffc106;
-        margin-left: 100px;
-        margin-right: 100px;
+        margin-left: 50px;
+        margin-right: 50px;
     }
 
     #simon img,
     #efapel img,
     #sanitarios img {
-        width: 540px;
         height: 240px;
-        width: 100%;
     }
 
     #info {
@@ -604,7 +434,7 @@ body {
         margin-left: 10px;
     }
 
-    body.nav-active{
+    body.nav-active {
         overflow: hidden;
     }
 
@@ -630,16 +460,16 @@ body {
         cursor: pointer;
     }
 
-    .nav > li {
+    .nav>li {
         display: block;
         margin-bottom: 10px;
     }
 
-    #nav a{
+    #nav a {
         color: #fff;
     }
 
-    #nav a:hover{
+    #nav a:hover {
         color: #ffc106;
     }
 
@@ -651,5 +481,47 @@ body {
         font-size: 24px;
         cursor: pointer;
         color: #fff;
+    }
+}
+
+@media (min-width: 769px) {
+    #header {
+        padding-top: 0.3rem;
+    }
+
+    #header a {
+        margin-left: 10px;
+    }
+
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 20px;
+    }
+
+    .nosotros,
+    .categorias {
+        margin-left: 10px;
+    }
+
+    .desplegable {
+        width: 100%;
+        font-size: .88rem;
+    }
+
+    #footer {
+        position: absolute;
+    }
+
+    .cookies {
+        margin-left: 95px;
+        width: 83%;
+    }
+
+    .politica-cookies {
+        margin-left: 95px;
+        width: 83%;
     }
 }

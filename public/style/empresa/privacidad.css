@@ -295,3 +295,174 @@ h3{
     font-size: 24px;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) {
+
+    #header {
+        padding-top: 0.3rem;
+    }
+
+    #header a {
+        margin-left: 10px;
+    }
+
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 20px;
+    }
+
+    #buscador img {
+        width: 20px;
+    }
+
+    .img-info {
+        flex-direction: column;
+    }
+
+    .nosotros,
+    .categorias,
+    .contacto {
+        margin: 0;
+        text-align: center;
+    }
+
+    .desplegable {
+        width: 100%;
+        cursor: pointer;
+        color: #ffc106;
+        text-decoration: underline;
+        font-size: .88rem;
+    }
+
+    .nav-submenu {
+        display: none;
+    }
+
+    #info {
+        display: none;
+    }
+
+    .categorias {
+        display: block;
+    }
+
+    .nav-submenu {
+        display: block;
+    }
+
+    .desplegable::after {
+        content: '▼';
+        margin-left: 5px;
+        transition: transform 0.2s;
+        transform: rotate(180deg);
+    }
+
+    body.nav-active {
+        overflow: hidden;
+    }
+
+    #nav {
+        display: none;
+        position: fixed;
+        background-color: black;
+        height: 100%;
+        width: 40%;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        z-index: 999;
+    }
+
+    #nav.active {
+        display: block;
+    }
+
+    #menu-icon {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .nav>li {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #nav a {
+        color: #fff;
+    }
+
+    #nav a:hover {
+        color: #ffc106;
+    }
+
+    .close-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .privacidad{
+        margin-left: 20px;
+        width: 90%;
+        font-size: 11px;
+    }
+
+    #politicas-privacidad{
+        margin-left: 20px;
+        width: 90%;
+    }
+
+    #politicas-privacidad h3{
+        font-size: 21px;
+
+    }
+
+}
+
+@media only screen and (min-width: 769px) {
+    #header {
+        padding-top: 0.3rem;
+    }
+
+    #header a {
+        margin-left: 10px;
+    }
+
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 20px;
+    }
+
+    #buscador img {
+        width: 20px;
+    }
+
+    .img-info {
+        flex-direction: column;
+    }
+
+    .nosotros,
+    .categorias {
+        margin-left: 10px;
+    }
+
+    .desplegable {
+        width: 100%;
+        font-size: .88rem;
+    }
+
+    #footer {
+        position: absolute;
+    }
+}

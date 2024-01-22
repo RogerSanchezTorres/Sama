@@ -532,3 +532,58 @@ label {
     }
     
 }
+
+@media only screen and (max-width: 768px) {
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 10px;
+    }
+
+    #menu-icon {
+        display: block; /* Muestra el icono de menú para móviles */
+    }
+
+    #header a {
+        margin-left: 10px; /* Ajusta el margen para móviles */
+    }
+
+    h1{
+        font-size: 20px;
+    }
+
+    #logout{
+        margin-left: 250px;
+    }
+
+    .personal-details {
+        width: 250px;
+        height: 350px;
+        margin-left: 19%;
+    }
+
+    .personal-details form{
+        margin-top: 20px;
+    }
+
+    #name{
+        margin-top: 10px;
+        margin-left: 20px;
+        margin-bottom: 30px;
+    }
+
+    #surname{
+        margin-top: 10px;
+        margin-left: 20px;
+        margin-bottom: 30px;
+    }
+
+    #email{
+        margin-top: 10px;
+        width: 90%;
+        margin-left: 10px;
+        margin-bottom: 30px;
+    }
+}

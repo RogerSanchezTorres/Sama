@@ -568,7 +568,7 @@ label {
 
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 980px) {
     #surname{
         margin-right: 120px;
     }
@@ -593,7 +593,69 @@ label {
         height: 610px;
     }
 
-    body.nav-active {
+    #header {
+        padding-top: 0.3rem;
+    }
+
+    #header a {
+        margin-left: 10px;
+    }
+
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 20px;
+    }
+
+    #buscador img {
+        width: 20px;
+    }
+
+    #info {
+        flex-direction: column;
+    }
+
+    .nosotros,
+    .categorias,
+    .contacto {
+        margin: 0;
+        text-align: center;
+    }
+
+    .desplegable {
+        width: 100%;
+        cursor: pointer;
+        color: #ffc106;
+        text-decoration: underline;
+        font-size: .88rem;
+    }
+
+    .nav-submenu {
+        display: none;
+    }
+
+    #info {
+        display: none;
+    }
+
+    .categorias {
+        display: block;
+    }
+
+    .nav-submenu {
+        display: block;
+    }
+
+    .desplegable::after {
+        content: '▼';
+        margin-left: 5px;
+        transition: transform 0.2s;
+        transform: rotate(180deg);
+    }
+
+    body.nav-active{
         overflow: hidden;
     }
 
@@ -619,16 +681,16 @@ label {
         cursor: pointer;
     }
 
-    .nav>li {
+    .nav > li {
         display: block;
         margin-bottom: 10px;
     }
 
-    #nav a {
+    #nav a{
         color: #fff;
     }
 
-    #nav a:hover {
+    #nav a:hover{
         color: #ffc106;
     }
 
@@ -640,5 +702,74 @@ label {
         font-size: 24px;
         cursor: pointer;
         color: #fff;
+    }
+
+    #footer {
+        position: absolute;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #header .enlaces {
+        margin-left: 10px; /* Ajusta el margen para móviles */
+    }
+
+    #sama {
+        margin-top: 10px; /* Ajusta el margen para móviles */
+    }
+
+    #menu-icon {
+        display: block; /* Muestra el icono de menú para móviles */
+    }
+
+    #header a {
+        margin-left: 10px; /* Ajusta el margen para móviles */
+    }
+
+    .account-settings{
+        height: 770px;
+        width: 350px;
+    }
+
+    label{
+        margin-left: 10px;
+    }
+
+    #name{
+        margin-right: 80px;
+    }
+
+    #surname{
+        margin-right: 80px;
+        margin-top: 10px;
+    }
+    #email{
+        width: 148px;
+        margin-top: 10px;
+    }
+
+    #personal-details #save{
+        margin-left: 65%;
+    }
+    #province{
+        margin-right: 80px;
+    }
+    #postalCode{
+        margin-right: 60px;
+    }
+    #biling-details #save{
+        margin-left: 65%;
+    }
+
+    #update-password label{
+        margin-left: 10px;
+    }
+
+    #password{
+        margin-top: 10px;
+    }
+
+    #update-password #save{
+        margin-left: 65%;
     }
 }
