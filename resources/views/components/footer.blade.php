@@ -22,7 +22,7 @@
             <div id="info" class="nav-submenu">
                 <p class="nombre">Subministres Sama</p>
                 <div class="ubicacion">
-                    <img src="{{ asset('img/ubicacion.svg') }}" alt="ubicacion">
+                    <img src="{{ asset('img/ubicacion.svg') }}" alt="ubicacion" width="20px">
                     <div id="info-ubicacion">
                         <p>Castelldefels</p>
                         <p>Avinguda de la Constitució 77-79</p>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="telefono">
-                    <img src="{{ asset('img/telefono.svg') }}" alt="telefono">
+                    <img src="{{ asset('img/telefono.svg') }}" alt="telefono" width="15px">
                     <div class="castelldefels">
                         <a href="tel:+34931050559">Castelldefels 931 050 559 /</a>
                     </div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="correo">
-                    <img src="{{ asset('img/correo.svg') }}" alt="correo">
+                    <img src="{{ asset('img/correo.svg') }}" alt="correo" width="15px">
                     <a href="mailto:info@subministressama.es">info@subministressama.es</a>
                 </div>
             </div>
