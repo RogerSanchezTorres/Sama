@@ -4,8 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
     titulosDesplegables.forEach(function(titulo) {
         titulo.addEventListener("click", function() {
             const submenu = titulo.nextElementSibling;
+            const estiloSubmenu = window.getComputedStyle(submenu);
 
-            if (submenu.style.display === "block") {
+            if (estiloSubmenu.display === "block") {
                 submenu.style.display = "none";
                 titulo.classList.remove("desplegado");
             } else {

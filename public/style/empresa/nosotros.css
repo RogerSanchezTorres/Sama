@@ -379,6 +379,7 @@ h3 {
         transition: transform 0.2s;
         transform: rotate(180deg);
     }
+    
 
     body.nav-active {
         overflow: hidden;
