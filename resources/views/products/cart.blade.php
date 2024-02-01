@@ -19,52 +19,44 @@
     <x-nav />
 
     <h1>Carrito de Compra</h1>
-    @if ($cart->count() > 0)
-    <table id="cart">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Producto</th>
-                <th>Precio Unitario</th>
-                <th>Cantidad</th>
-                <th>Precio Total</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="cart-container">
+    
+        @if ($cart->count() > 0)
+        <div class="cart-items">
             @foreach ($cart as $item)
-            <tr class="cart-item" data-product-id="{{ $item->product->id }}">
-                <td><img src="{{ asset($item->product->img) }}" alt="{{ $item->product->nombre_es }}"></td>
-                <td class="name">{{ $item->product->nombre_es }}</td>
-                <td class="unit-price">{{ $item->product->precio_es }}€</td>
-                <td class="quantity">
+            <div class="cart-item" data-product-id="{{ $item->product->id }}">
+                <div class="item-image">
+                    <img src="{{ asset($item->product->img) }}" alt="{{ $item->product->nombre_es }}">
+                </div>
+                <div class="item-details">
+                    <h3 class="item-name">{{ $item->product->nombre_es }}</h3>
+                    <p class="item-unit-price">{{ $item->quantity * $item->product->precio_es }}€</p>
+                </div>
+                <div class="item-quantity">
                     <form id="updateQuantityForm" action="{{ route('cart.update') }}" method="POST">
                         @csrf
-                        <div class="cart-item">
-                            <input type="hidden" name="cart[{{ $item->product_id }}][quantity]" value="{{ $item->quantity }}">
-
-                            <label for="quantity_{{ $item->product_id }}">Cantidad:</label>
-                            <input type="number" name="cart[{{ $item->product_id }}][quantity]" id="quantity_{{ $item->product_id }}" value="{{ $item->quantity }}" min="1" class="quantity-input">
-                        </div>
+                        <input type="hidden" name="cart[{{ $item->product_id }}][quantity]" value="{{ $item->quantity }}">
+                        <label for="quantity_{{ $item->product_id }}">Cantidad:</label>
+                        <input type="number" name="cart[{{ $item->product_id }}][quantity]" id="quantity_{{ $item->product_id }}" value="{{ $item->quantity }}" min="1" class="quantity-input">
                     </form>
-                </td>
-                <td class="total-price">{{ $item->quantity * $item->product->precio_es }}€</td>
-                <td class="actions">
+                </div>
+                <div class="item-actions">
                     <a href="{{ route('cart.remove', ['productId' => $item->product_id]) }}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
-
-                </td>
-            </tr>
+                </div>
+            </div>
             @endforeach
-        </tbody>
-    </table>
+        </div>
 
-    <p class="total">Total: <span id="cart-total">{{ $cartTotal }}</span>€</p>
-    <div class="actions">
-        <a href="{{ route('cart.checkout') }}">Realizar Compra</a>
+        <div class="cart-summary">
+            <p class="total">Total: <span id="cart-total">{{ $cartTotal }}</span>€</p>
+            <div class="actions">
+                <a href="{{ route('cart.checkout') }}">Realizar Compra</a>
+            </div>
+        </div>
+        @else
+        <p class="empty">El carrito está vacío.</p>
+        @endif
     </div>
-    @else
-    <p class="empty">El carrito está vacío.</p>
-    @endif
 
     <x-footer />
     <script>

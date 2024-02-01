@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -112,8 +113,8 @@ body {
 
 #footer {
     background-color: black;
-    position: absolute;
-    margin-top: 11.5%;
+    position: relative;
+    margin-top: 13.5%;
     width: 100%;
     height: auto;
 }
@@ -278,39 +279,75 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-table {
-    width: 99%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    margin-left: 10px;
+h1{
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
+.cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 30px;
 }
 
-th {
-    background-color: #333;
-    color: #fff;
+.cart-items {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-#cart img {
-    max-width: 100px;
-    max-height: 100px;
-    display: block;
-    margin: auto;
+.cart-item {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px;
 }
 
-.quantity-input{
-    padding: 5px;
+.item-image img {
+    max-width: 80px;
+    margin-right: 15px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-quantity {
+    flex: 0 0 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.quantity-input {
     width: 50px;
+    margin-top: 5px;
+}
+
+.item-total-price {
+    flex: 0 0 100px;
+    text-align: center;
+}
+
+.item-actions {
+    flex: 0 0 100px;
+    text-align: center;
+}
+
+.item-actions a {
+    color: red;
+    text-decoration: none;
+}
+
+.cart-summary {
+    margin-top: 20px;
+}
+
+.total {
+    font-weight: bold;
 }
 
 .actions {
-    text-align: center;
     margin-top: 10px;
+    text-align: center;
 }
 
 .actions a {
@@ -336,6 +373,7 @@ p.total {
 p.empty {
     text-align: center;
     color: #555;
+    height: 115px;
 }
 
 .boton-compra{
@@ -356,5 +394,180 @@ p.empty {
 .boton-compra a{
     text-decoration: none;
     color: white;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    #header {
+        padding-top: 0.3rem;
+    }
+
+    #header a {
+        margin-left: 10px;
+    }
+
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 20px;
+    }
+
+    #buscador img {
+        width: 20px;
+    }
+
+    .img-info {
+        flex-direction: column;
+    }
+
+    .nosotros,
+    .categorias,
+    .contacto {
+        margin: 0;
+        text-align: center;
+    }
+
+    .desplegable {
+        width: 100%;
+        cursor: pointer;
+        color: #ffc106;
+        text-decoration: underline;
+        font-size: .88rem;
+    }
+
+    .nav-submenu {
+        display: none;
+    }
+
+    #info {
+        display: none;
+    }
+
+    .categorias {
+        display: block;
+    }
+
+    .nav-submenu {
+        display: block;
+    }
+
+    .desplegable::after {
+        content: '▼';
+        margin-left: 5px;
+        transition: transform 0.2s;
+        transform: rotate(180deg);
+    }
+
+    body.nav-active {
+        overflow: hidden;
+    }
+
+    #nav {
+        display: none;
+        position: fixed;
+        background-color: black;
+        height: 100%;
+        width: 40%;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        z-index: 999;
+    }
+
+    #nav.active {
+        display: block;
+    }
+
+    #menu-icon {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .nav>li {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #nav a {
+        color: #fff;
+    }
+
+    #nav a:hover {
+        color: #ffc106;
+    }
+
+    .close-icon {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    #footer{
+        position: relative;
+    }
+
+    .cart-item{
+        display: grid;
+    }
+
+    .item-actions a{
+        position: relative;
+        bottom: 18px;
+    }
+
+    .total{
+        margin-right: 30px;
+    }
+
+}
+
+@media (min-width: 769px) {
+    #header {
+        padding-top: 0.3rem;
+    }
+
+    #header a {
+        margin-left: 10px;
+    }
+
+    #header .enlaces {
+        margin-left: 10px;
+    }
+
+    #sama {
+        margin-top: 20px;
+    }
+
+    .nosotros,
+    .categorias {
+        margin-left: 10px;
+    }
+
+    .desplegable {
+        width: 100%;
+        font-size: .88rem;
+    }
+
+    #footer {
+        position: absolute;
+    }
+
+    .cookies {
+        margin-left: 95px;
+        width: 83%;
+    }
+
+    .politica-cookies {
+        margin-left: 95px;
+        width: 83%;
+    }
 }
 

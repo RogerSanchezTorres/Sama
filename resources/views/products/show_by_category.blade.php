@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/style/products/pagination.css') }}">
+    <link rel="stylesheet" href="{{ asset('/style/products/category.css') }}">
 
 </head>
 
@@ -17,15 +17,20 @@
     <x-header />
     <x-headersama />
     <x-nav />
-    <h2>PRODUCTOS</h2><br>
 
-    @foreach ($categories as $category)
-    <li>
-        <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $category->slug]) }}">
-            {{ $category->nombre }}
-        </a>
-    </li>
-    @endforeach
+    <h2>PRODUCTOS de la categoría: {{ $category->nombre }}</h2><br>
+
+    <div class="categorias-list">
+        <ul>
+            @foreach ($filteredCategories as $filteredCategory)
+            <li>
+                <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $filteredCategory->slug]) }}" @if ($category->slug === $filteredCategory->slug) class="selected" @endif>
+                    {{ $filteredCategory->nombre }}
+                </a>
+            </li>
+            @endforeach
+        </ul>
+    </div>
 
     <div class="productos-list">
         @foreach ($products as $product)
@@ -58,33 +63,7 @@
         {{ $products->appends(request()->query())->links() }}
     </div>
 
-
     <x-footer />
-
-    <script>
-        // Filtrar productos por categoría al hacer clic en un botón
-        const botonesFiltro = document.querySelectorAll('.filtro-categoria');
-
-        botonesFiltro.forEach(boton => {
-            boton.addEventListener('click', () => {
-                const categoriaSeleccionada = boton.dataset.categoria;
-                filtrarProductosPorCategoria(categoriaSeleccionada);
-            });
-        });
-
-        function filtrarProductosPorCategoria(categoria) {
-            const productos = document.querySelectorAll('.product');
-
-            productos.forEach(producto => {
-                const categoriasProducto = JSON.parse(producto.getAttribute('data-categories'));
-                if (categoriasProducto.includes(categoria)) {
-                    producto.style.display = 'block'; // Mostrar el producto si pertenece a la categoría seleccionada
-                } else {
-                    producto.style.display = 'none'; // Ocultar el producto si no pertenece a la categoría seleccionada
-                }
-            });
-        }
-    </script>
 
 </body>
 

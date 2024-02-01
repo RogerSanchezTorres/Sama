@@ -14,7 +14,6 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all();
-
         $mainCategories = MainCategory::all();
         $categories = Category::all();
 
@@ -26,8 +25,30 @@ class ProductsController extends Controller
         $mainCategory = MainCategory::findOrFail($mainCategoryId);
         $products = $mainCategory->products()->paginate(14);
         Paginator::useBootstrapThree(false);
+        $categories = $mainCategory->categories;
 
-        return view('products.show_by_main_category', compact('products', 'mainCategory'));
+        return view('products.show_by_main_category', compact('products', 'mainCategory', 'categories'));
+    }
+
+    public function showProductsByCategory($categorySlug)
+    {
+        $category = Category::where('slug', $categorySlug)->firstOrFail();
+
+        // Obtener todas las categorías principales con sus categorías asociadas
+        $mainCategories = MainCategory::with('categories')->get();
+
+        // Filtrar las categorías para mostrar solo las de la categoría principal seleccionada
+        $filteredCategories = collect();
+        foreach ($mainCategories as $mainCategory) {
+            if ($mainCategory->categories->contains('id', $category->id)) {
+                $filteredCategories = $filteredCategories->merge($mainCategory->categories);
+            }
+        }
+        $filteredCategories = $filteredCategories->unique();
+
+        $products = $category->products()->paginate(14);
+
+        return view('products.show_by_category', compact('products', 'category', 'filteredCategories', 'mainCategories'));
     }
 
     public function showDetail($id)

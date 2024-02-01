@@ -53,8 +53,8 @@
         <li class="tab" onclick="openTab('caracteristicas')">Detalles</li>
     </ul>
 
-    <div id="publicar-comentarios" class="tab-content active">
-        <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="comentarios">
+    <div id="comentarios" class="tab-content active">
+        <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="form-comentarios">
             @csrf
             <textarea name="contenido" rows="3" placeholder="Dejanos tu opinion sobre el producto"></textarea>
             <div class="publicar">

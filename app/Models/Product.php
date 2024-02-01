@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Product extends Model
 {
     protected $fillable = [
@@ -49,11 +50,6 @@ class Product extends Model
         return $this->belongsTo(MainCategory::class, 'main_category_id');
     }
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
     public function comentarios()
     {
         return $this->hasMany(Comentario::class);
@@ -62,5 +58,10 @@ class Product extends Model
     public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }

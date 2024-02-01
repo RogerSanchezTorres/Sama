@@ -12,8 +12,13 @@ class Category extends Model
         'main_category_id',
     ];
 
+    public function mainCategory()
+    {
+        return $this->belongsTo(MainCategory::class);
+    }
+
     public function products()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->belongsToMany(Product::class);
     }
 }
