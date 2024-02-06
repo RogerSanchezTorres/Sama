@@ -19,44 +19,53 @@
     <x-nav />
     <h2>PRODUCTOS</h2><br>
 
-    @foreach ($categories as $category)
-    <li>
-        <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $category->slug]) }}">
-            {{ $category->nombre }}
-        </a>
-    </li>
-    @endforeach
-
-    <div class="productos-list">
-        @foreach ($products as $product)
-        <div class="product">
-            <a href="{{ route('products.showDetail', ['id' => $product->id]) }}">
-                <div class="image-container">
-                    @if ($product->img)
-                    <img src="{{ asset($product->img) }}" alt="{{ $product->nombre_es }}">
-                    @else
-                    <div class="no-image">
-                        No hay imagen disponible
-                    </div>
-                    @endif
-                </div>
-                <div class="product-info">
-                    <div class="product-title">
-                        <h2>{{ $product->nombre_es }}</h2><br>
-                    </div>
-                    <div class="product-price">
-                        <p>Precio: {{ $product->precio_es }}€</p>
-                    </div>
-
-                </div>
-            </a>
+    <div class="container">
+    <div class="productos-y-categorias">
+        <div class="categorias">
+            <h3>Categorías</h3>
+            <ul class="categorias-list">
+                @foreach ($categories as $category)
+                <li>
+                    <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $category->slug]) }}">
+                        {{ $category->nombre }}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
         </div>
-        @endforeach
+        <div class="productos">
+            <div class="productos-list">
+                @foreach ($products as $product)
+                <div class="product">
+                    <a href="{{ route('products.showDetail', ['id' => $product->id]) }}">
+                        <div class="image-container">
+                            @if ($product->img)
+                            <img src="{{ asset($product->img) }}" alt="{{ $product->nombre_es }}">
+                            @else
+                            <div class="no-image">
+                                No hay imagen disponible
+                            </div>
+                            @endif
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">
+                                <h2>{{ $product->nombre_es }}</h2>
+                            </div>
+                            <div class="product-price">
+                                <p>Precio: {{ $product->precio_es }}€</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            </div>
+            <div class="pagination">
+                {{ $products->appends(request()->query())->links() }}
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="pagination">
-        {{ $products->appends(request()->query())->links() }}
-    </div>
 
 
     <x-footer />

@@ -12,9 +12,10 @@ class CreateCategoryProductTable extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('product_id');
+            $table->timestamps();
+
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -23,3 +24,4 @@ class CreateCategoryProductTable extends Migration
         Schema::dropIfExists('category_product');
     }
 }
+
