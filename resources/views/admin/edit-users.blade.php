@@ -36,8 +36,9 @@
 
         <label for="role">Rol:</label>
         <select name="role" id="role">
-            <option value="user" {{ $user->role_id === 1 ? 'selected' : '' }}>Administrador</option>
-            <option value="admin" {{ $user->role_id === 2 ? 'selected' : '' }}>Usuario</option>
+            <option value="admin" {{ $user->role_id === 1 ? 'selected' : '' }}>Administrador</option>
+            <option value="profesional" {{ $user->role_id === 2 ? 'selected' : '' }}>Profesional</option>
+            <option value="particular" {{ $user->role_id === 3 ? 'selected' : '' }}>Particular</option>
         </select>
 
         <div class="btnSave">

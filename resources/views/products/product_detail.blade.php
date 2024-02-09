@@ -30,7 +30,17 @@
         </div>
         <div class="product-info">
             <h1 class="product-title">{{ $product->nombre_es }}</h1><br>
-            <p class="product-price">Precio: {{ $product->precio_es }}€</p>
+            @if(auth()->check())
+            @if (auth()->user()->role->role === 'profesional')
+            <div class="product-price">
+                <p>{{ $product->precio_oferta_es }}€</p>
+            </div>
+            @else
+            <div class="product-price">
+                <p>{{ $product->precio_es }}€</p>
+            </div>
+            @endif
+            @endif
             @if (auth()->check())
             <button class="comprar-btn" data-product-id="{{ $product->id }}"><img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra" id="carrito-compra">
                 <p>Añadir al carrito</p>

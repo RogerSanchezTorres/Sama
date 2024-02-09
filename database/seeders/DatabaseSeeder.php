@@ -33,11 +33,16 @@ class DatabaseSeeder extends Seeder
             'description' => 'Admin'
         ]);
 
-       Role::create([
-            'role' => 'user',
-            'description' => 'Usuario Normal',
+        Role::create([
+            'role' => 'profesional',
+            'description' => 'Usuario Profesional',
         ]);
-        
+
+        Role::create([
+            'role' => 'particular',
+            'description' => 'Usuario Particular',
+        ]);
+
         $admin = User::create([
             'name' => 'Alberto',
             'surname' => 'Sánchez Indiano',

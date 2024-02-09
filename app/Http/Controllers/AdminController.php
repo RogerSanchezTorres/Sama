@@ -49,16 +49,22 @@ class AdminController extends Controller
             'surname' => 'string',
             'email' => 'email',
             'phoneNumber' => 'nullable|string',
-            'role' => 'in:user,admin',
+            'role' => 'in:admin,profesional,particular',
         ]);
 
         $user = User::findOrFail($user);
+        $role_id = 3;
+        if ($validated['role'] === 'admin') {
+            $role_id = 1;
+        } elseif ($validated['role'] === 'profesional') {
+            $role_id = 2;
+        }
         $user->update([
             'name' => $validated['name'],
             'surname' => $validated['surname'],
             'email' => $validated['email'],
             'phoneNumber' => $validated['phoneNumber'],
-            'role_id' => $validated['role'] === 'admin' ? 2 : 1,
+            'role_id' => $role_id,
         ]);
 
         return redirect()->route('admin-view-users')->with('success', 'La información del usuario ha sido actualizada exitosamente.');
@@ -160,7 +166,7 @@ class AdminController extends Controller
 
         return view('admin.view-products', compact('products'));
     }
-    
+
     public function editProductsForm($id)
     {
         $product = Product::findOrFail($id);
@@ -188,7 +194,7 @@ class AdminController extends Controller
         }
 
         $product->update($validated);
-        
+
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
 

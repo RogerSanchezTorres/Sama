@@ -86,8 +86,6 @@ Route::get('/products/category/{categorySlug}', [ProductsController::class, 'sho
 
 
 
-
-
 //INFORMACION DE LA EMPRESA
 Route::get('/quienes-somos', function () {
     return view('/quienes-somos');

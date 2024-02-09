@@ -20,7 +20,7 @@
 
     <h1>Carrito de Compra</h1>
     <div class="cart-container">
-    
+
         @if ($cart->count() > 0)
         <div class="cart-items">
             @foreach ($cart as $item)
@@ -30,7 +30,11 @@
                 </div>
                 <div class="item-details">
                     <h3 class="item-name">{{ $item->product->nombre_es }}</h3>
+                    @if(auth()->check() && auth()->user()->role->role === 'profesional')
+                    <p class="item-unit-price">{{ $item->quantity * $item->product->precio_oferta_es }}€</p>
+                    @else
                     <p class="item-unit-price">{{ $item->quantity * $item->product->precio_es }}€</p>
+                    @endif
                 </div>
                 <div class="item-quantity">
                     <form id="updateQuantityForm" action="{{ route('cart.update') }}" method="POST">
