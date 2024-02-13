@@ -21,7 +21,7 @@
             </form>
         </div>
         @if(auth()->check())
-        @if (auth()->user()->role->role === 'admin')
+        @if (auth()->user()->role && auth()->user()->role->role === 'admin')
         <div id="usuario">
             <a href="{{ route('admin-view-products') }}"> <img src="{{ asset('img/usuario.svg') }}" alt="usuario"> </a>
         </div>

@@ -67,6 +67,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/store-producto', [AdminController::class, 'storeProduct'])->name('admin-store-producto');
     Route::get('/import-form', [ImportController::class, 'showImportForm'])->name('showImportForm');
     Route::post('/import-list-excel', [ImportController::class, 'importExcel'])->name('products.import.excel');
+    Route::get('/admin/users/pending', [AdminController::class, 'showUserManagement'])->name('admin.pending-users');
+    Route::patch('/admin/users/{user}/approve', [AdminController::class, 'approveUser'])->name('admin.approveUser');
 });
 
 //PRODUCTOS

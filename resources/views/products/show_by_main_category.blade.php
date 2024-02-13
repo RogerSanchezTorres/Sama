@@ -52,15 +52,16 @@
                                     <h2>{{ $product->nombre_es }}</h2>
                                 </div>
                                 @if(auth()->check())
-                                @if (auth()->user()->role->role === 'profesional')
+                                @if (auth()->user()->role && auth()->user()->role->role === 'admin')
                                 <div class="product-price">
                                     <p>{{ $product->precio_oferta_es }}€</p>
                                 </div>
                                 @else
+                                @endif
                                 <div class="product-price">
                                     <p>{{ $product->precio_es }}€</p>
                                 </div>
-                                @endif
+
                                 @endif
                             </div>
                         </a>

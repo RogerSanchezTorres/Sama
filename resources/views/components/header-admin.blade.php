@@ -1,7 +1,7 @@
 <div class="menu">
     <div class="rutas">
         <div class="dashboard">
-            <a href="{{route('admin-view-products')}}" aria-label="View Products">Ver Productos</a>
+            <a href="{{ route('admin-view-products') }}" aria-label="View Products">Ver Productos</a>
         </div>
         <div class="view-users">
             <a href="{{ route('admin-view-users') }}" aria-label="View users">Ver Usuarios</a>
@@ -18,9 +18,12 @@
         <div class="view-orders">
             <a href="#" aria-label="View orders">Ver Pedidos</a>
         </div>
+        <div class="registros">
+            <a href="{{ route('admin.pending-users') }}" aria-label="Ver Registros">Ver Registros</a>
+        </div>
     </div>
     <div class="logout">
-        <form action="{{route('logout')}}" method="POST">
+        <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" aria-label="Logout">Cerrar Sesión</button>
         </form>

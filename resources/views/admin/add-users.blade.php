@@ -69,8 +69,9 @@
             <div class="input-box" id="role">
                 <label for="role_id">Rol:</label>
                 <select name="role_id">
-                    <option value="2">Usuario</option>
                     <option value="1">Administrador</option>
+                    <option value="2">Profesional</option>
+                    <option value="3">Particular</option>
                 </select>
             </div>
 

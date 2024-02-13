@@ -83,7 +83,7 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phoneNumber' => 'nullable|string',
-            'role_id' => 'required|in:1,2',
+            'role_id' => 'required|in:1,2,3',
         ]);
 
         $user = new User([
@@ -204,5 +204,32 @@ class AdminController extends Controller
         $product->delete();
 
         return redirect()->route('admin-view-products')->with('success', 'El producto ha sido eliminado exitosamente.');
+    }
+
+    public function showUserManagement()
+    {
+        $users = User::where('status', 'pending')->get();
+        return view('admin.pending-users', compact('users'));
+    }
+    
+    public function approveUser(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:admin,profesional,particular',
+        ]);
+
+        // Asumiendo que 'admin' tiene id 1, 'profesional' id 2 y 'particular' id 3
+        $roles = [
+            'admin' => 1,
+            'profesional' => 2,
+            'particular' => 3,
+        ];
+
+        $roleId = $roles[$request->input('role')];
+        $user->role_id = $roleId;
+        $user->status = 'approved';
+        $user->save();
+
+        return redirect()->route('admin.pending-users')->with('success', 'Usuario aprobado y rol actualizado exitosamente');
     }
 }
