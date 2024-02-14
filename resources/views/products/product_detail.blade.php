@@ -30,7 +30,7 @@
         </div>
         <div class="product-info">
             <h1 class="product-title">{{ $product->nombre_es }}</h1><br>
-            @if(auth()->check())
+            @if (auth()->check() && auth()->user()->role)
             @if (auth()->user()->role->role === 'profesional')
             <div class="product-price">
                 <p>{{ $product->precio_oferta_es }}€</p>

@@ -18,7 +18,7 @@
     <x-headersama />
     <x-nav />
 
-    <h2>PRODUCTOS de la categoría: {{ $category->nombre }}</h2><br>
+    <h2>{{ $category->nombre }}</h2><br>
 
     <div class="container">
         <div class="productos-y-categorias">
@@ -52,7 +52,7 @@
                                 <div class="product-title">
                                     <h2>{{ $product->nombre_es }}</h2>
                                 </div>
-                                @if(auth()->check())
+                                @if (auth()->check() && auth()->user()->role)
                                 @if (auth()->user()->role->role === 'profesional')
                                 <div class="product-price">
                                     <p>{{ $product->precio_oferta_es }}€</p>

@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
+use App\Mail\UserRegistered;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -34,6 +36,7 @@ class RegisterController extends Controller
         ]);
 
         $defaultRole = Role::where('role', 'user')->first();
+        Mail::to('r.sanchez2dawnuria2022@gmail.com')->send(new UserRegistered());
 
         $user->role()->associate($defaultRole);
         $user->save();
