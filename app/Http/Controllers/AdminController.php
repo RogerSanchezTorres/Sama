@@ -218,7 +218,6 @@ class AdminController extends Controller
             'role' => 'required|in:admin,profesional,particular',
         ]);
 
-        // Asumiendo que 'admin' tiene id 1, 'profesional' id 2 y 'particular' id 3
         $roles = [
             'admin' => 1,
             'profesional' => 2,

@@ -43,9 +43,16 @@ class CartController extends Controller
     {
         $user_id = auth()->id();
         $cart = Cart::where('user_id', $user_id)->with('product')->get();
-        $cartTotal = $cart->sum(function ($item) {
-            return $item->quantity * $item->product->precio_es;
-        });
+        if ($role_id = 2) {
+            $cartTotal = $cart->sum(function ($item) {
+                return $item->quantity * $item->product->precio_oferta_es;
+            });
+        } else {
+            $cartTotal = $cart->sum(function ($item) {
+                return $item->quantity * $item->product->precio_es;
+            });
+        }
+
 
         return view('products.cart', compact('cart', 'cartTotal'));
     }

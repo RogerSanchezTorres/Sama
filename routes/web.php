@@ -12,6 +12,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +85,19 @@ Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name(
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
+
+
+// Ruta para mostrar el formulario de pago
+Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+
+// Ruta para procesar el pago
+Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
+Route::post('/payment/execute', [PaymentController::class, 'executePayment'])->name('payment.execute');
+Route::get('/payment/cancel', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
+
+
+// Ruta para manejar la respuesta de PayPal después del pago
+Route::get('/payment/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
 
 
 
