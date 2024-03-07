@@ -13,7 +13,7 @@
         <div class="payment-form">
             <p>Precio Total: {{ $cartTotal }}€</p>
 
-            <form method="POST" action="{{ route('payment.process') }}">
+            <form method="GET" action="{{ url('/paypal/pay') }}">
                 @csrf
                 <div class="form-group">
                     <label for="card_number">Número de Tarjeta:</label>

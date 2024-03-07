@@ -13,12 +13,10 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
-use PayPal\Exception\PayPalConfigurationException;
 use PayPal\Exception\PayPalConnectionException;
-use Illuminate\Support\Facades\Redirect;
 use App\Models\Cart;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class PaymentController extends Controller
 {
@@ -26,19 +24,98 @@ class PaymentController extends Controller
 
     public function __construct()
     {
-        $paypalConfig = config('services.paypal');
+        $paypalConfig = Config::get('paypal');
 
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
                 $paypalConfig['client_id'],
-                $paypalConfig['client_secret']
+                $paypalConfig['secret']
             )
         );
 
         $this->apiContext->setConfig($paypalConfig['settings']);
     }
 
-    public function showPaymentForm()
+    public function payWithPaypal(Request $request)
+    {
+        $amount = $request->amount;
+
+        if (!is_numeric($amount)) {
+            return redirect()->back()->with('error', 'El amount proporcionado no es válido.');
+        }
+
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
+
+        $item = new Item();
+        $item->setName('Producto')
+            ->setCurrency('€')
+            ->setQuantity(1)
+            ->setPrice($amount);
+
+        $itemList = new ItemList();
+        $itemList->setItems([$item]);
+
+        $amount = new Amount();
+        $amount->setCurrency('€')
+            ->setTotal($amount);
+
+        $transaction = new Transaction();
+        $transaction->setAmount($amount);
+
+        $callbackUrl = url('/paypal/status');
+
+        $redirectUrls = new RedirectUrls();
+        $redirectUrls->setReturnUrl($callbackUrl)
+            ->setCancelUrl($callbackUrl);
+
+        $payment = new Payment();
+        $payment->setIntent('sale')
+            ->setPayer($payer)
+            ->setTransactions([$transaction])
+            ->setRedirectUrls($redirectUrls);
+
+        try {
+            $payment->create($this->apiContext);
+            $sandboxBaseUrl = config('paypal.sandbox.base_url');
+            $approvalLink = $payment->getApprovalLink();
+
+            return redirect()->away($sandboxBaseUrl . $approvalLink);
+        } catch (PayPalConnectionException $ex) {
+            echo $ex->getData();
+        }
+    }
+
+
+    public function PaypalSatatus(Request $request)
+    {
+        $paymentId = $request->input('paymentId');
+        $payerId = $request->input('PayerID');
+        $token = $request->input('token');
+
+        if (!$paymentId || !$payerId || !$token) {
+            $status = 'Lo sentimos! El pago a través de PayPal no se pudo realizar.';
+            return redirect('/paypal/failed')->with(compact('status'));
+        }
+
+        $payment = Payment::get($paymentId, $this->apiContext);
+
+        $execution = new PaymentExecution();
+        $execution->setPayerId($payerId);
+
+        /** Execute the payment **/
+        $result = $payment->execute($execution, $this->apiContext);
+
+        if ($result->getState() === 'approved') {
+            $status = 'Gracias! El pago a través de PayPal se ha ralizado correctamente.';
+            return redirect('/results')->with(compact('status'));
+        }
+
+        $status = 'Lo sentimos! El pago a través de PayPal no se pudo realizar.';
+        return redirect('/results')->with(compact('status'));
+    }
+
+    /*public function showPaymentForm()
     {
         $user_id = Auth::id();
 
@@ -55,79 +132,5 @@ class PaymentController extends Controller
         }
 
         return view('payment.form', compact('cartTotal'));
-    }
-
-
-    public function processPayment(Request $request)
-    {
-        $monto = $request->monto;
-
-        if (!is_numeric($monto)) {
-            return redirect()->back()->with('error', 'El monto proporcionado no es válido.');
-        }
-
-        $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
-
-        $item = new Item();
-        $item->setName('Producto')
-            ->setCurrency('USD')
-            ->setQuantity(1)
-            ->setPrice($monto); // Ajusta el precio según tu lógica de negocio
-
-        $itemList = new ItemList();
-        $itemList->setItems([$item]);
-
-        $amount = new Amount();
-        $amount->setCurrency('USD')
-            ->setTotal($monto); // Ajusta el total según tu lógica de negocio
-
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
-            ->setItemList($itemList)
-            ->setDescription('Descripción de la compra');
-
-        $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl(route('payment.execute'))
-            ->setCancelUrl(route('payment.cancel'));
-
-        $payment = new Payment();
-        $payment->setIntent('sale')
-            ->setPayer($payer)
-            ->setRedirectUrls($redirectUrls)
-            ->setTransactions([$transaction]);
-
-        try {
-            $payment->create($this->apiContext);
-            return Redirect::away($payment->getApprovalLink());
-        } catch (PayPalConnectionException $ex) {
-            return redirect()->back()->with('error', 'Hubo un problema al procesar el pago. Por favor, inténtalo de nuevo.');
-        }
-    }
-
-    public function executePayment(Request $request)
-    {
-        $paymentId = $request->paymentId;
-        $payment = Payment::get($paymentId, $this->apiContext);
-
-        $execution = new PaymentExecution();
-        $execution->setPayerId($request->PayerID);
-
-        try {
-            $result = $payment->execute($execution, $this->apiContext);
-            return redirect()->route('payment.success')->with('success', 'El pago se ha realizado con éxito.');
-        } catch (PayPalConnectionException $ex) {
-            return redirect()->route('payment.failure')->with('error', 'Hubo un problema al procesar el pago. Por favor, inténtalo de nuevo.');
-        }
-    }
-
-    public function paymentSuccess()
-    {
-        return view('payment.success');
-    }
-
-    public function paymentFailure()
-    {
-        return view('payment.failure');
-    }
+    }*/
 }

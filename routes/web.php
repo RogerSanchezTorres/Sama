@@ -87,17 +87,22 @@ Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('ca
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
 
 
+Route::get('/paypal/pay', [PaymentController::class, 'payWithPaypal']);
+Route::get('/paypal/status', [PaymentController::class, 'PaypalStatus']);
+Route::get('/paypal/form', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+
+
 // Ruta para mostrar el formulario de pago
-Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+//Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
 
 // Ruta para procesar el pago
-Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
-Route::post('/payment/execute', [PaymentController::class, 'executePayment'])->name('payment.execute');
-Route::get('/payment/cancel', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
+//Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
+//Route::post('/payment/execute', [PaymentController::class, 'executePayment'])->name('payment.execute');
+//Route::get('/payment/cancel', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
 
 
 // Ruta para manejar la respuesta de PayPal después del pago
-Route::get('/payment/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
+//Route::get('/payment/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
 
 
 
