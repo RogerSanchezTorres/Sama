@@ -12,7 +12,8 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImportController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\RedsysController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,22 +88,25 @@ Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('ca
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
 
 
-Route::get('/paypal/pay', [PaymentController::class, 'payWithPaypal']);
-Route::get('/paypal/status', [PaymentController::class, 'PaypalStatus']);
-Route::get('/paypal/form', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+//METODOS DE PAGO
+Route::controller(RedsysController::class)->prefix('redsys')
+    ->group(function () {
+        Route::get('/redsys/pay', 'index');
+        Route::get('/redsys/ok', 'ok');
+        Route::get('/redsys/ko', 'ko');
+        Route::get('/redsys/notification', 'notification');
+    });
 
 
-// Ruta para mostrar el formulario de pago
-//Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
-
-// Ruta para procesar el pago
-//Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
-//Route::post('/payment/execute', [PaymentController::class, 'executePayment'])->name('payment.execute');
-//Route::get('/payment/cancel', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
+Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys');
+Route::get('/redsys/ok', [RedsysController::class, 'ok']);
+Route::get('/redsys/ko', [RedsysController::class, 'ko']);
+Route::get('/redsys/notification', [RedsysController::class, 'notification']);
 
 
-// Ruta para manejar la respuesta de PayPal después del pago
-//Route::get('/payment/status', [PaymentController::class, 'paymentStatus'])->name('payment.status');
+
+Route::post('/paypal/initiate-payment', [PayPalController::class, 'initiatePayment'])->name('paypal.initiate');
+Route::get('/paypal/status', [PayPalController::class, 'paypalStatus'])->name('paypal.status');
 
 
 

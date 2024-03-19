@@ -54,7 +54,14 @@
         <div class="cart-summary">
             <p class="total">Total: <span id="cart-total">{{ $cartTotal }}</span>€</p>
             <div class="actions">
-            <a href="{{ url('/paypal/pay') }}">Pagar Ahora</a>
+                <a href="{{ url('/redsys/pay') }}">Pagar con Tarjeta</a>
+            </div>
+            <div class="actions">
+                <form action="{{ route('paypal.initiatePayment') }}" method="POST">
+                    @csrf
+                    <button type="submit">Pay with PayPal</button>
+                </form>
+
             </div>
         </div>
         @else

@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "^3.1",
         "paypal/rest-api-sdk-php": "^1.6",
+        "ssheduardo/redsys-laravel": "*",
         "swiftmailer/swiftmailer": "^5.4"
     },
     "require-dev": {
