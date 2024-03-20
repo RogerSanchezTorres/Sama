@@ -77,6 +77,7 @@
 
 
     <x-footer />
+    <script src="{{ asset('js/desplegable.js') }}"></script>
 
     <script>
         // Filtrar productos por categoría al hacer clic en un botón

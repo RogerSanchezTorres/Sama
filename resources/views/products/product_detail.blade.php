@@ -119,6 +119,7 @@
 <script src="{{ asset('js/carrito.js') }}"></script>
 <script src="{{ asset('js/texto.js') }}"></script>
 <script src="{{ asset('js/comentarios.js') }}"></script>
+<script src="{{ asset('js/desplegable.js') }}"></script>
 <script>
     $(document).ready(function() {
         // Ocultar los formularios de edición al cargar la página

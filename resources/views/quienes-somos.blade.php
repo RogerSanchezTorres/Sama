@@ -41,7 +41,7 @@
 
     </div>
     <script src="{{ asset('js/footer.js') }}"></script>
-
+    <script src="{{ asset('js/desplegable.js') }}"></script>
     <x-footer />
 
 </body>

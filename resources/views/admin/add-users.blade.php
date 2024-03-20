@@ -80,6 +80,7 @@
     </div>
 
     <x-footer />
+    <script src="{{ asset('js/desplegable.js') }}"></script>
 </body>
 
 </html>

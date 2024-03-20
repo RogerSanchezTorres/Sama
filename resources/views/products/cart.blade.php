@@ -70,6 +70,7 @@
     </div>
 
     <x-footer />
+    <script src="{{ asset('js/desplegable.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.quantity-input').forEach(function(input) {

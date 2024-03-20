@@ -56,477 +56,75 @@ body {
 /*NAVEGADOR*/
 
 #navegador {
-    margin: auto;
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-}
-
-.desplegable-electricidad {
-    width: 1000px;
-    left: 50px;
-    height: 400px;
-    background-color: black;
-}
-
-.desplegable-fontaneria {
-    width: 1000px;
-    left: 50px;
-    height: 420px;
-    background-color: black;
-}
-
-.desplegable-gas {
-    width: 1000px;
-    left: 50px;
-    height: 120px;
-    background-color: black;
-}
-
-.desplegable-construccion {
-    width: 1000px;
-    left: 50px;
-    height: 250px;
-    background-color: black;
-}
-
-.desplegable-ceramica {
-    width: 1000px;
-    left: 50px;
-    height: 370px;
-    background-color: black;
-}
-
-.desplegable-sanitario {
-    width: 1000px;
-    left: 50px;
-    height: 280px;
-    background-color: black;
-}
-
-.desplegable-herramientas {
-    width: 1000px;
-    left: 50px;
-    height: 180px;
-    background-color: black;
-}
-
-/*ELECTRICIDAD*/
-
-#mecanismos {
     position: relative;
-    left: 30px;
-    top: 10px;
 }
 
-#mecanismos a {
-    width: 170px;
-}
-
-#mecanismos .titulo-desplegable {
-    border-bottom: 1px solid #ac8a25;
-}
-
-#proteccion {
-    position: absolute;
-    left: 250px;
-    top: 10px;
-}
-
-#proteccion a {
-    width: 210px;
-}
-
-#proteccion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#iluminacion {
-    position: absolute;
-    left: 520px;
-    top: 10px;
-}
-
-#iluminacion a {
-    width: 120px;
-}
-
-#iluminacion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#redes {
-    position: absolute;
-    left: 700px;
-    top: 10px;
-}
-
-#redes a {
-    width: 250px;
-}
-
-#redes .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#cables {
-    position: absolute;
-    top: 250px;
-    left: 30px;
-}
-
-#cables a {
-    width: 250px;
-}
-
-#cables .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#ventilacion {
-    position: absolute;
-    left: 250px;
-    top: 250px;
-}
-
-#ventilacion a {
-    width: 200px;
-}
-
-#ventilacion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#material-instalacion {
-    position: absolute;
-    left: 520px;
-    top: 250px;
-}
-
-#material-instalacion a {
-    width: 250px;
-}
-
-#material-instalacion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-/*FONTANERIA*/
-
-#jardin {
-    position: relative;
-    left: 30px;
-    top: 10px;
-}
-
-#jardin a {
-    width: 200px;
-}
-
-#jardin .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#tratamiento-agua {
-    position: absolute;
-    left: 270px;
-    top: 10px;
-}
-
-#tratamiento-agua a {
-    width: 200px;
-}
-
-#tratamiento-agua .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#calefaccion {
-    position: absolute;
-    left: 530px;
-    top: 10px;
-}
-
-#calefaccion a {
-    width: 180px;
-}
-
-#calefaccion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#accesorios-instalacion {
-    position: absolute;
-    left: 750px;
-    top: 10px;
-}
-
-#accesorios-instalacion a {
-    width: 200px;
-}
-
-#accesorios-instalacion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#energias-renovables {
-    position: absolute;
-    top: 280px;
-    left: 30px;
-}
-
-#energias-renovables a {
-    width: 200px;
-}
-
-#energias-renovables .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-
-/*GAS*/
-
-#tuberia {
-    position: relative;
-    left: 30px;
-    top: 10px;
-}
-
-#tuberia a {
-    width: 250px;
-}
-
-#tuberia .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-
-/*CONSTRUCCIÓN*/
-
-#impermeabilizacion {
-    position: relative;
-    left: 30px;
-    top: 10px;
-}
-
-#impermeabilizacion a {
-    width: 200px;
-}
-
-#impermeabilizacion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#tabiqueria {
-    position: absolute;
-    left: 320px;
-    top: 10px;
-}
-
-#tabiqueria a {
-    width: 200px;
-}
-
-#tabiqueria .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#productos-quimicos {
-    position: absolute;
-    left: 600px;
-    top: 10px;
-}
-
-#productos-quimicos a {
-    width: 180px;
-}
-
-#productos-quimicos .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-/*CERÁMICA*/
-
-#interior {
-    position: relative;
-    left: 30px;
-    top: 10px;
-}
-
-#interior a {
-    width: 200px;
-}
-
-#interior .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#exterior {
-    position: absolute;
-    left: 320px;
-    top: 10px;
-}
-
-#exterior a {
-    width: 200px;
-}
-
-#exterior .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-
-/*SANITARIOS Y GRIFERÍA*/
-
-#accesorios-baño {
-    position: relative;
-    left: 30px;
-    top: 10px;
-}
-
-#accesorios-baño a {
-    width: 200px;
-}
-
-#accesorios-baño .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#griferia {
-    position: absolute;
-    left: 320px;
-    top: 10px;
-}
-
-#griferia a {
-    width: 200px;
-}
-
-#griferia .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#sanitario {
-    position: absolute;
-    left: 600px;
-    top: 10px;
-}
-
-#sanitario a {
-    width: 180px;
-}
-
-#sanitario .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-
-/*HERRAMIENTAS*/
-
-#herramientas-fontaneria {
-    position: relative;
-    left: 30px;
-    top: 10px;
-}
-
-#herramientas-fontaneria a {
-    width: 250px;
-}
-
-#herramientas-fontaneria .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-#herramientas-construccion {
-    position: absolute;
-    left: 350px;
-    top: 10px;
-}
-
-#herramientas-construccion a {
-    width: 250px;
-}
-
-#herramientas-construccion .titulo-desplegable {
-    border-bottom: 1px solid #ffc106;
-}
-
-
-#navegador ul ul {
+.menu-icon {
     display: none;
 }
 
-#navegador ul li:hover>ul {
-    display: inherit;
+.nav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
-#navegador ul {
-    list-style: none;
+.main-category {
     position: relative;
     display: inline-block;
+    margin-right: 20px;
 }
 
-#navegador ul li {
-    float: left;
-}
-
-#navegador ul li a {
+.main-category a {
     display: block;
-
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
 }
 
-#navegador ul ul {
+.main-category:hover a {
+    color: #007bff;
+}
+
+.subcategories {
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
-
+    background-color: #f9f9f9;
+    min-width: 160px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    z-index: 1;
 }
 
-#navegador ul ul li {
-    float: none;
-    width: 200px;
-}
-
-#navegador ul ul a {
-    color: #ffc106;
-}
-
-#navegador ul ul ul {
-    top: 0;
-    left: 100%;
-
-}
-
-.nav li a {
-    text-decoration: none;
-    line-height: 10px;
-    padding: 10px 15px;
+.subcategories li {
     display: block;
+    margin-top: 5px;
 }
 
-.titulo-desplegable {
-    font-size: 0.9rem;
-    font-style: normal;
-    font-weight: bold;
-
+.subcategories li a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
 }
 
-.nav li a:hover {
-    background-color: black;
-    color: #ffc106;
+.subcategories li a:hover {
+    color: #007bff;
 }
 
 .nav {
-    display: flex;
-    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
-.nav a {
-    color: black;
-}
-
-.submenus a {
-    font-size: 14px;
+.close-icon {
+    display: none;
 }
 
 #footer {

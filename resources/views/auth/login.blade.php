@@ -72,7 +72,7 @@
 
     <x-footer />
     <script src="{{ asset('js/mostrarContraseña.js') }}"></script>
-
+    <script src="{{ asset('js/desplegable.js') }}"></script>
 </body>
 
 </html>
