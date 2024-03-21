@@ -21,7 +21,7 @@
             </div>
             <div class="mb-6">
                 <label for="description" class="block text-sm font-medium text-gray-700">Descripción:</label>
-                <p id="description" class="mt-1 text-sm text-gray-900">{{ $description }},</p>
+                <p id="description" class="mt-1 text-sm text-gray-900">{{ $description }}</p>
             </div>
             <div class="mb-6">
                 <label for="total" class="block text-sm font-medium text-gray-700">Total a pagar:</label>

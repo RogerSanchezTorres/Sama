@@ -31,7 +31,12 @@ class RedsysController extends Controller
                 $total += $price * $quantity;
             }
 
-            $description = $item->product->nombre_es;
+            $description = '';
+            foreach ($cart as $item) {
+                $description .= $item->product->nombre_es . ', ';
+            }
+
+            $description = rtrim($description, ', ');
 
             Redsys::setAmount($total);
             Redsys::setOrder(time());
@@ -40,9 +45,9 @@ class RedsysController extends Controller
             Redsys::setTransactiontype('0');
             Redsys::setTerminal('1');
             Redsys::setMethod('T'); //Solo pago con tarjeta, no mostramos iupay
-            Redsys::setNotification(config('redsys.url_notification')); //Url de notificacion
-            Redsys::setUrlOk(config('redsys.url_ok')); //Url OK
-            Redsys::setUrlKo(config('redsys.url_ko')); //Url KO
+            Redsys::setNotification(config('redsys.url_notification'));
+            Redsys::setUrlOk(config('redsys.url_ok'));
+            Redsys::setUrlKo(config('redsys.url_ko'));
             Redsys::setVersion('HMAC_SHA256_V1');
             Redsys::setTradeName('SubministresSama S.L');
             Redsys::setTitular($user->name);
@@ -60,9 +65,10 @@ class RedsysController extends Controller
         return view('payment.redsys', compact('form', 'total', 'user', 'description'));
     }
 
-    public function ok(Request $request){
+    public function ok(Request $request)
+    {
         $message = $request->all();
-        if(isset($message['Ds_MerchantParameters'])){
+        if (isset($message['Ds_MerchantParameters'])) {
             $decode = json_decode(base64_decode($message['Ds_MerchantParameters']), true);
             $date = urldecode($decode['Ds_Date']);
             $hour = urldecode($decode['Ds_Hour']);
@@ -71,16 +77,14 @@ class RedsysController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => $message, 'decode' => $decode]);
-
     }
 
-    public function ko(Request $request){
-        return response()->json(['success' => false, 'message'=> $request->all()]);
+    public function ko(Request $request)
+    {
+        return response()->json(['success' => false, 'message' => $request->all()]);
     }
 
-    public function notification(){
-        
+    public function notification()
+    {
     }
-
-
 }
