@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="shortcut icon" href="{{ asset('img/logos sama/logosama.jpg') }}">
+    <title>Cesta | {{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('/style/products/cart.css') }}">
@@ -56,13 +57,13 @@
             <div class="actions">
                 <a href="{{ url('/redsys/pay') }}">Pagar con Tarjeta</a>
             </div>
-            <div class="actions">
+            <!--<div class="actions">
                 <form action="{{ route('paypal.initiate') }}" method="POST">
                     @csrf
                     <button type="submit">Pay with PayPal</button>
                 </form>
 
-            </div>
+            </div>-->
         </div>
         @else
         <p class="empty">El carrito está vacío.</p>

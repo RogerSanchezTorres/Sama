@@ -94,6 +94,24 @@
     .close-icon {
         display: none;
     }
+
+    @media only screen and (max-width: 768px) {
+        .subcategories {
+        display: none;
+    }
+
+    .subcategories li {
+        display: none;
+    }
+
+    .subcategories li a {
+        display: none;
+    }
+
+    .subcategories li a:hover {
+        display: none;
+    }
+    }
 </style>
 
 <script>

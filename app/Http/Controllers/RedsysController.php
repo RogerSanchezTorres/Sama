@@ -31,7 +31,7 @@ class RedsysController extends Controller
                 $total += $price * $quantity;
             }
 
-            $description = 'Compras varias';
+            $description = $item->product->nombre_es;
 
             Redsys::setAmount($total);
             Redsys::setOrder(time());

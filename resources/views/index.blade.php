@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="shortcut icon" href="{{ asset('img/logos sama/logosama.jpg') }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -12,10 +13,10 @@
 </head>
 
 <body>
-    <x-header />   
-    <x-headersama /> 
+    <x-header />
+    <x-headersama />
 
-    <x-nav/>
+    <x-nav />
 
     <div class="img-info">
         <div id="simon">
@@ -86,7 +87,7 @@
             <img src=" {{ asset('img/logos proveedores/logo_kapataz.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo_laes.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo_mapei.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_mediterraneadelbaño.jpg') }} " alt="" width="120px" height="50px"> 
+            <img src=" {{ asset('img/logos proveedores/logo_mediterraneadelbaño.jpg') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo_mundilite.JPG') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo_nielssenclima.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo_nomazul.gif') }} " alt="" width="120px" height="50px">
@@ -175,9 +176,9 @@
             <img src=" {{ asset('img/logos proveedores/logo-martigrap.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-maydisa.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-miarco.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-miguelez.png') }} " alt="" width="120px" height="50p5"> 
+            <img src=" {{ asset('img/logos proveedores/logo-miguelez.png') }} " alt="" width="120px" height="50p5">
             <img src=" {{ asset('img/logos proveedores/logo-molins.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-mundilite.jpg') }} " alt=""width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo-mundilite.jpg') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-natucer.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-navarti.jpg') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-nofer.png') }} " alt="" width="120px" height="50px">
@@ -235,7 +236,7 @@
 
     </div>
 
-    <x-footer/>
+    <x-footer />
 
     <script src="{{ asset('js/desplegable.js') }}"></script>
     <script src="{{ asset('js/footer.js') }}"></script>
