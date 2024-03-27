@@ -34,6 +34,7 @@
                     @endforeach
                 </ul>
             </div>
+
             <div class="productos">
                 <div class="productos-list">
                     @foreach ($products as $product)

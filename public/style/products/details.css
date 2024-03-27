@@ -516,6 +516,14 @@ form textarea{
     font-size: 14px;
 }
 
+.stock{
+    margin-top: 15px;
+    margin-bottom: -10px;
+    font-weight: bold;
+    color: red;
+    font-size: larger;
+}
+
 
 @media only screen and (max-width: 768px) {
 

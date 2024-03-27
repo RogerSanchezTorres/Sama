@@ -51,6 +51,11 @@
                 <a href="{{ route('login') }}">Iniciar sesión</a>
             </div>
             @endif
+            @if ($product->stock == 0)
+            <div class="stock">
+                <span class="text-red-500">Agotado</span>
+            </div>
+            @endif
             <div class="descripcion">
                 <h3>Descripción</h3>
                 <p>{{ $product->descripcion }}</p>
