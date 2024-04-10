@@ -19,7 +19,7 @@
     <x-header-admin />
 
     <div class="table-container">
-        <h3>Usuarios Registrados</h3>
+        <h3>Productos</h3>
         <form action="{{ route('admin-search-products') }}" method="get" id="buscador">
             <input type="text" name="search" placeholder="Buscar Producto...">
             <button type="submit">Buscar</button>

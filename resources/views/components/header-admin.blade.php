@@ -21,6 +21,12 @@
         <div class="registros">
             <a href="{{ route('admin.pending-users') }}" aria-label="Ver Registros">Ver Registros</a>
         </div>
+        <div class="add-category">
+            <a href="{{ route('admin.create_category') }}" aria-label="Add Category">Añadir Subcategoria</a>
+        </div>
+        <div class="add-category">
+            <a href="{{ route('admin-create-maincategory') }}" aria-label="Add Category">Añadir Categoría</a>
+        </div>
     </div>
     <div class="logout">
         <form action="{{ route('logout') }}" method="POST">

@@ -52,12 +52,17 @@
     }
 
     .main-category:hover a {
-        color: black;
+        color: #ffc106;
+        
+    }
+
+    .main-category:hover {
+        background-color: black;
         
     }
 
     .titulo-desplegable:hover{
-        background-color: #f9f9f9;
+        background-color: black;
         border: 1px solid #ddd;
     }
 
@@ -66,7 +71,7 @@
         position: absolute;
         top: 100%;
         left: 0;
-        background-color: #f9f9f9;
+        background-color: black;
         min-width: 160px;
         padding: 10px;
         border: 1px solid #ddd;
@@ -100,6 +105,10 @@
     }
 
     .main-category:nth-child(8) .subcategories{
+        margin-left: -928px;
+        width: 1020px;
+    }
+    .main-category:nth-child(9) .subcategories{
         margin-left: -928px;
         width: 1020px;
     }

@@ -14,6 +14,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\RedsysController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MainCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +73,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/import-list-excel', [ImportController::class, 'importExcel'])->name('products.import.excel');
     Route::get('/admin/users/pending', [AdminController::class, 'showUserManagement'])->name('admin.pending-users');
     Route::patch('/admin/users/{user}/approve', [AdminController::class, 'approveUser'])->name('admin.approveUser');
+    Route::get('/admin/agregar-categoria', [AdminController::class, 'createCategory'])->name('admin.create_category');
+    Route::post('/admin/categories/store', [AdminController::class, 'storeCategory'])->name('admin.store.category');
+    Route::get('/admin/get-categories', [AdminController::class, 'Categories'])->name('admin.get.categories');
+    Route::get('/admin/crear-maincategoria', [AdminController::class, 'createMainCategory'])->name('admin-create-maincategory');
+    Route::post('/admin/guardar-maincategoria', [AdminController::class, 'storeMainCategory'])->name('admin-store-maincategory');
 });
 
 //PRODUCTOS

@@ -116,6 +116,8 @@ class DatabaseSeeder extends Seeder
             'slug' => 'complementos-para-la-instalacion',
             'main_category_id' => 1
         ]);
+
+
         Category::create([
             'nombre' => 'Tratamientos del Agua',
             'slug' => 'tratamientos-del-agua',
@@ -146,6 +148,8 @@ class DatabaseSeeder extends Seeder
             'slug' => 'sifones-y-desagues',
             'main_category_id' => 2
         ]);
+
+
         Category::create([
             'nombre' => 'Herramientas Electricidad',
             'slug' => 'herramientas-electricidad',
@@ -166,6 +170,8 @@ class DatabaseSeeder extends Seeder
             'slug' => 'herramientas-construccion',
             'main_category_id' => 3
         ]);
+
+
         Category::create([
             'nombre' => 'Grifería',
             'slug' => 'griferia',
@@ -176,6 +182,8 @@ class DatabaseSeeder extends Seeder
             'slug' => 'sanitarios',
             'main_category_id' => 4
         ]);
+
+
         Category::create([
             'nombre' => 'Calzado',
             'slug' => 'calzado',
@@ -191,6 +199,8 @@ class DatabaseSeeder extends Seeder
             'slug' => 'guantes-y-mascarillas',
             'main_category_id' => 5
         ]);
+
+
         Category::create([
             'nombre' => 'Mecanismos',
             'slug' => 'mecanismos',
@@ -211,6 +221,8 @@ class DatabaseSeeder extends Seeder
             'slug' => 'materiales-de-instalacion',
             'main_category_id' => 6
         ]);
+
+        
         Category::create([
             'nombre' => 'Impermeabilización',
             'slug' => 'impermeabilizacion',

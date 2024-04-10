@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\MainCategory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\Paginator;
+use App\Models\Category;
 
 
 class AdminController extends Controller
@@ -111,8 +112,10 @@ class AdminController extends Controller
     public function createProduct()
     {
         $mainCategories = MainCategory::all();
-        return view('admin.add-product', compact('mainCategories'));
+        $categories = Category::all();
+        return view('admin.add-product', compact('mainCategories', 'categories'));
     }
+
 
     public function storeProduct(Request $request)
     {
@@ -124,6 +127,7 @@ class AdminController extends Controller
             'marca' => 'required|max:255',
             'img' => 'required|image|mimes:jpeg,png,jpg,gif',
             'main_category' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         $imagenNombre = $request->file('img')->store('img', 'public');
@@ -136,6 +140,7 @@ class AdminController extends Controller
         $producto->marca = $request->input('marca');
         $producto->img = $imagenNombre;
         $producto->main_category_id = $request->input('main_category');
+        $producto->category_id = $request->input('category_id');
         $producto->save();
 
         return redirect()->route('admin-agregar-producto')->with('success', 'Producto agregado correctamente');
@@ -211,7 +216,7 @@ class AdminController extends Controller
         $users = User::where('status', 'pending')->get();
         return view('admin.pending-users', compact('users'));
     }
-    
+
     public function approveUser(Request $request, User $user)
     {
         $request->validate([
@@ -230,5 +235,51 @@ class AdminController extends Controller
         $user->save();
 
         return redirect()->route('admin.pending-users')->with('success', 'Usuario aprobado y rol actualizado exitosamente');
+    }
+
+    public function createCategory()
+    {
+        $mainCategories = MainCategory::all();
+        return view('admin.create_category', compact('mainCategories'));
+    }
+
+    public function storeCategory(Request $request)
+    {
+        // Validar los datos del formulario
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:categories,slug',
+            'main_category_id' => 'required|exists:main_categories,id',
+        ]);
+
+        // Crear la nueva categoría
+        Category::create([
+            'nombre' => $request->nombre,
+            'slug' => $request->slug,
+            'main_category_id' => $request->main_category_id,
+        ]);
+
+        // Redirigir a la página de administrador o a una página de confirmación
+        return redirect()->route('admin.create_category');
+    }
+
+    public function createMainCategory()
+    {
+        return view('admin.create-maincategory');
+    }
+
+    public function storeMainCategory(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:main_categories,slug',
+        ]);
+
+        MainCategory::create([
+            'nombre' => $request->nombre,
+            'slug' => $request->slug,
+        ]);
+
+        return redirect()->route('admin-create-maincategory')->with('success', 'Maincategory creada correctamente');
     }
 }

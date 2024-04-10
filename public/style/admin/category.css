@@ -49,119 +49,7 @@ body {
     width: 25px;
 }
 
-#abrirBuscador {
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: relative;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.modal-contenido {
-    background-color: #fff;
-    margin: 20% auto;
-    padding: 20px;
-    border-radius: 5px;
-    width: 60%;
-    position: relative;
-}
-
-.modal-contenido input[type="text"] {
-    width: 98%;
-    height: 40px;
-    font-size: 16px;
-    padding: 10px;
-}
-
-.modal-cerrar {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-#navegador {
-    position: relative;
-}
-
-.menu-icon {
-    display: none;
-}
-
-.nav {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.main-category {
-    position: relative;
-    display: inline-block;
-    margin-right: 20px;
-}
-
-.main-category a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s;
-}
-
-.main-category:hover a {
-    color: black;
-}
-
-.subcategories {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    z-index: 1;
-}
-
-.subcategories li {
-    display: block;
-    margin-top: 5px;
-}
-
-.subcategories li a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s;
-}
-
-.subcategories li a:hover {
-    color: #ffc106;
-}
-
-.nav {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.close-icon {
-    display: none;
-}
+/*NAVEGADOR*/
 
 #footer {
     background-color: black;
@@ -254,6 +142,8 @@ body {
     margin-left: 10px;
 }
 
+
+
 .footer-empresa {
     display: flex;
     justify-content: center;
@@ -328,110 +218,195 @@ h3 {
     color: white;
 }
 
+.actions {
+    display: flex;
+}
 
-.container {
-    max-width: 550px;
-    margin: 0 auto;
-    padding: 5px;
-    border: 1px solid #ccc;
+.actions>* {
+    margin-right: 5px;
+}
+
+.table-container {
+    margin: 20px;
+}
+
+.products-table {
+    margin-left: 100px;
+    width: 90%;
+    border-collapse: collapse;
+}
+
+.products-table th,
+.products-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.products-table th {
+    background-color: #f2f2f2;
+}
+
+.products-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.products-table tr:hover {
+    background-color: #ddd;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-button,
+.delete-button {
+    display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #fff;
+    border: none;
+    cursor: pointer;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    margin-bottom: 30px;
-}
-
-h2 {
-    text-align: center;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-
-form label {
-    display: block;
-    margin-bottom: 8px;
     font-weight: bold;
 }
 
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+.edit-button {
+    background-color: #4CAF50;
 }
 
-.form-group {
+.delete-button {
+    background-color: #f44336;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-left: 100px;
+}
+
+#buscador{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#buscador input{
+    padding: 2px;
+    margin-right: 10px;
+}
+
+#abrirBuscador{
+    background: none;
+    border: none;
+    cursor: pointer;
     position: relative;
+}
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
     width: 100%;
-    margin: 10px 0;
-    margin-left: 20px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
 }
 
-.form-group input {
-    width: 90%;
-    padding: 7px;
-    border: 1px solid black;
+.modal-contenido {
+    background-color: #fff;
+    margin: 20% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+    position: relative;
+}
+
+.modal-contenido input[type="text"] {
+    width: 98%; 
+    height: 40px; 
+    font-size: 16px; 
+    padding: 10px; 
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    justify-content: center;
+    text-align: center;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a,
+.pagination span {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
     border-radius: 3px;
-    margin-top: 10px;
 }
 
-#nombre_es {
-    width: 500px;
-    padding: 10px;
+.pagination a:hover {
+    background-color: #f0f0f0;
 }
 
-.price {
-    display: flex;
+.pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 3px;
+    background-color: #f0f0f0;
+    border: 1px solid #e0e0e0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px;
 }
 
-#precio_es {
-    width: 150px;
-}
-
-#precio_oferta_es {
-    width: 150px;
-}
-
-.form-row {
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn-primary {
-    display: block;
-    width: 90%;
-    padding: 10px;
+.pagination a.active {
     background-color: #007bff;
     color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 30px;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.form-control-file {
+.form-category form {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 50px;
+}
+
+input[type="text"] {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
 }
 
-#main_category_id {
-    width: 95%;
-    padding: 5px;
-    border: 1px solid black;
+.crear button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
     border-radius: 3px;
-}
-
-#category_id {
-    width: 95%;
-    padding: 5px;
-    border: 1px solid black;
-    border-radius: 3px;
+    cursor: pointer;
 }

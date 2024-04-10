@@ -42,14 +42,14 @@
             </div>
 
             <div class="form-group">
-                    <label for="proveedor">Proveedor</label>
-                    <input type="rext" name="proveedor" id="proveedor" class="form-control" required>
-                </div>
+                <label for="proveedor">Proveedor</label>
+                <input type="rext" name="proveedor" id="proveedor" class="form-control" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="marca">Marca</label>
-                    <input type="text" name="marca" id="marca" class="form-control" required>
-                </div>
+            <div class="form-group">
+                <label for="marca">Marca</label>
+                <input type="text" name="marca" id="marca" class="form-control" required>
+            </div>
 
             <div class="form-group">
                 <label for="imagen">Imagen del Producto</label>
@@ -57,10 +57,21 @@
             </div>
 
             <div class="form-group">
-                <label for="main_category">Categoría Principal</label>
-                <select name="main_category" id="main_category" class="form-control" required>
+                <label for="main_category_id">Categoría Principal</label>
+                <select name="main_category_id" id="main_category_id" class="form-control" required>
+                    <option value=""></option>
                     @foreach ($mainCategories as $mainCategory)
                     <option value="{{ $mainCategory->id }}">{{ $mainCategory->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="category_id">Subcategoria:</label>
+                <select id="category_id" name="category_id" class="form-control">
+                    <option value=""></option>
+                    @foreach($categories as $category)
+                    <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}">{{ $category->nombre }}</option>
                     @endforeach
                 </select>
             </div>
@@ -70,7 +81,24 @@
     </div>
 
     <x-footer />
+    <script>
+        document.getElementById('main_category_id').addEventListener('change', function() {
+            var mainCategoryId = this.value;
+            var categoryOptions = document.getElementById('category_id').options;
+
+            // Mostrar solo las categorías relacionadas con la categoría principal seleccionada
+            for (var i = 0; i < categoryOptions.length; i++) {
+                var categoryOption = categoryOptions[i];
+                if (categoryOption.dataset.mainCategoryId == mainCategoryId || mainCategoryId === '') {
+                    categoryOption.style.display = '';
+                } else {
+                    categoryOption.style.display = 'none';
+                }
+            }
+        });
+    </script>
     <script src="{{ asset('js/desplegable.js') }}"></script>
+
 </body>
 
 </html>
