@@ -23,17 +23,6 @@ body {
     display: none;
 }
 
-#header a {
-    color: #ffc106;
-    margin-left: 30px;
-    text-decoration: none;
-}
-
-#header .enlaces {
-    display: flex;
-    margin-left: 270px;
-}
-
 #sama {
     display: flex;
     justify-content: space-evenly;
@@ -48,8 +37,6 @@ body {
 #buscador img {
     width: 25px;
 }
-
-/*NAVEGADOR*/
 
 #footer {
     background-color: black;
@@ -403,10 +390,14 @@ input[type="text"] {
 }
 
 .crear button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #ffc106;
+    color: black;
     padding: 10px 20px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.crear button[type="submit"]:hover {
+    background-color: #e9af02;
 }

@@ -32,15 +32,17 @@
     }
 
     .nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
         list-style-type: none;
         padding: 0;
         margin: 0;
+        gap: 20px;
     }
 
     .main-category {
-        position: relative;
-        display: inline-block;
-        margin-right: 20px;
+        text-align: center;
     }
 
     .main-category a {
@@ -53,15 +55,15 @@
 
     .main-category:hover a {
         color: #ffc106;
-        
+
     }
 
     .main-category:hover {
         background-color: black;
-        
+
     }
 
-    .titulo-desplegable:hover{
+    .titulo-desplegable:hover {
         background-color: black;
         border: 1px solid #ddd;
     }
@@ -76,41 +78,8 @@
         padding: 10px;
         border: 1px solid #ddd;
         z-index: 1;
-        width: 1020px;
-    }
-
-    .main-category:nth-child(3) .subcategories{
-        margin-left: -170px;
-        width: 1020px;
-    }
-
-    .main-category:nth-child(4) .subcategories{
-        margin-left: -292px;
-        width: 1020px;
-    }
-
-    .main-category:nth-child(5) .subcategories{
-        margin-left: -432px;
-        width: 1020px;
-    }
-
-    .main-category:nth-child(6) .subcategories{
-        margin-left: -618px;
-        width: 1020px;
-    }
-
-    .main-category:nth-child(7) .subcategories{
-        margin-left: -758px;
-        width: 1020px;
-    }
-
-    .main-category:nth-child(8) .subcategories{
-        margin-left: -928px;
-        width: 1020px;
-    }
-    .main-category:nth-child(9) .subcategories{
-        margin-left: -928px;
-        width: 1020px;
+        width: 72%;
+        margin-left: 250px;
     }
 
     .subcategories li {
@@ -141,23 +110,24 @@
         display: none;
     }
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 800px) {
         .subcategories {
-        display: none;
-    }
+            display: none;
+        }
 
-    .subcategories li {
-        display: none;
-    }
+        .subcategories li {
+            display: none;
+        }
 
-    .subcategories li a {
-        display: none;
-    }
+        .subcategories li a {
+            display: none;
+        }
 
-    .subcategories li a:hover {
-        display: none;
+        .subcategories li a:hover {
+            display: none;
+        }
     }
-    }
+    
 </style>
 
 <script>

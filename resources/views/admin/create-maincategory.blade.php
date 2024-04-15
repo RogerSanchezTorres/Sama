@@ -23,26 +23,22 @@
             @csrf
 
             <div class="form-group">
-                <label for="nombre">Nombre de la Maincategory</label>
+                <label for="nombre">Nombre de la Categoria:</label>
                 <input type="text" name="nombre" id="nombre" class="form-control" required>
             </div>
 
             <div class="form-group">
-                <label for="slug">Slug:</label>
+                <label for="slug">Slug: (Repetir el nombre)</label>
                 <input type="text" id="slug" name="slug" required>
             </div>
 
 
             <div class="crear">
-                <button type="submit" class="btn btn-primary">Crear Maincategory</button>
+                <button type="submit" class="btn btn-primary">Crear Categoria</button>
             </div>
 
         </form>
     </div>
-
-
-
-
 
     <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>

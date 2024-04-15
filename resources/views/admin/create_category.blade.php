@@ -28,7 +28,7 @@
                 <input type="text" id="nombre" name="nombre" required>
             </div>
             <div>
-                <label for="slug">Slug:</label>
+                <label for="slug">Slug: (Repetir el nombre)</label>
                 <input type="text" id="slug" name="slug" required>
             </div>
             <div>
@@ -44,10 +44,6 @@
             </div>
         </form>
     </div>
-
-
-
-
 
     <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>

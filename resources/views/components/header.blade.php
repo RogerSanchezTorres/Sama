@@ -12,3 +12,17 @@
     </div>
 
 </div>
+
+<style>
+    #header a {
+        color: #ffc106;
+        margin-left: 30px;
+        text-decoration: none;
+    }
+
+    #header .enlaces {
+        display: flex;
+        margin-left: 270px;
+    }
+    
+</style>
