@@ -10,6 +10,7 @@ use App\Models\MainCategory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\Paginator;
 use App\Models\Category;
+use App\Models\Subcategory;
 
 
 class AdminController extends Controller
@@ -237,6 +238,27 @@ class AdminController extends Controller
         return redirect()->route('admin.pending-users')->with('success', 'Usuario aprobado y rol actualizado exitosamente');
     }
 
+    public function createMainCategory()
+    {
+        return view('admin.create-maincategory');
+    }
+
+    public function storeMainCategory(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:main_categories,slug',
+        ]);
+
+        MainCategory::create([
+            'nombre' => $request->nombre,
+            'slug' => $request->slug,
+        ]);
+
+        return redirect()->route('admin-create-maincategory')->with('success', 'Maincategory creada correctamente');
+    }
+
+
     public function createCategory()
     {
         $mainCategories = MainCategory::all();
@@ -263,23 +285,35 @@ class AdminController extends Controller
         return redirect()->route('admin.create_category');
     }
 
-    public function createMainCategory()
+
+
+    public function createSubcategories()
     {
-        return view('admin.create-maincategory');
+        $mainCategories = MainCategory::all();
+        $categories = Category::all();
+        return view('admin.create-subcategories', compact('mainCategories', 'categories'));
     }
 
-    public function storeMainCategory(Request $request)
+    public function storeSubcategories(Request $request)
     {
+        // Validación de datos
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:main_categories,slug',
+            'slug' => 'required|string|max:255|unique:categories,slug',
+            'category_id' => 'required|exists:categories,id',
+            'main_category_id' => 'required|exists:main_categories,id',
         ]);
 
-        MainCategory::create([
+        // Crear la nueva subcategoría
+        Subcategory::create([
             'nombre' => $request->nombre,
             'slug' => $request->slug,
+            'category_id' => $request->category_id,
+            'main_category_id' => $request->main_category_id,
         ]);
 
-        return redirect()->route('admin-create-maincategory')->with('success', 'Maincategory creada correctamente');
+        // Redireccionar con un mensaje de éxito
+        return redirect()->route('admin.create-subcategories')->with('success', 'Subcategoría creada exitosamente.');
     }
+
 }

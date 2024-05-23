@@ -16,17 +16,21 @@
             <a href="{{ route('showImportForm') }}" aria-label="Subir Excel">Subir archivo</a>
         </div>
         <div class="view-orders">
-            <a href="#" aria-label="View orders">Ver Pedidos</a>
+            <a href="{{ route('admin.view-orders') }}" aria-label="View orders">Ver Pedidos</a>
         </div>
         <div class="registros">
             <a href="{{ route('admin.pending-users') }}" aria-label="Ver Registros">Ver Registros</a>
         </div>
         <div class="add-category">
+            <a href="{{ route('admin-create-maincategory') }}" aria-label="Add Category">Añadir Categoría</a>
+        </div>
+        <div class="add-category">
             <a href="{{ route('admin.create_category') }}" aria-label="Add Category">Añadir Subcategoria</a>
         </div>
         <div class="add-category">
-            <a href="{{ route('admin-create-maincategory') }}" aria-label="Add Category">Añadir Categoría</a>
+            <a href="{{ route('admin.create-subcategories') }}" aria-label="Add Category">Añadir SubSubcategoria</a>
         </div>
+        
     </div>
     <div class="logout">
         <form action="{{ route('logout') }}" method="POST">

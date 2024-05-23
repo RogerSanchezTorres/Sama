@@ -16,6 +16,8 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\RedsysController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MainCategoryController;
+use App\Http\Controllers\AdminOrderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +80,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/get-categories', [AdminController::class, 'Categories'])->name('admin.get.categories');
     Route::get('/admin/crear-maincategoria', [AdminController::class, 'createMainCategory'])->name('admin-create-maincategory');
     Route::post('/admin/guardar-maincategoria', [AdminController::class, 'storeMainCategory'])->name('admin-store-maincategory');
+    Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.view-orders');
+    Route::get('/admin/crear-subcategorias', [AdminController::class, 'createSubcategories'])->name('admin.create-subcategories');
+    Route::post('/admin/guardar-subcategorias', [AdminController::class, 'storeSubcategories'])->name('admin.store-subcategories');
+    Route::get('/products/subcategories/{subcategorySlug}', 'ProductController@showProductsBySubcategory')->name('products.showProductsBySubcategory');
 });
 
 //PRODUCTOS
@@ -96,25 +102,14 @@ Route::get('/products/category/{categorySlug}', [ProductsController::class, 'sho
 
 
 //METODOS DE PAGO
-Route::controller(RedsysController::class)->prefix('redsys')
-    ->group(function () {
-        Route::get('/redsys/pay', 'index');
-        Route::get('/redsys/ok', 'ok');
-        Route::get('/redsys/ko', 'ko');
-        Route::get('/redsys/notification', 'notification');
-    });
-
-
 Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys');
 Route::get('/redsys/ok', [RedsysController::class, 'ok']);
 Route::get('/redsys/ko', [RedsysController::class, 'ko']);
 Route::get('/redsys/notification', [RedsysController::class, 'notification']);
+Route::get('/redsys/response', [RedsysController::class, 'handleResponse'])->name('redsys.response');
 
-
-
-Route::post('/paypal/initiate-payment', [PayPalController::class, 'initiatePayment'])->name('paypal.initiate');
-Route::get('/paypal/status', [PayPalController::class, 'paypalStatus'])->name('paypal.status');
-
+Route::get('/order/confirmation', [RedsysController::class, 'confirmation'])->name('order.confirmation');
+Route::get('/payment/failure', [RedsysController::class, 'failure'])->name('payment.failure');
 
 
 

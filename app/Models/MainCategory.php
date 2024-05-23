@@ -20,4 +20,5 @@ class MainCategory extends Model
     {
         return $this->hasMany(Category::class);
     }
+    
 }

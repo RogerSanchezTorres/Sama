@@ -8,6 +8,7 @@ use App\Models\MainCategory;
 use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Subcategory;
 
 
 class ProductsController extends Controller
@@ -63,4 +64,21 @@ class ProductsController extends Controller
     {
         return view('import-form');
     }
+
+    public function showProductsBySubcategory($subcategorySlug)
+{
+    // Encuentra la subcategoría por el slug proporcionado
+    $subcategory = Subcategory::where('slug', $subcategorySlug)->first();
+
+    // Verifica si la subcategoría existe
+    if (!$subcategory) {
+        abort(404); // Otra opción podría ser redirigir a una página de error 404
+    }
+
+    // Obtén los productos asociados a esta subcategoría
+    $products = $subcategory->products;
+
+    // Pasa los productos a la vista para mostrarlos
+    return view('admin.create-subcategories', compact('products', 'subcategory'));
+}
 }

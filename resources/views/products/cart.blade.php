@@ -57,13 +57,6 @@
             <div class="actions">
                 <a href="{{ url('/redsys/pay') }}">Pagar con Tarjeta</a>
             </div>
-            <!--<div class="actions">
-                <form action="{{ route('paypal.initiate') }}" method="POST">
-                    @csrf
-                    <button type="submit">Pay with PayPal</button>
-                </form>
-
-            </div>-->
         </div>
         @else
         <p class="empty">El carrito está vacío.</p>

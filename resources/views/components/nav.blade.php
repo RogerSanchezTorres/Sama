@@ -6,21 +6,32 @@
         <span id="close-icon" class="close-icon">&times;</span>
         @foreach(\App\Models\MainCategory::all() as $mainCategory)
         <li class="main-category">
-            <a href="{{ route('products.showByMainCategory', ['mainCategoryId' => $mainCategory->id]) }}" class="titulo-desplegable">{{ $mainCategory->nombre }}</a>
+            <a href="{{ route('products.showByMainCategory', ['mainCategoryId' => $mainCategory->id]) }}" class="titulo-desplegable">
+                {{ $mainCategory->nombre }}
+            </a>
             <ul class="subcategories">
                 @foreach($mainCategory->categories as $category)
                 <li>
                     <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $category->slug]) }}">
                         {{ $category->nombre }}
                     </a>
+                    <ul class="subcategories-list">
+                        @foreach($category->subcategories as $subcategory)
+                        <li>
+                            <a href="{{ route('products.showProductsBySubcategory', ['subcategorySlug' => $subcategory->slug]) }}">
+                                {{ $subcategory->nombre }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
                 </li>
                 @endforeach
             </ul>
         </li>
         @endforeach
     </ul>
-
 </div>
+
 
 <style>
     #navegador {
@@ -39,6 +50,10 @@
         padding: 0;
         margin: 0;
         gap: 20px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
     }
 
     .main-category {
@@ -50,22 +65,14 @@
         padding: 10px;
         text-decoration: none;
         color: #333;
-        transition: color 0.3s;
     }
 
     .main-category:hover a {
         color: #ffc106;
-
     }
 
     .main-category:hover {
         background-color: black;
-
-    }
-
-    .titulo-desplegable:hover {
-        background-color: black;
-        border: 1px solid #ddd;
     }
 
     .subcategories {
@@ -82,28 +89,20 @@
         margin-left: 250px;
     }
 
+    .subcategories-list {
+        display: none;
+        position: fixed;
+        background-color: black;
+        left: 0;
+        min-width: 160px;
+        padding: 10px;
+        width: 72%;
+        margin-left: 251px;
+    }
+
     .subcategories li {
         display: inline-block;
         margin-top: 5px;
-    }
-
-    .subcategories li a {
-        text-decoration: none;
-        color: #333;
-        transition: color 0.3s;
-    }
-
-    .subcategories li a:hover {
-        color: #ffc106;
-    }
-
-    .nav {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        text-align: center;
     }
 
     .close-icon {
@@ -127,10 +126,29 @@
             display: none;
         }
     }
-    
 </style>
 
 <script>
+    document.getElementById('menu-icon').addEventListener('click', function() {
+        document.getElementById('nav').classList.add('active');
+    });
+
+    document.getElementById('close-icon').addEventListener('click', function() {
+        document.getElementById('nav').classList.remove('active');
+    });
+
+    // Ensure submenus toggle correctly on mobile
+    const mainItems = document.querySelectorAll('.nav > li');
+    mainItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                this.classList.toggle('active');
+            }
+        });
+    });
+</script>
+
+<!--<script>
     // JavaScript para el menú desplegable en dispositivos móviles
     document.addEventListener('DOMContentLoaded', function() {
         const menuIcon = document.getElementById('menu-icon');
@@ -140,4 +158,4 @@
             nav.classList.toggle('active');
         });
     });
-</script>
+</script>-->

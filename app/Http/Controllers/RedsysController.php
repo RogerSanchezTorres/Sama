@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Ssheduardo\Redsys\Facades\Redsys;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Order;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class RedsysController extends Controller
 {
@@ -67,16 +70,7 @@ class RedsysController extends Controller
 
     public function ok(Request $request)
     {
-        $message = $request->all();
-        if (isset($message['Ds_MerchantParameters'])) {
-            $decode = json_decode(base64_decode($message['Ds_MerchantParameters']), true);
-            $date = urldecode($decode['Ds_Date']);
-            $hour = urldecode($decode['Ds_Hour']);
-            $decode['Ds_Date'] = $date;
-            $decode['Ds_Hour'] = $hour;
-        }
-
-        return response()->json(['success' => true, 'message' => $message, 'decode' => $decode]);
+        return redirect()->route('redsys.response');
     }
 
     public function ko(Request $request)
@@ -84,7 +78,51 @@ class RedsysController extends Controller
         return response()->json(['success' => false, 'message' => $request->all()]);
     }
 
-    public function notification()
+    public function handleResponse(Request $request)
     {
+        // Obtener los datos de la respuesta de Redsys
+        $dsSignature = $request->input('Ds_Signature');
+        $merchantParams = $request->input('Ds_MerchantParameters');
+        $responseCode = $request->input('Ds_Response');
+
+        // Verificar la validez de la firma
+        if ($this->validateRedsysSignature($dsSignature, $merchantParams)) {
+            // La firma es válida, procesar la respuesta
+            if ($responseCode === '0000') {
+                // El pago fue exitoso, guardar la información del pedido en la base de datos
+                $order = new \App\Models\Order(); // Importante el prefijo \App\Models\ para evitar conflictos
+                $order->user_name = $request->input('nombreTitular');
+                $order->total = $request->input('importe');
+                $order->status = 'paid';
+                // Otros campos del pedido, si los hay
+
+                // Guardar el pedido en la base de datos
+                $order->save();
+
+                // Redirigir al usuario a la página de confirmación
+                return redirect()->route('order.confirmation');
+            } else {
+                // El pago no fue exitoso, redirigir a la página de fallo de pago
+                return redirect()->route('payment.failure');
+            }
+        } else {
+            // Firma no válida, no confiar en esta solicitud
+            abort(403, 'Forbidden');
+        }
+    }
+
+    private function validateRedsysSignature($dsSignature, $merchantParams)
+    {
+        // Obtener la clave secreta de Redsys del archivo .env
+        $secretKey = env('REDSYS_KEY');
+
+        // Decodificar los parámetros del comerciante desde Base64
+        $decodedMerchantParams = base64_decode($merchantParams);
+
+        // Calcular la firma esperada usando SHA-256 HMAC y la clave secreta
+        $expectedSignature = hash_hmac('sha256', $decodedMerchantParams, $secretKey, true);
+
+        // Comparar la firma recibida con la firma esperada y devolver true si son iguales
+        return $dsSignature === base64_encode($expectedSignature);
     }
 }
