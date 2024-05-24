@@ -99,6 +99,7 @@ Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name(
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
+Route::get('/products/category/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubCategory');
 
 
 //METODOS DE PAGO

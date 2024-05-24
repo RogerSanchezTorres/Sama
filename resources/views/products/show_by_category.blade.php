@@ -30,50 +30,65 @@
                         <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $relatedCategory->slug]) }}" @if ($category->id === $relatedCategory->id) class="selected" @endif>
                             {{ $relatedCategory->nombre }}
                         </a>
+                        @if ($category->id === $relatedCategory->id)
+                        @if ($relatedCategory->subcategories->count() > 0)
+                        <ul class="subcategorias-list">
+                            @foreach ($relatedCategory->subcategories as $subcategory)
+                            <li>
+                                <a href="{{ route('products.showProductsBySubcategory', ['subcategorySlug' => $subcategory->slug]) }}">
+                                    {{ $subcategory->nombre }}
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                        @endif
+                        @endif
                     </li>
                     @endforeach
                 </ul>
             </div>
+        </div>
 
-            <div class="productos">
-                <div class="productos-list">
-                    @foreach ($products as $product)
-                    <div class="product">
-                        <a href="{{ route('products.showDetail', ['id' => $product->id]) }}">
-                            <div class="image-container">
-                                @if ($product->img)
-                                <img src="{{ asset($product->img) }}" alt="{{ $product->nombre_es }}">
-                                @else
-                                <div class="no-image">
-                                    No hay imagen disponible
-                                </div>
-                                @endif
+
+        <div class="productos">
+            <div class="productos-list">
+                @foreach ($products as $product)
+                <div class="product">
+                    <a href="{{ route('products.showDetail', ['id' => $product->id]) }}">
+                        <div class="image-container">
+                            @if ($product->img)
+                            <img src="{{ asset($product->img) }}" alt="{{ $product->nombre_es }}">
+                            @else
+                            <div class="no-image">
+                                No hay imagen disponible
                             </div>
-                            <div class="product-info">
-                                <div class="product-title">
-                                    <h2>{{ $product->nombre_es }}</h2>
-                                </div>
-                                @if (auth()->check() && auth()->user()->role)
-                                @if (auth()->user()->role->role === 'profesional')
-                                <div class="product-price">
-                                    <p>{{ $product->precio_oferta_es }}€</p>
-                                </div>
-                                @else
-                                <div class="product-price">
-                                    <p>{{ $product->precio_es }}€</p>
-                                </div>
-                                @endif
-                                @endif
+                            @endif
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">
+                                <h2>{{ $product->nombre_es }}</h2>
                             </div>
-                        </a>
-                    </div>
-                    @endforeach
+                            @if (auth()->check() && auth()->user()->role)
+                            @if (auth()->user()->role->role === 'profesional')
+                            <div class="product-price">
+                                <p>{{ $product->precio_oferta_es }}€</p>
+                            </div>
+                            @else
+                            <div class="product-price">
+                                <p>{{ $product->precio_es }}€</p>
+                            </div>
+                            @endif
+                            @endif
+                        </div>
+                    </a>
                 </div>
-                <div class="pagination">
-                    {{ $products->appends(request()->query())->links() }}
-                </div>
+                @endforeach
+            </div>
+            <div class="pagination">
+                {{ $products->appends(request()->query())->links() }}
             </div>
         </div>
+    </div>
     </div>
 
 
