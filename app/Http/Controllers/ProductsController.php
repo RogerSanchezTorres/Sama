@@ -50,6 +50,16 @@ class ProductsController extends Controller
         return view('products.show_by_category', compact('products', 'category', 'relatedCategories'));
     }
 
+    public function showProductsBySubcategory($subcategorySlug)
+    {
+        $subcategory = Subcategory::where('slug', $subcategorySlug)->firstOrFail();
+        $category = $subcategory->category;
+        $relatedCategories = $category->mainCategory->categories;
+        $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
+
+        return view('products.show_by_subcategory', compact('products', 'subcategory', 'relatedCategories'));
+    }
+
 
 
     public function showDetail($id)

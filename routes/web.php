@@ -12,10 +12,7 @@ use App\Http\Controllers\CompraController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImportController;
-use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\RedsysController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\MainCategoryController;
 use App\Http\Controllers\AdminOrderController;
 
 
@@ -83,7 +80,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.view-orders');
     Route::get('/admin/crear-subcategorias', [AdminController::class, 'createSubcategories'])->name('admin.create-subcategories');
     Route::post('/admin/guardar-subcategorias', [AdminController::class, 'storeSubcategories'])->name('admin.store-subcategories');
-    Route::get('/products/subcategories/{subcategorySlug}', 'ProductController@showProductsBySubcategory')->name('products.showProductsBySubcategory');
 });
 
 //PRODUCTOS
@@ -99,7 +95,8 @@ Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name(
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
-Route::get('/products/category/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubCategory');
+Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubcategory');
+
 
 
 //METODOS DE PAGO
