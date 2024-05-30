@@ -20,6 +20,7 @@
     <x-headersama />
     <x-nav />
     <x-header-admin />
+    <h2>Crear Subcategoria</h2>
     <div class="form-category">
         <form action="{{ route('admin.store.category') }}" method="POST">
             @csrf
@@ -38,7 +39,7 @@
                     <option value="{{ $mainCategory->id }}">{{ $mainCategory->nombre }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div><br>
             <div class="crear">
                 <button type="submit">Crear Categoría</button>
             </div>

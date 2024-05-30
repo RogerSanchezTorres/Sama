@@ -18,6 +18,8 @@
     <x-nav />
     <x-header-admin />
 
+    <h2>Crear Categoria</h2>
+
     <div class="form-category">
         <form method="POST" action="{{ route('admin-store-maincategory') }}">
             @csrf

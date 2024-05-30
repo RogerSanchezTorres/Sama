@@ -401,3 +401,9 @@ input[type="text"] {
 .crear button[type="submit"]:hover {
     background-color: #e9af02;
 }
+
+h2{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: -15px;
+}
