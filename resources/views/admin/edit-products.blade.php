@@ -36,21 +36,41 @@
         <label for="proveedor">Proveedor</label>
         <input type="text" id="proveedor" name="proveedor" value="{{ $product->proveedor }}" class="form-control">
 
-        <label for="main_category">Categoria</label>
-        <select id="main_category" name="main_category_id" class="form-control">
+        <label for="main_category">Categoría Principal</label>
+        <select id="main_category_id" name="main_category_id" class="form-control">
             @foreach ($mainCategories as $mainCategory)
             <option value="{{ $mainCategory->id }}" {{ $product->main_category_id == $mainCategory->id ? 'selected' : '' }}>
                 {{ $mainCategory->nombre }}
             </option>
             @endforeach
         </select>
+
+        <label for="category_id">Categoría Secundaria</label>
+        <select id="category_id" name="category_id" class="form-control" required>
+            <option value=""></option>
+            @foreach($categories as $category)
+            <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                {{ $category->nombre }}
+            </option>
+            @endforeach
+        </select>
+
+        <label for="subcategory_id">Subcategoría</label>
+        <select id="subcategory_id" name="subcategory_id" class="form-control" required>
+            <option value=""></option>
+            @foreach($subcategories as $subcategory)
+            <option value="{{ $subcategory->id }}" data-category-id="{{ $subcategory->category_id }}" {{ $product->subcategory_id == $subcategory->id ? 'selected' : '' }}>
+                {{ $subcategory->nombre }}
+            </option>
+            @endforeach
+        </select>
+
         <label for="descripcion">Descripción</label>
         <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
 
         <div class="btnSave">
             <button type="submit" aria-label="Actualizar Producto">Actualizar Producto</button>
         </div>
-        @method('PUT')
 
     </form>
     @if ($errors->any())
@@ -63,9 +83,76 @@
     </div>
     @endif
 
-
-
     <x-footer />
+
+    <script>
+        document.getElementById('main_category_id').addEventListener('change', function() {
+            var mainCategoryId = this.value;
+            var categoryOptions = document.getElementById('category_id').options;
+
+            for (var i = 0; i < categoryOptions.length; i++) {
+                var categoryOption = categoryOptions[i];
+                if (categoryOption.dataset.mainCategoryId == mainCategoryId || mainCategoryId === '') {
+                    categoryOption.style.display = '';
+                } else {
+                    categoryOption.style.display = 'none';
+                }
+            }
+
+            document.getElementById('category_id').value = '';
+            var subcategoryOptions = document.getElementById('subcategory_id').options;
+            for (var i = 0; i < subcategoryOptions.length; i++) {
+                subcategoryOptions[i].style.display = 'none';
+            }
+        });
+
+        document.getElementById('category_id').addEventListener('change', function() {
+            var categoryId = this.value;
+            var subcategoryOptions = document.getElementById('subcategory_id').options;
+
+            for (var i = 0; i < subcategoryOptions.length; i++) {
+                var subcategoryOption = subcategoryOptions[i];
+                if (subcategoryOption.dataset.categoryId == categoryId || categoryId === '') {
+                    subcategoryOption.style.display = '';
+                } else {
+                    subcategoryOption.style.display = 'none';
+                }
+            }
+        });
+
+        // Pre-filtrar categorías y subcategorías al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            var mainCategorySelect = document.getElementById('main_category_id');
+            var categorySelect = document.getElementById('category_id');
+            var subcategorySelect = document.getElementById('subcategory_id');
+
+            var selectedMainCategoryId = mainCategorySelect.value;
+            var selectedCategoryId = categorySelect.value;
+
+            // Filtrar categorías
+            var categoryOptions = categorySelect.options;
+            for (var i = 0; i < categoryOptions.length; i++) {
+                var categoryOption = categoryOptions[i];
+                if (categoryOption.dataset.mainCategoryId == selectedMainCategoryId || selectedMainCategoryId === '') {
+                    categoryOption.style.display = '';
+                } else {
+                    categoryOption.style.display = 'none';
+                }
+            }
+
+            // Filtrar subcategorías
+            var subcategoryOptions = subcategorySelect.options;
+            for (var i = 0; i < subcategoryOptions.length; i++) {
+                var subcategoryOption = subcategoryOptions[i];
+                if (subcategoryOption.dataset.categoryId == selectedCategoryId || selectedCategoryId === '') {
+                    subcategoryOption.style.display = '';
+                } else {
+                    subcategoryOption.style.display = 'none';
+                }
+            }
+        });
+    </script>
+
     <script src="{{ asset('js/desplegable.js') }}"></script>
 </body>
 

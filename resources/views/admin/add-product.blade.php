@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
     <x-header />
     <x-headersama />
     <x-nav />
@@ -21,29 +20,28 @@
     <h2>Agregar Producto</h2>
 
     <div class="container">
-
         <form method="POST" action="{{ route('admin-store-producto') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">
-                <label for="nombre">Nombre del Producto</label>
+                <label for="nombre_es">Nombre del Producto</label>
                 <input type="text" name="nombre_es" id="nombre_es" class="form-control" required>
             </div>
 
             <div class="price">
                 <div class="form-group">
-                    <label for="precio">Precio</label>
-                    <input type="double" name="precio_es" id="precio_es" class="form-control" required>
+                    <label for="precio_es">Precio</label>
+                    <input type="number" step="0.01" name="precio_es" id="precio_es" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="precio_oferta">Precio de Oferta</label>
-                    <input type="double" name="precio_oferta_es" id="precio_oferta_es" class="form-control">
+                    <label for="precio_oferta_es">Precio de Oferta</label>
+                    <input type="number" step="0.01" name="precio_oferta_es" id="precio_oferta_es" class="form-control">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="proveedor">Proveedor</label>
-                <input type="rext" name="proveedor" id="proveedor" class="form-control" required>
+                <input type="text" name="proveedor" id="proveedor" class="form-control">
             </div>
 
             <div class="form-group">
@@ -52,7 +50,7 @@
             </div>
 
             <div class="form-group">
-                <label for="imagen">Imagen del Producto</label>
+                <label for="img">Imagen del Producto</label>
                 <input type="file" name="img" id="img" class="form-control-file" accept="image/*" required>
             </div>
 
@@ -67,11 +65,21 @@
             </div>
 
             <div class="form-group">
-                <label for="category_id">Subcategoria:</label>
-                <select id="category_id" name="category_id" class="form-control">
+                <label for="category_id">Categoría Secundaria</label>
+                <select id="category_id" name="category_id" class="form-control" required>
                     <option value=""></option>
                     @foreach($categories as $category)
                     <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}">{{ $category->nombre }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="subcategory_id">Subcategoría</label>
+                <select id="subcategory_id" name="subcategory_id" class="form-control" required>
+                    <option value=""></option>
+                    @foreach($subcategories as $subcategory)
+                    <option value="{{ $subcategory->id }}" data-category-id="{{ $subcategory->category_id }}">{{ $subcategory->nombre }}</option>
                     @endforeach
                 </select>
             </div>
@@ -81,12 +89,12 @@
     </div>
 
     <x-footer />
+
     <script>
         document.getElementById('main_category_id').addEventListener('change', function() {
             var mainCategoryId = this.value;
             var categoryOptions = document.getElementById('category_id').options;
 
-            // Mostrar solo las categorías relacionadas con la categoría principal seleccionada
             for (var i = 0; i < categoryOptions.length; i++) {
                 var categoryOption = categoryOptions[i];
                 if (categoryOption.dataset.mainCategoryId == mainCategoryId || mainCategoryId === '') {
@@ -95,10 +103,30 @@
                     categoryOption.style.display = 'none';
                 }
             }
+
+            document.getElementById('category_id').value = '';
+            var subcategoryOptions = document.getElementById('subcategory_id').options;
+            for (var i = 0; i < subcategoryOptions.length; i++) {
+                subcategoryOptions[i].style.display = 'none';
+            }
+        });
+
+        document.getElementById('category_id').addEventListener('change', function() {
+            var categoryId = this.value;
+            var subcategoryOptions = document.getElementById('subcategory_id').options;
+
+            for (var i = 0; i < subcategoryOptions.length; i++) {
+                var subcategoryOption = subcategoryOptions[i];
+                if (subcategoryOption.dataset.categoryId == categoryId || categoryId === '') {
+                    subcategoryOption.style.display = '';
+                } else {
+                    subcategoryOption.style.display = 'none';
+                }
+            }
         });
     </script>
-    <script src="{{ asset('js/desplegable.js') }}"></script>
 
+    <script src="{{ asset('js/desplegable.js') }}"></script>
 </body>
 
 </html>

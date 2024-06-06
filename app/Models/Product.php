@@ -12,6 +12,7 @@ class Product extends Model
         'id',
         'category_id',
         'main_category_id',
+        'subcategory_id',
         'id_interno',
         'proveedor',
         'referencia',

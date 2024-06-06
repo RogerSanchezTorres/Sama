@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\Paginator;
 use App\Models\Category;
 use App\Models\Subcategory;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 
 class AdminController extends Controller
@@ -114,12 +116,14 @@ class AdminController extends Controller
     {
         $mainCategories = MainCategory::all();
         $categories = Category::all();
-        return view('admin.add-product', compact('mainCategories', 'categories'));
+        $subcategories = Subcategory::all();
+        return view('admin.add-product', compact('mainCategories', 'categories', 'subcategories'));
     }
 
 
     public function storeProduct(Request $request)
     {
+
         $request->validate([
             'nombre_es' => 'required|max:255',
             'precio_es' => 'required|numeric',
@@ -127,24 +131,37 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'marca' => 'required|max:255',
             'img' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'main_category' => 'required|exists:categories,id',
+            'main_category_id' => 'required|exists:main_categories,id',
             'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
         ]);
+
 
         $imagenNombre = $request->file('img')->store('img', 'public');
 
-        $producto = new Product();
-        $producto->nombre_es = $request->input('nombre_es');
-        $producto->precio_es = $request->input('precio_es');
-        $producto->precio_oferta_es = $request->input('precio_oferta_es');
-        $producto->proveedor = $request->input('proveedor');
-        $producto->marca = $request->input('marca');
-        $producto->img = $imagenNombre;
-        $producto->main_category_id = $request->input('main_category');
-        $producto->category_id = $request->input('category_id');
-        $producto->save();
+        DB::beginTransaction();
 
-        return redirect()->route('admin-agregar-producto')->with('success', 'Producto agregado correctamente');
+        try {
+            $producto = new Product();
+            $producto->nombre_es = $request->input('nombre_es');
+            $producto->precio_es = $request->input('precio_es');
+            $producto->precio_oferta_es = $request->input('precio_oferta_es');
+            $producto->proveedor = $request->input('proveedor');
+            $producto->marca = $request->input('marca');
+            $producto->img = $imagenNombre;
+            $producto->main_category_id = $request->input('main_category_id');
+            $producto->category_id = $request->input('category_id');
+            $producto->subcategory_id = $request->input('subcategory_id');
+
+            $producto->save();
+
+            DB::commit();
+
+            return redirect()->route('admin-agregar-producto')->with('success', 'Producto agregado correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Error al agregar el producto');
+        }
     }
 
     public function viewProducts()
@@ -177,7 +194,9 @@ class AdminController extends Controller
     {
         $product = Product::findOrFail($id);
         $mainCategories = MainCategory::all();
-        return view('admin.edit-products', compact('product', 'mainCategories'));
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories'));
     }
 
     public function updateProducts(Request $request, $id)
@@ -190,6 +209,8 @@ class AdminController extends Controller
             'marca' => 'nullable|string|max:255',
             'proveedor' => 'nullable|string|max:255',
             'main_category_id' => 'nullable|exists:main_categories,id',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
             'descripcion' => 'nullable|string|max:350',
         ]);
 
@@ -315,5 +336,4 @@ class AdminController extends Controller
         // Redireccionar con un mensaje de éxito
         return redirect()->route('admin.create-subcategories')->with('success', 'Subcategoría creada exitosamente.');
     }
-
 }
