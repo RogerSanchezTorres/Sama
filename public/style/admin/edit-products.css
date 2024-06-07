@@ -246,12 +246,28 @@ input{
     margin-top: 35px;
 }
 
-#main_category{
+#main_category_id{
     border-radius: 5px;
     border: 1px solid black;
     padding: 3px;
 }
 
+
+#category_id{
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 3px;
+}
+
+#subcategory_id{
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 3px;
+}
+
+.description{
+    margin-left: 1px;
+}
 
 #descripcion{
     border-radius: 5px;

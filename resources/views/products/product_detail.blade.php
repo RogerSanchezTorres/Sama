@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
     <x-header />
     <x-headersama />
     <x-nav />
@@ -41,6 +40,12 @@
             </div>
             @endif
             @endif
+
+            @if ($product->stock == 0)
+            <div class="stock">
+                <span class="text-red-500">Agotado</span>
+            </div>
+            @else
             @if (auth()->check())
             <button class="comprar-btn" data-product-id="{{ $product->id }}"><img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra" id="carrito-compra">
                 <p>Añadir al carrito</p>
@@ -51,11 +56,8 @@
                 <a href="{{ route('login') }}">Iniciar sesión</a>
             </div>
             @endif
-            @if ($product->stock == 0)
-            <div class="stock">
-                <span class="text-red-500">Agotado</span>
-            </div>
             @endif
+
             <div class="descripcion">
                 <h3>Descripción</h3>
                 <p>{{ $product->descripcion }}</p>
@@ -93,7 +95,6 @@
                     <button type="submit">Actualizar Comentario</button>
                 </div>
             </form>
-
             @endif
         </div>
         @endforeach

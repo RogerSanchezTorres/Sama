@@ -43,7 +43,7 @@
                 {{ $mainCategory->nombre }}
             </option>
             @endforeach
-        </select>
+        </select><br><br>
 
         <label for="category_id">Categoría Secundaria</label>
         <select id="category_id" name="category_id" class="form-control" required>
@@ -65,8 +65,11 @@
             @endforeach
         </select>
 
-        <label for="descripcion">Descripción</label>
-        <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
+        <div class="description">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
+        </div>
+
 
         <div class="btnSave">
             <button type="submit" aria-label="Actualizar Producto">Actualizar Producto</button>
