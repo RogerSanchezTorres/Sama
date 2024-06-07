@@ -28,7 +28,11 @@
             @endif
         </div>
         <div class="product-info">
-            <h1 class="product-title">{{ $product->nombre_es }}</h1><br>
+            <h1 class="product-title">{{ $product->nombre_es }}</h1>
+            <div class="marca-ref">
+                <p class="marca"><b>Marca:</b> {{$product->marca}}</p><br>
+                <p class="ref"><b>Referencia:</b> {{$product->referencia}}</p>
+            </div><br>
             @if (auth()->check() && auth()->user()->role)
             @if (auth()->user()->role->role === 'profesional')
             <div class="product-price">
