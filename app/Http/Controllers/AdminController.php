@@ -120,10 +120,8 @@ class AdminController extends Controller
         return view('admin.add-product', compact('mainCategories', 'categories', 'subcategories'));
     }
 
-
     public function storeProduct(Request $request)
     {
-
         $request->validate([
             'nombre_es' => 'required|max:255',
             'precio_es' => 'required|numeric',
@@ -131,13 +129,14 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'marca' => 'required|max:255',
             'img' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'pdf' => 'nullable|mimes:pdf|max:10000',
             'main_category_id' => 'required|exists:main_categories,id',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
         ]);
 
-
         $imagenNombre = $request->file('img')->store('img', 'public');
+        $pdfNombre = $request->file('pdf') ? $request->file('pdf')->store('pdf', 'public') : null;
 
         DB::beginTransaction();
 
@@ -149,6 +148,7 @@ class AdminController extends Controller
             $producto->proveedor = $request->input('proveedor');
             $producto->marca = $request->input('marca');
             $producto->img = $imagenNombre;
+            $producto->pdf = $pdfNombre; // Guarda la ruta del PDF
             $producto->main_category_id = $request->input('main_category_id');
             $producto->category_id = $request->input('category_id');
             $producto->subcategory_id = $request->input('subcategory_id');
@@ -163,6 +163,7 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Error al agregar el producto');
         }
     }
+
 
     public function viewProducts()
     {
@@ -212,6 +213,8 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'required|exists:subcategories,id',
             'descripcion' => 'nullable|string|max:350',
+            'pdf' => 'nullable|mimes:pdf|max:10000',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         $product = Product::find($id);

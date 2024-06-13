@@ -33,8 +33,11 @@
         <label for="marca">Marca</label>
         <input type="text" id="marca" name="marca" value="{{ $product->marca }}" class="form-control">
 
+        <label for="referencia">Referencia</label>
+        <input type="text" id="referencia" name="referencia" value="{{ $product->referencia }}" class="form-control">
+
         <label for="proveedor">Proveedor</label>
-        <input type="text" id="proveedor" name="proveedor" value="{{ $product->proveedor }}" class="form-control">
+        <input type="text" id="proveedor" name="proveedor" value="{{ $product->proveedor }}" class="form-control"><br><br>
 
         <label for="main_category">Categoría Principal</label>
         <select id="main_category_id" name="main_category_id" class="form-control">
@@ -43,7 +46,7 @@
                 {{ $mainCategory->nombre }}
             </option>
             @endforeach
-        </select><br><br>
+        </select>
 
         <label for="category_id">Categoría Secundaria</label>
         <select id="category_id" name="category_id" class="form-control" required>
@@ -53,7 +56,8 @@
                 {{ $category->nombre }}
             </option>
             @endforeach
-        </select>
+        </select><br><br>
+
 
         <label for="subcategory_id">Subcategoría</label>
         <select id="subcategory_id" name="subcategory_id" class="form-control" required>
@@ -65,11 +69,18 @@
             @endforeach
         </select>
 
+        <div class="form-group">
+            <label for="img">Imagen del Producto</label>
+            <input type="file" name="img" id="img" class="form-control-file" accept="image/*" required>
+            
+            <label for="pdf">Archivo PDF</label>
+            <input type="file" id="pdf" name="pdf" class="form-control">
+        </div>
+
         <div class="description">
             <label for="descripcion">Descripción</label>
             <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
         </div>
-
 
         <div class="btnSave">
             <button type="submit" aria-label="Actualizar Producto">Actualizar Producto</button>

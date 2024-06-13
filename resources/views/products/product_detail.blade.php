@@ -62,6 +62,12 @@
             @endif
             @endif
 
+            @if ($product->pdf)
+            <div class="product-pdf">
+                <a href="{{ asset($product->pdf) }}" target="_blank">Ficha Técnica</a>
+            </div>
+            @endif
+
             <div class="descripcion">
                 <h3>Descripción</h3>
                 <p>{{ $product->descripcion }}</p>

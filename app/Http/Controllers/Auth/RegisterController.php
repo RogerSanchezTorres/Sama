@@ -36,10 +36,11 @@ class RegisterController extends Controller
         ]);
 
         $defaultRole = Role::where('role', 'user')->first();
-        Mail::to('r.sanchez2dawnuria2022@gmail.com')->send(new UserRegistered());
-
         $user->role()->associate($defaultRole);
         $user->save();
+
+        // Envía el correo con los datos del usuario
+        Mail::to('r.sanchez2dawnuria2022@gmail.com')->send(new UserRegistered($user));
 
         auth()->login($user);
 

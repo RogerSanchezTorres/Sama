@@ -53,6 +53,10 @@
                 <label for="img">Imagen del Producto</label>
                 <input type="file" name="img" id="img" class="form-control-file" accept="image/*" required>
             </div>
+            <div class="form-group">
+                <label for="pdf">Archivo PDF</label>
+                <input type="file" id="pdf" name="pdf" class="form-control">
+            </div>
 
             <div class="form-group">
                 <label for="main_category_id">Categoría Principal</label>
@@ -76,7 +80,7 @@
 
             <div class="form-group">
                 <label for="subcategory_id">Subcategoría</label>
-                <select id="subcategory_id" name="subcategory_id" class="form-control" required>
+                <select id="subcategory_id" name="subcategory_id" class="form-control">
                     <option value=""></option>
                     @foreach($subcategories as $subcategory)
                     <option value="{{ $subcategory->id }}" data-category-id="{{ $subcategory->category_id }}">{{ $subcategory->nombre }}</option>
