@@ -14,6 +14,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\RedsysController;
 use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\OrderController;
 
 
 /*
@@ -101,13 +102,14 @@ Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class
 
 //METODOS DE PAGO
 Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys');
-Route::get('/redsys/ok', [RedsysController::class, 'ok']);
-Route::get('/redsys/ko', [RedsysController::class, 'ko']);
-Route::get('/redsys/notification', [RedsysController::class, 'notification']);
-Route::get('/redsys/response', [RedsysController::class, 'handleResponse'])->name('redsys.response');
+Route::post('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.response');
+Route::match(['get', 'post'], '/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
+Route::post('/redsys/notification', [RedsysController::class, 'handleResponse'])->name('redsys.notification');
 
-Route::get('/order/confirmation', [RedsysController::class, 'confirmation'])->name('order.confirmation');
-Route::get('/payment/failure', [RedsysController::class, 'failure'])->name('payment.failure');
+Route::get('/order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
+
+Route::get('/payment/failure', [OrderController::class, 'failure'])->name('payment.failure');
+
 
 
 

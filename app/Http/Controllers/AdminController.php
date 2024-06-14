@@ -132,7 +132,7 @@ class AdminController extends Controller
             'pdf' => 'nullable|mimes:pdf|max:10000',
             'main_category_id' => 'required|exists:main_categories,id',
             'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'required|exists:subcategories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
         ]);
 
         $imagenNombre = $request->file('img')->store('img', 'public');

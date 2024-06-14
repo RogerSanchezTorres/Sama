@@ -10,10 +10,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name'); // Nombre del usuario
-            $table->decimal('total'); // Total del pedido
-            $table->string('status'); // Estado del pedido
-            // Otros campos del pedido, si los hay
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('user_name');
+            $table->decimal('total', 8, 2);
+            $table->string('status');
             $table->timestamps();
         });
     }

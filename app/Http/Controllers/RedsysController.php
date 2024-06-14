@@ -8,8 +8,10 @@ use Ssheduardo\Redsys\Facades\Redsys;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class RedsysController extends Controller
 {
@@ -70,59 +72,81 @@ class RedsysController extends Controller
 
     public function ok(Request $request)
     {
-        return redirect()->route('redsys.response');
+        return redirect()->route('order.confirmation');
     }
 
     public function ko(Request $request)
     {
-        return response()->json(['success' => false, 'message' => $request->all()]);
+        return redirect()->route('order.failure');
     }
+
 
     public function handleResponse(Request $request)
     {
-        // Obtener los datos de la respuesta de Redsys
-        $dsSignature = $request->input('Ds_Signature');
-        $merchantParams = $request->input('Ds_MerchantParameters');
-        $responseCode = $request->input('Ds_Response');
+        // Verificar que la respuesta sea válida
+        $validated = $request->validate([
+            'Ds_Signature' => 'required',
+            'Ds_MerchantParameters' => 'required',
+            'Ds_Response' => 'required',
+            // Asegúrate de tener aquí todos los campos necesarios para la validación
+        ]);
 
-        // Verificar la validez de la firma
-        if ($this->validateRedsysSignature($dsSignature, $merchantParams)) {
+        // Verificar la firma de Redsys
+        if ($this->validateRedsysSignature($request->input('Ds_Signature'), $request->input('Ds_MerchantParameters'))) {
             // La firma es válida, procesar la respuesta
-            if ($responseCode === '0000') {
+            if ($request->input('Ds_Response') === '0000') {
                 // El pago fue exitoso, guardar la información del pedido en la base de datos
-                $order = new \App\Models\Order(); // Importante el prefijo \App\Models\ para evitar conflictos
-                $order->user_name = $request->input('nombreTitular');
-                $order->total = $request->input('importe');
-                $order->status = 'paid';
-                // Otros campos del pedido, si los hay
+                $order = new Order();
+                $order->user_id = Auth::id();
+                $order->user_name = $request->input('nombreTitular'); // Asegúrate de tener este campo en el formulario de pago
+                $order->total = $request->input('importe'); // Asegúrate de tener este campo en el formulario de pago
+                $order->status = 'paid'; // Estado pagado
 
-                // Guardar el pedido en la base de datos
-                $order->save();
+                if ($order->save()) {
+                    // Guardar los productos asociados al pedido
+                    $cart = Cart::where('user_id', Auth::id())->with('product')->get();
 
-                // Redirigir al usuario a la página de confirmación
-                return redirect()->route('order.confirmation');
+                    foreach ($cart as $item) {
+                        $orderProduct = new OrderProduct();
+                        $orderProduct->order_id = $order->id;
+                        $orderProduct->product_id = $item->product_id;
+                        $orderProduct->quantity = $item->quantity;
+                        // Aquí necesitas establecer el precio correcto del producto
+                        $orderProduct->price = $item->product->precio_es; // Ajusta según tu lógica de precio
+                        $orderProduct->save();
+                    }
+
+                    // Limpiar el carrito después de realizar el pedido
+                    Cart::where('user_id', Auth::id())->delete();
+
+                    // Redirigir al usuario a la página de confirmación o donde sea necesario
+                    return redirect()->route('order.confirmation');
+                } else {
+                    // Manejar el caso donde no se pudo guardar el pedido
+                    Log::error('No se pudo guardar el pedido en la base de datos.');
+                    abort(500, 'Error interno del servidor.');
+                }
             } else {
                 // El pago no fue exitoso, redirigir a la página de fallo de pago
                 return redirect()->route('payment.failure');
             }
         } else {
             // Firma no válida, no confiar en esta solicitud
-            abort(403, 'Forbidden');
+            abort(403, 'Firma de Redsys no válida.');
         }
     }
 
+
     private function validateRedsysSignature($dsSignature, $merchantParams)
     {
-        // Obtener la clave secreta de Redsys del archivo .env
         $secretKey = env('REDSYS_KEY');
-
-        // Decodificar los parámetros del comerciante desde Base64
         $decodedMerchantParams = base64_decode($merchantParams);
-
-        // Calcular la firma esperada usando SHA-256 HMAC y la clave secreta
         $expectedSignature = hash_hmac('sha256', $decodedMerchantParams, $secretKey, true);
+        $encodedExpectedSignature = base64_encode($expectedSignature);
 
-        // Comparar la firma recibida con la firma esperada y devolver true si son iguales
-        return $dsSignature === base64_encode($expectedSignature);
+        Log::info('Redsys Signature: ', ['dsSignature' => $dsSignature]);
+        Log::info('Expected Signature: ', ['encodedExpectedSignature' => $encodedExpectedSignature]);
+
+        return $dsSignature === $encodedExpectedSignature;
     }
 }
