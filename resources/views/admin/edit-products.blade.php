@@ -18,7 +18,7 @@
     <x-nav />
     <x-header-admin />
 
-    <form method="POST" action="{{ route('admin-update-products', $product->id) }}" id="edit-products">
+    <form method="POST" action="{{ route('admin-update-products', $product->id) }}" id="edit-products" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <label for="nombre">Nombre</label>
@@ -40,7 +40,7 @@
         <input type="text" id="proveedor" name="proveedor" value="{{ $product->proveedor }}" class="form-control"><br><br>
 
         <label for="main_category">Categoría Principal</label>
-        <select id="main_category_id" name="main_category_id" class="form-control">
+        <select id="main_category_id" name="main_category_id" class="form-control" required>
             @foreach ($mainCategories as $mainCategory)
             <option value="{{ $mainCategory->id }}" {{ $product->main_category_id == $mainCategory->id ? 'selected' : '' }}>
                 {{ $mainCategory->nombre }}
@@ -49,7 +49,7 @@
         </select>
 
         <label for="category_id">Categoría Secundaria</label>
-        <select id="category_id" name="category_id" class="form-control" required>
+        <select id="category_id" name="category_id" class="form-control">
             <option value=""></option>
             @foreach($categories as $category)
             <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
@@ -60,7 +60,7 @@
 
 
         <label for="subcategory_id">Subcategoría</label>
-        <select id="subcategory_id" name="subcategory_id" class="form-control" required>
+        <select id="subcategory_id" name="subcategory_id" class="form-control">
             <option value=""></option>
             @foreach($subcategories as $subcategory)
             <option value="{{ $subcategory->id }}" data-category-id="{{ $subcategory->category_id }}" {{ $product->subcategory_id == $subcategory->id ? 'selected' : '' }}>
@@ -71,7 +71,7 @@
 
         <div class="form-group">
             <label for="img">Imagen del Producto</label>
-            <input type="file" name="img" id="img" class="form-control-file" accept="image/*" required>
+            <input type="file" name="img" id="img" class="form-control-file" accept="image/*">
             
             <label for="pdf">Archivo PDF</label>
             <input type="file" id="pdf" name="pdf" class="form-control">

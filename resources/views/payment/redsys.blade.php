@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="{{ asset('img/logos sama/logosama.jpg') }}">
     <title>Pago | {{ config('app.name', 'Laravel') }} </title>
     <script src="https://cdn.tailwindcss.com/3.0.12"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -28,8 +28,10 @@
                 <p id="total" class="mt-1 text-lg font-semibold text-gray-900">{{ $total }}€</p>
             </div>
             <div class="flex justify-center">
-                <button id="pay" class="inline-block px-6 py-3 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 transition-all">Pagar</button>
                 {!! $form !!}
+            </div>
+            <div class="flex justify-center mt-4">
+                <button id="pay" class="inline-block px-6 py-3 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 transition-all">Pagar</button>
             </div>
         </div>
     </div>
@@ -37,15 +39,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const payButton = document.getElementById('pay');
-            const formButton = document.getElementById('btn_id');
+            const formButton = document.querySelector('form');
 
             payButton.addEventListener('click', function(event) {
                 event.preventDefault();
-                formButton.click();
+                formButton.submit();
             });
         });
     </script>
-    <script src="{{ asset('js/desplegable.js') }}"></script>
 </body>
 
 </html>

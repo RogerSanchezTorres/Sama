@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 class AdminController extends Controller
@@ -202,19 +203,18 @@ class AdminController extends Controller
 
     public function updateProducts(Request $request, $id)
     {
-
         $validated = $request->validate([
-            'nombre_es' => 'required|string|max:255',
+            'nombre_es' => 'required|max:255',
             'precio_es' => 'required|numeric',
             'precio_oferta_es' => 'nullable|numeric',
-            'marca' => 'nullable|string|max:255',
-            'proveedor' => 'nullable|string|max:255',
-            'main_category_id' => 'nullable|exists:main_categories,id',
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'required|exists:subcategories,id',
-            'descripcion' => 'nullable|string|max:350',
+            'proveedor' => 'max:255',
+            'marca' => 'nullable|max:255',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'pdf' => 'nullable|mimes:pdf|max:10000',
-            'img' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'main_category_id' => 'required|exists:main_categories,id',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
+            'descripcion' => 'nullable|string|max:350',
         ]);
 
         $product = Product::find($id);
@@ -223,7 +223,33 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'El producto no se encontró');
         }
 
-        $product->update($validated);
+        // Actualizar los campos del producto
+        $product->nombre_es = $validated['nombre_es'];
+        $product->precio_es = $validated['precio_es'];
+        $product->precio_oferta_es = $validated['precio_oferta_es'];
+        $product->proveedor = $validated['proveedor'];
+        $product->marca = $validated['marca'];
+        $product->main_category_id = $validated['main_category_id'];
+        $product->category_id = $validated['category_id'];
+        $product->subcategory_id = $validated['subcategory_id'];
+        $product->descripcion = $validated['descripcion'];
+
+        // Manejo de imagen
+        if ($request->hasFile('img')) {
+            $imgFile = $request->file('img');
+            $imgPath = $imgFile->store('public/img');
+            $product->img = Storage::url($imgPath); // Guarda la URL de la imagen
+        }
+
+        // Manejo de PDF
+        if ($request->hasFile('pdf')) {
+            $pdfFile = $request->file('pdf');
+            $pdfPath = $pdfFile->store('public/pdf');
+            $product->pdf = Storage::url($pdfPath); // Guarda la URL del PDF
+        }
+
+        // Guardar los cambios en la base de datos
+        $product->save();
 
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }

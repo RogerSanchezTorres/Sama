@@ -45,11 +45,11 @@ class RedsysController extends Controller
 
             Redsys::setAmount($total);
             Redsys::setOrder(time());
-            Redsys::setMerchantcode($code); //Reemplazar por el código que proporciona el banco
+            Redsys::setMerchantcode($code);
             Redsys::setCurrency('978');
             Redsys::setTransactiontype('0');
             Redsys::setTerminal('1');
-            Redsys::setMethod('T'); //Solo pago con tarjeta, no mostramos iupay
+            Redsys::setMethod('T');
             Redsys::setNotification(config('redsys.url_notification'));
             Redsys::setUrlOk(config('redsys.url_ok'));
             Redsys::setUrlKo(config('redsys.url_ko'));
@@ -57,8 +57,7 @@ class RedsysController extends Controller
             Redsys::setTradeName('SubministresSama S.L');
             Redsys::setTitular($user->name);
             Redsys::setProductDescription($description);
-            Redsys::setEnviroment('test'); //Entorno test
-            Redsys::setAttributesSubmit('btn_submit', 'btn_id', '', 'display:none');
+            Redsys::setEnviroment('test');
 
             $signature = Redsys::generateMerchantSignature($key);
             Redsys::setMerchantSignature($signature);
@@ -70,71 +69,65 @@ class RedsysController extends Controller
         return view('payment.redsys', compact('form', 'total', 'user', 'description'));
     }
 
+
+
     public function ok(Request $request)
     {
-        return redirect()->route('order.confirmation');
+        return redirect()->route('redsys.response');
     }
 
     public function ko(Request $request)
     {
-        return redirect()->route('order.failure');
+        return response()->json(['success' => false, 'message' => $request->all()]);
     }
-
 
     public function handleResponse(Request $request)
     {
-        // Verificar que la respuesta sea válida
-        $validated = $request->validate([
-            'Ds_Signature' => 'required',
-            'Ds_MerchantParameters' => 'required',
-            'Ds_Response' => 'required',
-            // Asegúrate de tener aquí todos los campos necesarios para la validación
-        ]);
+        // Obtener los datos de la respuesta de Redsys
+        $dsSignature = $request->input('Ds_Signature');
+        $merchantParams = $request->input('Ds_MerchantParameters');
+        $responseCode = $request->input('Ds_Response');
 
-        // Verificar la firma de Redsys
-        if ($this->validateRedsysSignature($request->input('Ds_Signature'), $request->input('Ds_MerchantParameters'))) {
+        // Verificar la validez de la firma
+        if ($this->validateRedsysSignature($dsSignature, $merchantParams)) {
             // La firma es válida, procesar la respuesta
-            if ($request->input('Ds_Response') === '0000') {
+            if ($responseCode === '0000') {
                 // El pago fue exitoso, guardar la información del pedido en la base de datos
                 $order = new Order();
                 $order->user_id = Auth::id();
-                $order->user_name = $request->input('nombreTitular'); // Asegúrate de tener este campo en el formulario de pago
-                $order->total = $request->input('importe'); // Asegúrate de tener este campo en el formulario de pago
-                $order->status = 'paid'; // Estado pagado
+                $order->user_name = Auth::user()->name;
+                $order->total = $request->input('Ds_Amount') / 100; // Redsys devuelve el importe en céntimos
+                $order->status = 'paid';
 
-                if ($order->save()) {
-                    // Guardar los productos asociados al pedido
-                    $cart = Cart::where('user_id', Auth::id())->with('product')->get();
+                // Guardar el pedido en la base de datos
+                $order->save();
 
-                    foreach ($cart as $item) {
-                        $orderProduct = new OrderProduct();
-                        $orderProduct->order_id = $order->id;
-                        $orderProduct->product_id = $item->product_id;
-                        $orderProduct->quantity = $item->quantity;
-                        // Aquí necesitas establecer el precio correcto del producto
-                        $orderProduct->price = $item->product->precio_es; // Ajusta según tu lógica de precio
-                        $orderProduct->save();
-                    }
-
-                    // Limpiar el carrito después de realizar el pedido
-                    Cart::where('user_id', Auth::id())->delete();
-
-                    // Redirigir al usuario a la página de confirmación o donde sea necesario
-                    return redirect()->route('order.confirmation');
-                } else {
-                    // Manejar el caso donde no se pudo guardar el pedido
-                    Log::error('No se pudo guardar el pedido en la base de datos.');
-                    abort(500, 'Error interno del servidor.');
+                // Guardar los productos del pedido
+                $cart = Cart::where('user_id', Auth::id())->with('product')->get();
+                foreach ($cart as $item) {
+                    $orderProduct = new OrderProduct();
+                    $orderProduct->order_id = $order->id;
+                    $orderProduct->product_id = $item->product_id;
+                    $orderProduct->quantity = $item->quantity;
+                    $orderProduct->price = $item->product->precio_es; // O el precio de oferta, según sea el caso
+                    $orderProduct->save();
                 }
+
+                // Limpiar el carrito
+                Cart::where('user_id', Auth::id())->delete();
+
+                // Redirigir al usuario a la página de confirmación
+                return redirect()->route('order.confirmation');
             } else {
                 // El pago no fue exitoso, redirigir a la página de fallo de pago
                 return redirect()->route('payment.failure');
             }
         } else {
             // Firma no válida, no confiar en esta solicitud
-            abort(403, 'Firma de Redsys no válida.');
+            abort(403, 'Forbidden');
         }
     }
+
 
 
     private function validateRedsysSignature($dsSignature, $merchantParams)

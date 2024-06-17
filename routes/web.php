@@ -102,9 +102,10 @@ Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class
 
 //METODOS DE PAGO
 Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys');
-Route::post('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.response');
-Route::match(['get', 'post'], '/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
+Route::post('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+Route::post('/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
 Route::post('/redsys/notification', [RedsysController::class, 'handleResponse'])->name('redsys.notification');
+
 
 Route::get('/order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
