@@ -25,12 +25,15 @@
             <a href="{{ route('admin-create-maincategory') }}" aria-label="Add Category">Añadir Categoría</a>
         </div>
         <div class="add-category">
-            <a href="{{ route('admin.create_category') }}" aria-label="Add Category">Añadir Subcategoria</a>
+            <a href="{{ route('admin.create_category') }}" aria-label="Add Category">Añadir Subcategoría</a>
         </div>
         <div class="add-category">
-            <a href="{{ route('admin.create-subcategories') }}" aria-label="Add Category">Añadir SubSubcategoria</a>
+            <a href="{{ route('admin.create-subcategories') }}" aria-label="Add Category">Añadir SubSubcategoría</a>
         </div>
-        
+        <div class="delete-category">
+            <a href="{{ route('admin.categories.index') }}" aria-label="Add Category">Borrar Categoría</a>
+        </div>
+
     </div>
     <div class="logout">
         <form action="{{ route('logout') }}" method="POST">

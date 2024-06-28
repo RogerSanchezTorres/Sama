@@ -17,7 +17,7 @@
             <p class="text-2xl font-semibold text-center mb-4">Detalles del pago</p>
             <div class="mb-6">
                 <label for="customer" class="block text-sm font-medium text-gray-700">Cliente:</label>
-                <p id="customer" class="mt-1 text-sm text-gray-900">{{ $user->name }}</p>
+                <p id="customer" class="mt-1 text-sm text-gray-900">{{ $user->name }} {{$user->surname}}</p>
             </div>
             <div class="mb-6">
                 <label for="description" class="block text-sm font-medium text-gray-700">Descripción:</label>
@@ -38,12 +38,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const payButton = document.getElementById('pay');
-            const formButton = document.querySelector('form');
+            // Oculta el botón de envío predeterminado del formulario de Redsys
+            const redsysForm = document.querySelector('form');
+            const redsysSubmitButton = redsysForm.querySelector('input[type="submit"]');
+            if (redsysSubmitButton) {
+                redsysSubmitButton.style.display = 'none'; // Oculta el botón de envío
+            }
 
-            payButton.addEventListener('click', function(event) {
+            // Añade un evento al botón personalizado para enviar el formulario de Redsys
+            const customPayButton = document.getElementById('pay');
+            customPayButton.addEventListener('click', function(event) {
                 event.preventDefault();
-                formButton.submit();
+                if (redsysSubmitButton) {
+                    redsysSubmitButton.click(); // Simula el clic en el botón de envío oculto
+                }
             });
         });
     </script>

@@ -14,7 +14,9 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\RedsysController;
 use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\MainCategoryController;
 
 
 /*
@@ -60,6 +62,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/update-products/{id}', [AdminController::class, 'updateProducts'])->name('admin-update-products');
     Route::delete('/admin/delete-products/{product}', [AdminController::class, 'deleteProducts'])->name('admin-delete-products');
     Route::get('/admin/search-products', [AdminController::class, 'searchProducts'])->name('admin-search-products');
+    Route::get('/admin/agregar-producto', [AdminController::class, 'createProduct'])->name('admin-agregar-producto');
+    Route::post('/admin/store-producto', [AdminController::class, 'storeProduct'])->name('admin-store-producto');
+
     Route::get('/admin/view-users', [AdminController::class, 'viewUsers'])->name('admin-view-users');
     Route::get('/admin/edit-user/{user}', [AdminController::class, 'editUserForm'])->name('admin-edit-user');
     Route::put('/admin/update-user/{user}', [AdminController::class, 'updateUser'])->name('admin-update-user');
@@ -67,20 +72,29 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/search-users', [AdminController::class, 'searchUsers'])->name('admin-search-users');
     Route::get('/admin/create-user', [AdminController::class, 'createUserForm'])->name('admin-create-user');
     Route::post('/admin/store-user', [AdminController::class, 'storeUser'])->name('admin-store-user');
-    Route::get('/admin/agregar-producto', [AdminController::class, 'createProduct'])->name('admin-agregar-producto');
-    Route::post('/admin/store-producto', [AdminController::class, 'storeProduct'])->name('admin-store-producto');
-    Route::get('/import-form', [ImportController::class, 'showImportForm'])->name('showImportForm');
-    Route::post('/import-list-excel', [ImportController::class, 'importExcel'])->name('products.import.excel');
     Route::get('/admin/users/pending', [AdminController::class, 'showUserManagement'])->name('admin.pending-users');
     Route::patch('/admin/users/{user}/approve', [AdminController::class, 'approveUser'])->name('admin.approveUser');
+
+    Route::get('/import-form', [ImportController::class, 'showImportForm'])->name('showImportForm');
+    Route::post('/import-list-excel', [ImportController::class, 'importExcel'])->name('products.import.excel');
+
+
     Route::get('/admin/agregar-categoria', [AdminController::class, 'createCategory'])->name('admin.create_category');
     Route::post('/admin/categories/store', [AdminController::class, 'storeCategory'])->name('admin.store.category');
     Route::get('/admin/get-categories', [AdminController::class, 'Categories'])->name('admin.get.categories');
     Route::get('/admin/crear-maincategoria', [AdminController::class, 'createMainCategory'])->name('admin-create-maincategory');
     Route::post('/admin/guardar-maincategoria', [AdminController::class, 'storeMainCategory'])->name('admin-store-maincategory');
+
     Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.view-orders');
+
     Route::get('/admin/crear-subcategorias', [AdminController::class, 'createSubcategories'])->name('admin.create-subcategories');
     Route::post('/admin/guardar-subcategorias', [AdminController::class, 'storeSubcategories'])->name('admin.store-subcategories');
+
+    Route::get('/admin/categories', [MainCategoryController::class, 'index'])->name('admin.categories.index');
+
+    Route::get('/admin/maincategory/{id}/delete', [MainCategoryController::class, 'destroy'])->name('admin.maincategory.delete');
+    Route::get('/admin/category/{id}/delete', [CategoryController::class, 'destroy'])->name('admin.category.delete');
+    Route::get('/admin/subcategory/{id}/delete', [SubCategoryController::class, 'destroy'])->name('admin.subcategory.delete');
 });
 
 //PRODUCTOS
@@ -101,15 +115,33 @@ Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class
 
 
 //METODOS DE PAGO
-Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys');
-Route::post('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+/*Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys');
+Route::middleware(['convert.get.to.post'])->group(function () {
+    Route::match(['get', 'post'], 'redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+});
 Route::post('/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
 Route::post('/redsys/notification', [RedsysController::class, 'handleResponse'])->name('redsys.notification');
+Route::get('/redsys/response', [RedsysController::class, 'responseMethod'])->name('redsys.response');
 
 
 Route::get('/order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
 
-Route::get('/payment/failure', [OrderController::class, 'failure'])->name('payment.failure');
+Route::get('/payment/failure', [OrderController::class, 'failure'])->name('payment.failure');*/
+
+Route::get('redsys/pay', [RedsysController::class, 'index'])->name('redsys');
+Route::middleware(['convert.get.to.post'])->group(function () {
+    Route::match(['get', 'post'], 'redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+    Route::match(['get', 'post'], 'redsys/response', [RedsysController::class, 'handleResponse'])->name('redsys.response');
+    Route::match(['get', 'post'], 'redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
+});
+
+
+Route::get('order/confirmation', function () {
+    return view('order.confirmation');
+})->name('order.confirmation');
+Route::get('payment/failure', function () {
+    return view('payment.failure');
+})->name('payment.failure');
 
 
 
