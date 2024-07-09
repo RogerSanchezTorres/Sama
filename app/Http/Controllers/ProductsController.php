@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Subcategory;
+use App\Models\SubSubcategory;
 
 
 class ProductsController extends Controller
@@ -58,6 +59,14 @@ class ProductsController extends Controller
         $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
 
         return view('products.show_by_subcategory', compact('products', 'subcategory', 'relatedCategories'));
+    }
+
+    public function showProductsBySubsubcategory($subsubcategorySlug)
+    {
+        $subsubcategory = SubSubcategory::where('slug', $subsubcategorySlug)->firstOrFail();
+        $products = $subsubcategory->products;
+
+        return view('products.show', compact('subsubcategory', 'products'));
     }
 
 

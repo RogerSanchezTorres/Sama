@@ -82,6 +82,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/agregar-categoria', [AdminController::class, 'createCategory'])->name('admin.create_category');
     Route::post('/admin/categories/store', [AdminController::class, 'storeCategory'])->name('admin.store.category');
     Route::get('/admin/get-categories', [AdminController::class, 'Categories'])->name('admin.get.categories');
+
     Route::get('/admin/crear-maincategoria', [AdminController::class, 'createMainCategory'])->name('admin-create-maincategory');
     Route::post('/admin/guardar-maincategoria', [AdminController::class, 'storeMainCategory'])->name('admin-store-maincategory');
 
@@ -95,6 +96,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/maincategory/{id}/delete', [MainCategoryController::class, 'destroy'])->name('admin.maincategory.delete');
     Route::get('/admin/category/{id}/delete', [CategoryController::class, 'destroy'])->name('admin.category.delete');
     Route::get('/admin/subcategory/{id}/delete', [SubCategoryController::class, 'destroy'])->name('admin.subcategory.delete');
+
+    Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
+    Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');
 });
 
 //PRODUCTOS
@@ -111,6 +115,8 @@ Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.ch
 Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
 Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubcategory');
+Route::get('products/subsubcategory/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
+
 
 
 

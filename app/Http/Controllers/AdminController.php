@@ -14,6 +14,7 @@ use App\Models\Subcategory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\SubSubcategory;
 
 
 class AdminController extends Controller
@@ -364,5 +365,34 @@ class AdminController extends Controller
 
         // Redireccionar con un mensaje de éxito
         return redirect()->route('admin.create-subcategories')->with('success', 'Subcategoría creada exitosamente.');
+    }
+
+    public function createSubSubcategory()
+    {
+        $mainCategories = MainCategory::all();
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        return view('admin.create_subsubcategory', compact('mainCategories', 'categories', 'subcategories'));
+    }
+
+    public function storeSubSubcategory(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:sub_subcategories,slug',
+            'category_id' => 'required|exists:categories,id',
+            'main_category_id' => 'required|exists:main_categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
+        ]);
+
+        SubSubcategory::create([
+            'nombre' => $request->nombre,
+            'slug' => $request->slug,
+            'category_id' => $request->category_id,
+            'main_category_id' => $request->main_category_id,
+            'subcategory_id' => $request->subcategory_id,
+        ]);
+
+        return redirect()->route('admin.createSubSubcategory')->with('success', 'SubSubcategoría creada correctamente');
     }
 }
