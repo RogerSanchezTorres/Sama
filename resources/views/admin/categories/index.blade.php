@@ -102,7 +102,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Nombre</th>
-                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Categoría&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th>Categoría</th>
                                 <th class="text-right">Acciones</th>
                             </tr>
                         </thead>
@@ -131,7 +131,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Nombre</th>
-                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Subcategoría&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th>Subcategoría</th>
                                 <th class="text-right">Acciones</th>
                             </tr>
                         </thead>
