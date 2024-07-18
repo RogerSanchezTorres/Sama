@@ -119,7 +119,9 @@ class AdminController extends Controller
         $mainCategories = MainCategory::all();
         $categories = Category::all();
         $subcategories = Subcategory::all();
-        return view('admin.add-product', compact('mainCategories', 'categories', 'subcategories'));
+        $subsubcategories = SubSubcategory::all();
+
+        return view('admin.add-product', compact('mainCategories', 'categories', 'subcategories', 'subsubcategories'));
     }
 
     public function storeProduct(Request $request)

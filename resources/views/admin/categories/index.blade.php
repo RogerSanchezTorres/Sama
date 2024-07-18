@@ -9,9 +9,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('/style/admin/delete.css') }}">
-    <style>
-
-    </style>
 </head>
 
 <body>
@@ -37,17 +34,17 @@
         @endif
 
         <div class="flex-container">
-            <!-- Main Categories -->
             <div class="card">
+                <!-- Main Categories -->
                 <div class="card-header">
-                    <h2>Categorías Principales</h2>
+                    <h2 class="h5 mb-0">Categorías Principales</h2>
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-hover mb-0">
-                        <thead>
+                        <thead class="thead-light">
                             <tr>
                                 <th>Nombre</th>
-                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                 <th class="text-right">Acciones</th>
                             </tr>
                         </thead>
@@ -57,7 +54,7 @@
                                 <td>{{ $maincategory->nombre }}</td>
                                 <td></td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin.maincategory.delete', $maincategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría principal?');">Eliminar</a>
+                                    <a href="{{ route('maincategory.delete', $maincategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría principal?');">Eliminar</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -66,14 +63,14 @@
                 </div>
             </div>
 
-            <!-- Categories -->
             <div class="card">
+                <!-- Categories -->
                 <div class="card-header">
-                    <h2>Categorías</h2>
+                    <h2 class="h5 mb-0">Categorías</h2>
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-hover mb-0">
-                        <thead>
+                        <thead class="thead-light">
                             <tr>
                                 <th>Nombre</th>
                                 <th>Categoría Principal</th>
@@ -86,7 +83,7 @@
                                 <td>{{ $category->nombre }}</td>
                                 <td>{{ $category->mainCategory->nombre }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin.category.delete', $category->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">Eliminar</a>
+                                    <a href="{{ route('category.delete', $category->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">Eliminar</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -95,17 +92,17 @@
                 </div>
             </div>
 
-            <!-- Subcategories -->
             <div class="card">
+                <!-- Subcategories -->
                 <div class="card-header">
-                    <h2>Subcategorías</h2>
+                    <h2 class="h5 mb-0">Subcategorías</h2>
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-hover mb-0">
-                        <thead>
+                        <thead class="thead-light">
                             <tr>
                                 <th>Nombre</th>
-                                <th>Categoría</th>
+                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Categoría&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                 <th class="text-right">Acciones</th>
                             </tr>
                         </thead>
@@ -115,7 +112,36 @@
                                 <td>{{ $subcategory->nombre }}</td>
                                 <td>{{ $subcategory->category->nombre }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('admin.subcategory.delete', $subcategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta subcategoría?');">Eliminar</a>
+                                    <a href="{{ route('subcategory.delete', $subcategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta subcategoría?');">Eliminar</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <!-- Subsubcategories -->
+                <div class="card-header">
+                    <h2 class="h5 mb-0">SubSubcategorías</h2>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Subcategoría&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($subsubcategories as $subsubcategory)
+                            <tr>
+                                <td>{{ $subsubcategory->nombre }}</td>
+                                <td>{{ $subsubcategory->subcategory->nombre }}</td>
+                                <td class="text-right">
+                                    <a href="{{ route('subsubcategories.destroy', $subsubcategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta subsubcategoría?');">Eliminar</a>
                                 </td>
                             </tr>
                             @endforeach

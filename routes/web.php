@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\MainCategoryController;
+use App\Http\Controllers\Admin\SubSubcategoryController;
 
 
 /*
@@ -57,6 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 //ADMIN
 Route::middleware(['auth', 'role:admin'])->group(function () {
+
     Route::get('/admin/view-products', [AdminController::class, 'viewProducts'])->name('admin-view-products');
     Route::get('/admin/edit-products/{id}', [AdminController::class, 'editProductsForm'])->name('admin-edit-products');
     Route::put('/admin/update-products/{id}', [AdminController::class, 'updateProducts'])->name('admin-update-products');
@@ -93,9 +95,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/categories', [MainCategoryController::class, 'index'])->name('admin.categories.index');
 
-    Route::get('/admin/maincategory/{id}/delete', [MainCategoryController::class, 'destroy'])->name('admin.maincategory.delete');
-    Route::get('/admin/category/{id}/delete', [CategoryController::class, 'destroy'])->name('admin.category.delete');
-    Route::get('/admin/subcategory/{id}/delete', [SubCategoryController::class, 'destroy'])->name('admin.subcategory.delete');
+    Route::get('maincategory/delete/{id}', [MainCategoryController::class, 'destroy'])->name('maincategory.delete');
+    Route::get('category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
+    Route::get('subcategory/delete/{id}', [SubcategoryController::class, 'destroy'])->name('subcategory.delete');
+    Route::get('/subsubcategories', [SubSubcategoryController::class, 'index'])->name('subsubcategories.index');
+    Route::get('/subsubcategories/{id}', [SubSubcategoryController::class, 'destroy'])->name('subsubcategories.destroy');
 
     Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
     Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');
