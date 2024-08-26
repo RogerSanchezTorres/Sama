@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('img/logos sama/logosama.jpg') }}">
-    <title>Pago | {{ config('app.name', 'Laravel') }} </title>
+    <title>Pago | {{ config('app.name', 'Laravel') }}</title>
     <script src="https://cdn.tailwindcss.com/3.0.12"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -38,19 +38,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Oculta el botón de envío predeterminado del formulario de Redsys
             const redsysForm = document.querySelector('form');
             const redsysSubmitButton = redsysForm.querySelector('input[type="submit"]');
             if (redsysSubmitButton) {
-                redsysSubmitButton.style.display = 'none'; // Oculta el botón de envío
+                redsysSubmitButton.style.display = 'none';
             }
 
-            // Añade un evento al botón personalizado para enviar el formulario de Redsys
             const customPayButton = document.getElementById('pay');
             customPayButton.addEventListener('click', function(event) {
                 event.preventDefault();
                 if (redsysSubmitButton) {
-                    redsysSubmitButton.click(); // Simula el clic en el botón de envío oculto
+                    redsysSubmitButton.click();
                 }
             });
         });

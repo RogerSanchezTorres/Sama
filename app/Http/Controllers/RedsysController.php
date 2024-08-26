@@ -20,43 +20,40 @@ class RedsysController extends Controller
         try {
             $key = config('redsys.key');
             $code = config('redsys.merchantcode');
+            $terminal = config('redsys.terminal');
+            $enviroment = config('redsys.enviroment');
+            $tradename = config('redsys.tradename');
 
             $user = Auth::user();
 
             $cart = Cart::where('user_id', $user->id)->with('product')->get();
             $total = 0;
             foreach ($cart as $item) {
-                if ($user->role_id == 2) {
-                    $price = $item->product->precio_oferta_es;
-                } else {
-                    $price = $item->product->precio_es;
-                }
-                $quantity = $item->quantity;
-                $total += $price * $quantity;
+                $price = $user->role_id == 2 ? $item->product->precio_oferta_es : $item->product->precio_es;
+                $total += $price * $item->quantity;
             }
 
             $description = '';
             foreach ($cart as $item) {
                 $description .= $item->product->nombre_es . ', ';
             }
-
             $description = rtrim($description, ', ');
 
-            Redsys::setAmount($total);
+            Redsys::setAmount($total * 100); // En céntimos
             Redsys::setOrder(time());
             Redsys::setMerchantcode($code);
             Redsys::setCurrency('978');
             Redsys::setTransactiontype('0');
-            Redsys::setTerminal('1');
+            Redsys::setTerminal($terminal);
             Redsys::setMethod('T');
             Redsys::setNotification(config('redsys.url_notification'));
             Redsys::setUrlOk(config('redsys.url_ok'));
             Redsys::setUrlKo(config('redsys.url_ko'));
             Redsys::setVersion('HMAC_SHA256_V1');
-            Redsys::setTradeName('SubministresSama S.L');
+            Redsys::setTradeName($tradename);
             Redsys::setTitular($user->name);
             Redsys::setProductDescription($description);
-            Redsys::setEnviroment('test');
+            Redsys::setEnviroment($enviroment);
 
             $signature = Redsys::generateMerchantSignature($key);
             Redsys::setMerchantSignature($signature);
@@ -92,12 +89,30 @@ class RedsysController extends Controller
         $merchantParams = $request->input('Ds_MerchantParameters');
         $responseCode = $request->input('Ds_Response');
 
-        Log::info('Ds_Signature: ' . $dsSignature);
-        Log::info('Ds_MerchantParameters: ' . $merchantParams);
-        Log::info('Ds_Response: ' . $responseCode);
+        if (!$dsSignature) {
+            Log::error('Falta Ds_Signature en la respuesta');
+        } else {
+            Log::info('Ds_Signature: ' . $dsSignature);
+        }
+
+        if (!$merchantParams) {
+            Log::error('Falta Ds_MerchantParameters en la respuesta');
+        } else {
+            Log::info('Ds_MerchantParameters: ' . $merchantParams);
+        }
+
+        if (!$responseCode) {
+            Log::error('Falta Ds_Response en la respuesta');
+        } else {
+            Log::info('Ds_Response: ' . $responseCode);
+        }
 
         if ($dsSignature && $merchantParams && $responseCode) {
+            Log::info('Datos de Redsys recibidos correctamente, procediendo con la validación.');
+
             if ($this->validateRedsysSignature($dsSignature, $merchantParams)) {
+                Log::info('Firma de Redsys validada correctamente.');
+
                 if ((int)$responseCode <= 99) {
                     DB::beginTransaction();
                     try {
@@ -127,18 +142,24 @@ class RedsysController extends Controller
                         return redirect()->route('order.confirmation')->with('success', 'Pago realizado exitosamente');
                     } catch (\Exception $e) {
                         DB::rollBack();
+                        Log::error('Error al procesar el pago: ' . $e->getMessage());
                         return redirect()->route('payment.failure')->with('error', 'Error al procesar el pago: ' . $e->getMessage());
                     }
                 } else {
+                    Log::error('Pago no exitoso, código de respuesta: ' . $responseCode);
                     return redirect()->route('payment.failure')->with('error', 'Pago no exitoso');
                 }
             } else {
+                Log::error('Firma no válida');
                 abort(403, 'Firma no válida');
             }
         } else {
+            Log::error('Datos incompletos recibidos de Redsys');
             abort(403, 'Datos incompletos');
         }
     }
+
+
 
 
 
