@@ -19,7 +19,4 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    RewriteCond %{REQUEST_METHOD} !^POST$
-    RewriteRule ^ - [R=405]
-
 </IfModule>
