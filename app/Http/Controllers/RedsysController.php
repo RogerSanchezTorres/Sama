@@ -39,7 +39,7 @@ class RedsysController extends Controller
             }
             $description = rtrim($description, ', ');
 
-            Redsys::setAmount($total * 100); // En céntimos
+            Redsys::setAmount($total);
             Redsys::setOrder(time());
             Redsys::setMerchantcode($code);
             Redsys::setCurrency('978');
@@ -82,31 +82,17 @@ class RedsysController extends Controller
 
     public function handleResponse(Request $request)
     {
-        Log::info('Request data: ', $request->all());
+        // Log para registrar toda la información que llega en la request
+        Log::info('Contenido de la request:', $request->all()); // Para registrar todos los datos que llegan
         Log::info('Request headers: ', $request->headers->all());
+
+        Log::info('Request headers: ', $request->headers->all()); // Registrar los headers para mayor detalle
 
         $dsSignature = $request->input('Ds_Signature');
         $merchantParams = $request->input('Ds_MerchantParameters');
         $responseCode = $request->input('Ds_Response');
 
-        if (!$dsSignature) {
-            Log::error('Falta Ds_Signature en la respuesta');
-        } else {
-            Log::info('Ds_Signature: ' . $dsSignature);
-        }
-
-        if (!$merchantParams) {
-            Log::error('Falta Ds_MerchantParameters en la respuesta');
-        } else {
-            Log::info('Ds_MerchantParameters: ' . $merchantParams);
-        }
-
-        if (!$responseCode) {
-            Log::error('Falta Ds_Response en la respuesta');
-        } else {
-            Log::info('Ds_Response: ' . $responseCode);
-        }
-
+        // Continuar con tu lógica normal...
         if ($dsSignature && $merchantParams && $responseCode) {
             Log::info('Datos de Redsys recibidos correctamente, procediendo con la validación.');
 
@@ -162,17 +148,17 @@ class RedsysController extends Controller
 
 
 
-
     private function validateRedsysSignature($dsSignature, $merchantParams)
     {
-        $secretKey = config('redsys.key');
+        $key = base64_decode(config('redsys.key'));
         $decodedMerchantParams = base64_decode($merchantParams);
-        $expectedSignature = hash_hmac('sha256', $decodedMerchantParams, $secretKey, true);
-        $encodedExpectedSignature = base64_encode($expectedSignature);
+        $key = base64_decode(strtr($key, '-_', '+/'));
+        $generatedSignature = hash_hmac('sha256', $decodedMerchantParams, $key, true);
+        $encodedSignature = base64_encode($generatedSignature);
 
         Log::info('Firma recibida: ' . $dsSignature);
-        Log::info('Firma esperada: ' . $encodedExpectedSignature);
+        Log::info('Firma esperada: ' . $encodedSignature);
 
-        return $dsSignature === $encodedExpectedSignature;
+        return $dsSignature === $encodedSignature;
     }
 }
