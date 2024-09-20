@@ -195,6 +195,27 @@ class AdminController extends Controller
         return view('admin.view-products', compact('products'));
     }
 
+    public function bulkDelete(Request $request)
+    {
+        // Verificar si se han seleccionado productos
+        if ($request->has('product_ids')) {
+            // Eliminar los productos seleccionados
+            Product::whereIn('id', $request->input('product_ids'))->delete();
+
+            // Obtener la página actual desde el request
+            $currentPage = $request->input('page', 1);
+
+            // Redireccionar con un mensaje de éxito y a la página correspondiente
+            return redirect()->route('admin-view-products', ['page' => $currentPage])
+                ->with('success', 'Productos eliminados exitosamente.');
+        }
+
+        // Si no se seleccionó ningún producto
+        return redirect()->route('admin-view-products')->with('error', 'No se seleccionó ningún producto.');
+    }
+
+
+
     public function editProductsForm($id)
     {
         $product = Product::findOrFail($id);

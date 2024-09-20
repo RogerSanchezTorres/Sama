@@ -82,66 +82,63 @@ class RedsysController extends Controller
 
     public function handleResponse(Request $request)
     {
-        // Log para registrar toda la información que llega en la request
-        Log::info('Contenido de la request:', $request->all()); // Para registrar todos los datos que llegan
-        Log::info('Request headers: ', $request->headers->all());
+        if ($request->isMethod('post')) {
+            $merchantParams = $request->input('Ds_MerchantParameters');
+            $dsSignature = $request->input('Ds_Signature');
+            $responseCode = $request->input('Ds_Response');
 
-        Log::info('Request headers: ', $request->headers->all()); // Registrar los headers para mayor detalle
-
-        $dsSignature = $request->input('Ds_Signature');
-        $merchantParams = $request->input('Ds_MerchantParameters');
-        $responseCode = $request->input('Ds_Response');
-
-        // Continuar con tu lógica normal...
-        if ($dsSignature && $merchantParams && $responseCode) {
-            Log::info('Datos de Redsys recibidos correctamente, procediendo con la validación.');
-
-            if ($this->validateRedsysSignature($dsSignature, $merchantParams)) {
-                Log::info('Firma de Redsys validada correctamente.');
-
-                if ((int)$responseCode <= 99) {
-                    DB::beginTransaction();
-                    try {
-                        $params = json_decode(base64_decode($merchantParams), true);
-
-                        $order = new Order();
-                        $order->user_id = Auth::id();
-                        $order->user_name = Auth::user()->name;
-                        $order->total = $params['Ds_Amount'] / 100;
-                        $order->status = 'paid';
-                        $order->save();
-
-                        $cart = Cart::where('user_id', Auth::id())->with('product')->get();
-                        foreach ($cart as $item) {
-                            $orderProduct = new OrderProduct();
-                            $orderProduct->order_id = $order->id;
-                            $orderProduct->product_id = $item->product_id;
-                            $orderProduct->quantity = $item->quantity;
-                            $orderProduct->price = $item->product->precio_es;
-                            $orderProduct->save();
+            if ($dsSignature && $merchantParams && $responseCode) {
+                Log::info('Datos de Redsys recibidos correctamente, procediendo con la validación.');
+    
+                if ($this->validateRedsysSignature($dsSignature, $merchantParams)) {
+                    Log::info('Firma de Redsys validada correctamente.');
+    
+                    if ((int)$responseCode <= 99) {
+                        DB::beginTransaction();
+                        try {
+                            $params = json_decode(base64_decode($merchantParams), true);
+    
+                            $order = new Order();
+                            $order->user_id = Auth::id();
+                            $order->user_name = Auth::user()->name;
+                            $order->total = $params['Ds_Amount'] / 100;
+                            $order->status = 'paid';
+                            $order->save();
+    
+                            $cart = Cart::where('user_id', Auth::id())->with('product')->get();
+                            foreach ($cart as $item) {
+                                $orderProduct = new OrderProduct();
+                                $orderProduct->order_id = $order->id;
+                                $orderProduct->product_id = $item->product_id;
+                                $orderProduct->quantity = $item->quantity;
+                                $orderProduct->price = $item->product->precio_es;
+                                $orderProduct->save();
+                            }
+    
+                            Cart::where('user_id', Auth::id())->delete();
+    
+                            DB::commit();
+    
+                            return redirect()->route('order.confirmation')->with('success', 'Pago realizado exitosamente');
+                        } catch (\Exception $e) {
+                            DB::rollBack();
+                            Log::error('Error al procesar el pago: ' . $e->getMessage());
+                            return redirect()->route('payment.failure')->with('error', 'Error al procesar el pago: ' . $e->getMessage());
                         }
-
-                        Cart::where('user_id', Auth::id())->delete();
-
-                        DB::commit();
-
-                        return redirect()->route('order.confirmation')->with('success', 'Pago realizado exitosamente');
-                    } catch (\Exception $e) {
-                        DB::rollBack();
-                        Log::error('Error al procesar el pago: ' . $e->getMessage());
-                        return redirect()->route('payment.failure')->with('error', 'Error al procesar el pago: ' . $e->getMessage());
+                    } else {
+                        Log::error('Pago no exitoso, código de respuesta: ' . $responseCode);
+                        return redirect()->route('payment.failure')->with('error', 'Pago no exitoso');
                     }
                 } else {
-                    Log::error('Pago no exitoso, código de respuesta: ' . $responseCode);
-                    return redirect()->route('payment.failure')->with('error', 'Pago no exitoso');
+                    Log::error('Firma no válida');
+                    abort(403, 'Firma no válida');
                 }
             } else {
-                Log::error('Firma no válida');
-                abort(403, 'Firma no válida');
+                Log::error('Datos incompletos recibidos de Redsys');
+                abort(403, 'Datos incompletos');
             }
         } else {
-            Log::error('Datos incompletos recibidos de Redsys');
-            abort(403, 'Datos incompletos');
+            Log::error('Método incorrecto: se esperaba POST');
         }
     }
 

@@ -24,46 +24,72 @@
             <input type="text" name="search" placeholder="Buscar Producto...">
             <button type="submit">Buscar</button>
         </form>
-        <table class="products-table">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th data-sort="asc" id="precio-header">Precio</th>
-                    <th>Precio Oferta</th>
-                    <th>Marca</th>
-                    <th>Proveedor</th>
-                    <th>Categora</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                @foreach ($products as $product)
-                <tr>
-                    <td>{{ $product->nombre_es }}</td>
-                    <td>{{ $product->precio_es }}€</td>
-                    <td>{{ $product->precio_oferta_es }}€</td>
-                    <td>{{ $product->marca }}</td>
-                    <td>{{ $product->proveedor }}</td>
-                    <td>
-                        @if ($product->mainCategory)
-                        {{ $product->mainCategory->nombre }}
-                        @else
-                        Sin categoría
-                        @endif
-                    </td>
-                    <td class="action-buttons">
-                        <a href="{{ route('admin-edit-products', $product->id) }}" class="edit-button">Editar</a>
-                        <form action="{{ route('admin-delete-products', $product->id) }}" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="delete-button">Borrar</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <form action="{{ route('products.bulk-delete') }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <input type="hidden" name="page" value="{{ request()->get('page', 1) }}">
+
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all"></th>
+                        <th>Nombre</th>
+                        <th data-sort="asc" id="precio-header">Precio</th>
+                        <th>Precio Oferta</th>
+                        <th>Marca</th>
+                        <th>Proveedor</th>
+                        <th>Categora</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach ($products as $product)
+                    <tr>
+                        <td><input type="checkbox" name="product_ids[]" value="{{ $product->id }}"></td>
+                        <td>{{ $product->nombre_es }}</td>
+                        <td>{{ $product->precio_es }}€</td>
+                        <td>{{ $product->precio_oferta_es }}€</td>
+                        <td>{{ $product->marca }}</td>
+                        <td>{{ $product->proveedor }}</td>
+                        <td>
+                            @if ($product->mainCategory)
+                            {{ $product->mainCategory->nombre }}
+                            @else
+                            Sin categoría
+                            @endif
+                        </td>
+                        <td class="action-buttons">
+                            <a href="{{ route('admin-edit-products', $product->id) }}" class="edit-button">Editar</a>
+                            <form action="{{ route('admin-delete-products', $product->id) }}" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="delete-button">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table><br>
+
+
+            <button type="submit" class="btn btn-danger">Eliminar seleccionados</button>
+
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+
+            @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
+        </form>
 
     </div>
 
@@ -73,6 +99,14 @@
 
     <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>
+    <script>
+        document.getElementById('select-all').onclick = function() {
+            var checkboxes = document.getElementsByName('product_ids[]');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        };
+    </script>
 </body>
 
 
