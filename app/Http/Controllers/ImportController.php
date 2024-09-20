@@ -24,8 +24,8 @@ class ImportController extends Controller
                 return back()->with('error', 'Por favor, selecciona un archivo para importar.');
             }
 
-            if (!$file->getClientOriginalExtension() === 'xlsx' || $file->getClientOriginalExtension() === 'xls') {
-                return back()->with('error', 'El archivo debe tener formato Excel (xlsx o xls).');
+            if (!$file->getClientOriginalExtension() === 'csv') {
+                return back()->with('error', 'El archivo debe tener formato Excel (csv).');
             }
 
             Excel::import(new ProductsImport, $file);
