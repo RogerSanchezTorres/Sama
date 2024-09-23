@@ -73,7 +73,7 @@
             <label for="img">Imagen del Producto</label>
             <input type="file" name="img" id="img" class="form-control-file" accept="image/*">
             
-            <label for="pdf">Archivo PDF</label>
+            <label for="pdf" id="pdf-text">Archivo PDF</label>
             <input type="file" id="pdf" name="pdf" class="form-control">
         </div>
 

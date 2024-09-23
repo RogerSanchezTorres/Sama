@@ -6,9 +6,18 @@ use App\Models\Product;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
-class ProductsImport implements ToModel, WithHeadingRow, WithMapping
+class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustomCsvSettings
 {
+
+    public function getCsvSettings(): array
+    {
+        return [
+            'delimiter' => ';', // Cambia esto al delimitador que uses en el CSV, puede ser ',' o ';'
+        ];
+    }
+    
     public function model(array $row)
     {
         return new Product([

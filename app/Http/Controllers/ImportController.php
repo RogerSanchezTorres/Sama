@@ -1,7 +1,4 @@
 <?php
-
-// app/Http/Controllers/ImportController.php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -24,27 +21,16 @@ class ImportController extends Controller
                 return back()->with('error', 'Por favor, selecciona un archivo para importar.');
             }
 
-            if (!$file->getClientOriginalExtension() === 'csv') {
-                return back()->with('error', 'El archivo debe tener formato Excel (csv).');
+            if ($file->getClientOriginalExtension() !== 'csv') {
+                return back()->with('error', 'El archivo debe tener formato CSV.');
             }
 
-            Excel::import(new ProductsImport, $file);
+            // Importar el archivo CSV
+            Excel::import(new ProductsImport, $file->getRealPath(), null, \Maatwebsite\Excel\Excel::CSV);
+
             return back()->with('success', 'Se han añadido los productos correctamente');
         } catch (\Exception $e) {
             return back()->with('error', 'Error al importar productos: ' . $e->getMessage());
         }
     }
 }
-
-
-/*public function importProducts(Request $request)
-    {
-        $request->validate([
-            'excel_file' => 'required|mimes:xlsx,xls',
-        ]);
-
-        $file = $request->file('excel_file');
-        ImportProducts::dispatch($file);
-
-        return redirect('/import-form')->with('success', 'Importación iniciada. Verifica los registros para obtener el estado.');
-    }*/

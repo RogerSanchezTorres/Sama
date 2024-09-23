@@ -242,14 +242,25 @@ input{
     padding: 3px;
 }
 
+#nombre{
+    width: 200px;
+}
+
 #marca{
     margin-top: 35px;
+    margin-right: 44px;
 }
+
+#referencia{
+    margin-right: -33px;
+}
+
 
 #main_category_id{
     border-radius: 5px;
     border: 1px solid black;
     padding: 3px;
+    margin-right: -17px;
 }
 
 
@@ -263,6 +274,18 @@ input{
     border-radius: 5px;
     border: 1px solid black;
     padding: 3px;
+}
+
+#img{
+    width: 307px;
+}
+
+#pdf-text{
+    margin-left: 10px;
+}
+
+#pdf{
+    width: 307px;
 }
 
 .description{
