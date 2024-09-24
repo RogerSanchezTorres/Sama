@@ -386,7 +386,6 @@ h2{
     display: flex;
     width: 100%;
     max-width: 85%;
-    z-index: 1;
 }
 
 .productos {
