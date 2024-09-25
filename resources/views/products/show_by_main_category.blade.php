@@ -96,9 +96,9 @@
             productos.forEach(producto => {
                 const categoriasProducto = JSON.parse(producto.getAttribute('data-categories'));
                 if (categoriasProducto.includes(categoria)) {
-                    producto.style.display = 'block'; // Mostrar el producto si pertenece a la categoría seleccionada
+                    producto.style.display = 'block';
                 } else {
-                    producto.style.display = 'none'; // Ocultar el producto si no pertenece a la categoría seleccionada
+                    producto.style.display = 'none';
                 }
             });
         }
