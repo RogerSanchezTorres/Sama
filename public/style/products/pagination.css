@@ -422,6 +422,16 @@ h2{
     color: #555;
 }
 
+.productos-y-categorias {
+    display: flex;
+    width: 100%;
+    max-width: 85%;
+    z-index: -1;
+}
+
+.productos {
+    flex: -1;
+}
 
 
 @media only screen and (max-width: 768px) {
