@@ -389,11 +389,6 @@ h2 {
 
 .productos-y-categorias {
     display: flex;
-    z-index: 1;
-}
-
-.productos {
-    flex: 1;
 }
 
 h3{
