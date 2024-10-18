@@ -388,6 +388,10 @@ h2 {
     max-width: 85%;
 }
 
+.productos{
+    width: 1600px;
+}
+
 
 .productos-y-categorias .categorias {
     width: 220px;
