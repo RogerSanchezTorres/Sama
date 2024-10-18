@@ -71,8 +71,9 @@
 
         <div class="form-group">
             <label for="img">Imagen del Producto</label>
-            <input type="file" name="img" id="img" class="form-control-file" accept="image/*">
-            
+            <input type="file" name="img[]" id="img" multiple accept="image/*">
+
+
             <label for="pdf" id="pdf-text">Archivo PDF</label>
             <input type="file" id="pdf" name="pdf" class="form-control">
         </div>

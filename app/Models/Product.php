@@ -40,6 +40,15 @@ class Product extends Model
     protected $casts = [
         'detalles_lista' => 'array',
     ];
+    
+    public function getImagesAttribute()
+    {
+        // Si img es un JSON que contiene un array de URLs de imágenes
+        return json_decode($this->img, true) ?? [];
+
+        // Si img es una cadena separada por comas, descomenta la siguiente línea y comenta la anterior
+        // return explode(',', $this->img);
+    }
 
     public function detailsList()
     {

@@ -46,6 +46,7 @@
 <style>
     #navegador {
         position: relative;
+        z-index: 1;
     }
 
     .menu-icon {

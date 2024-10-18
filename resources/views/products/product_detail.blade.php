@@ -19,8 +19,38 @@
 
     <div class="product-detail-container">
         <div class="product-image">
-            @if ($product->img)
-            <img src="{{ asset($product->img) }}" alt="{{ $product->nombre_es }}">
+            @php
+            // Verificamos si las imágenes están almacenadas como JSON (producto nuevo con múltiples imágenes)
+            $images = json_decode($product->img, true);
+
+            // Si no es JSON, asumimos que es una imagen única (producto antiguo)
+            if (json_last_error() !== JSON_ERROR_NONE) {
+            $images = [$product->img];
+            }
+
+            // Normalizamos las rutas de las imágenes para que todas las barras sean '/'
+            $images = array_map(function($image) {
+            // Reemplazamos las barras invertidas '\' con barras normales '/'
+            return str_replace('\\', '/', $image);
+            }, $images);
+            @endphp
+
+
+            @if (!empty($images))
+            <!-- Imagen principal -->
+            <div class="gallery-container">
+                <div class="main-image">
+                    <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}" id="currentImage">
+                </div>
+
+                <!-- Miniaturas -->
+                <div class="thumbnail-container">
+                    @foreach($images as $image)
+                    <img src="{{ asset($image) }}" alt="{{ $product->nombre_es }}" class="thumbnail" onclick="changeImage('{{ asset($image) }}')">
+                    @endforeach
+
+                </div>
+            </div>
             @else
             <div class="no-image">
                 No hay imagen disponible
@@ -75,53 +105,61 @@
         </div>
     </div>
 
-    <ul class="tabs">
-        <li class="tab active" onclick="openTab('comentarios')">Comentarios</li>
-        <li class="tab" onclick="openTab('caracteristicas')">Detalles</li>
-    </ul>
-
-    <div id="comentarios" class="tab-content active">
-        <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="form-comentarios">
-            @csrf
-            <textarea name="contenido" rows="3" placeholder="Dejanos tu opinion sobre el producto"></textarea>
-            <div class="publicar">
-                <button type="submit">Publicar Comentario</button>
-            </div>
-        </form><br>
-
-        <h2>Comentarios</h2>
-        @foreach ($comentarios as $comentario)
-        <div class="comentario">
-            <strong>{{ $comentario->usuario->name }} {{ $comentario->usuario->surname }}</strong>
-            <p>{{ $comentario->contenido }}</p>
-            <p class="comment-date">{{ $comentario->formatted_date }}</p>
-            @if(auth()->user()->id === $comentario->usuario->id)
-            <button class="edit-comment-btn" data-comment-id="{{ $comentario->id }}">Editar</button>
-            <form id="edit-comment-form-{{ $comentario->id }}" class="edit-comment-form" action="{{ route('comentario.update', ['id' => $comentario->id]) }}" method="post">
-                @csrf
-                @method('PUT')
-                <textarea name="contenido" rows="3">{{ $comentario->contenido }}</textarea>
-                <div class="actualizar">
-                    <button type="submit">Actualizar Comentario</button>
-                </div>
-            </form>
-            @endif
-        </div>
-        @endforeach
-    </div>
-
-    <div id="caracteristicas" class="tab-content">
-        <p>{{ $product->detalles }}</p>
-        @if ($product->detalles_lista)
-        <ul>
-            @foreach ($product->detailsList() as $detalle)
-            <li>{{ $detalle }}</li>
-            @endforeach
+    <div class="info">
+        <ul class="tabs">
+            <li class="tab active" onclick="openTab('comentarios')">Comentarios</li>
+            <li class="tab" onclick="openTab('caracteristicas')">Detalles</li>
         </ul>
-        @else
-        <p>No hay detalles disponibles.</p>
-        @endif
+        <div class="comentarios">
+            <div id="comentarios" class="tab-content active">
+                <h4>¿Tienes alguna duda?</h4><br>
+                <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="form-comentarios">
+                    @csrf
+                    
+                    <textarea name="contenido" rows="3" placeholder="Dejanos tu opinion sobre el producto"></textarea>
+                    <div class="publicar">
+                        <button type="submit">Publicar Comentario</button>
+                    </div>
+                </form><br>
+
+                <h2>Comentarios</h2>
+                @foreach ($comentarios as $comentario)
+                <div class="comentario">
+                    <strong>{{ $comentario->usuario->name }} {{ $comentario->usuario->surname }}</strong>
+                    <p>{{ $comentario->contenido }}</p>
+                    <p class="comment-date">{{ $comentario->formatted_date }}</p>
+                    @if(auth()->user()->id === $comentario->usuario->id)
+                    <button class="edit-comment-btn" data-comment-id="{{ $comentario->id }}">Editar</button>
+                    <form id="edit-comment-form-{{ $comentario->id }}" class="edit-comment-form" action="{{ route('comentario.update', ['id' => $comentario->id]) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <textarea name="contenido" rows="3">{{ $comentario->contenido }}</textarea>
+                        <div class="actualizar">
+                            <button type="submit">Actualizar Comentario</button>
+                        </div>
+                    </form>
+                    @endif
+                </div><br>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="caracteristicas">
+            <div id="caracteristicas" class="tab-content">
+                <p>{{ $product->detalles }}</p>
+                @if ($product->detalles_lista)
+                <ul>
+                    @foreach ($product->detailsList() as $detalle)
+                    <li>{{ $detalle }}</li>
+                    @endforeach
+                </ul>
+                @else
+                <p>No hay detalles disponibles.</p>
+                @endif
+            </div>
+        </div>
     </div>
+
 
     <x-footer />
 
@@ -136,6 +174,7 @@
 <script src="{{ asset('js/texto.js') }}"></script>
 <script src="{{ asset('js/comentarios.js') }}"></script>
 <script src="{{ asset('js/desplegable.js') }}"></script>
+<script src="{{ asset('js/imagenes.js') }}"></script>
 <script>
     $(document).ready(function() {
         // Ocultar los formularios de edición al cargar la página

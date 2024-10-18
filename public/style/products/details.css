@@ -167,10 +167,61 @@ body {
     padding: 20px;
     margin: 20px;
     border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
 }
 
-.product-image {
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 300px;
+}
+
+.main-image {
+    max-width: 300px;
+    margin-bottom: 10px;
+}
+
+.main-image img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    max-width: 60px;
+    max-height: 60px;
+    cursor: pointer;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.thumbnail:hover {
+    border-color: #333;
+}
+
+
+.no-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+    background-color: #f0f0f0;
+    color: #999;
+    font-size: 18px;
+}
+
+/*.product-image {
     text-align: center;
 }
 
@@ -188,7 +239,7 @@ body {
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 8px;
-}
+}*/
 
 .product-info {
     padding: 20px;
@@ -202,10 +253,9 @@ body {
 .product-price {
     font-size: 1.2em;
     margin-bottom: 15px;
-    margin-left: 5px;
 }
 
-.product-pdf{
+.product-pdf {
     margin-top: 20px;
 }
 
@@ -230,6 +280,7 @@ body {
 
 .descripcion {
     margin-bottom: 15px;
+    width: 1000px;
 }
 
 .descripcion h3 {
@@ -365,6 +416,23 @@ form textarea {
     display: none;
 }
 
+.comentarios{
+    background-color: white;
+    width: 70%;
+    margin-left: 15%;
+}
+.caracteristicas{
+    background-color: white;
+    width: 70%;
+    margin-left: 15%;
+}
+
+.info{
+    background-color: #f5f5f5; /* Fondo gris claro */
+    padding-bottom: 40px; /* Añade un poco de padding inferior para más espacio */
+    padding-top: 20px; /* Un poco de espacio arriba también */
+    width: 100%;
+}
 
 .comentario {
     border: 1px solid #e0e0e0;
@@ -402,16 +470,17 @@ form textarea {
     padding: 0;
     margin: 0;
     display: flex;
+    margin-left: 15%;
 }
 
 .tab {
     cursor: pointer;
     padding: 12px 20px;
     margin-right: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
     user-select: none;
     transition: background-color 0.3s ease;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .tab.active {
