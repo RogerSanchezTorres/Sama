@@ -18,105 +18,122 @@
 
     <x-nav />
 
+    @if (auth()->check() && auth()->user()->role && auth()->user()->role->role === 'admin')
+    <button id="edit-button">Modo Edición</button>
+    @endif
+
+
+
     <div class="img-info">
-        <div id="simon">
-            <img src="{{ asset('img/Simon.png') }}" alt="simon">
+        <!-- Imágenes desde la base de datos -->
+        @foreach($images as $image)
+        <div class="image-item" data-id="{{ $image->id }}">
+            <div class="image-border"></div>
+            <img src="{{ asset($image->path) }}" alt="Imagen" style="max-width: 383px; height: 215px; margin: 10px;">
+            <form action="{{ route('images.destroy', $image->id) }}" method="POST" class="delete-form" style="display:none;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="delete-button">Eliminar</button>
+            </form>
         </div>
-        <div id="efapel">
-            <img src="{{ asset('img/Efapel.png') }}" alt="efapel">
-        </div>
-        <div id="sanitarios">
-            <img src="{{ asset('img/Sanitarios.png') }}" alt="sanitarios">
-        </div>
+        @endforeach
     </div>
+
+    <!-- Formulario para añadir imágenes -->
+    <div id="add-image-form" style="display:none;">
+        <h3>Añadir Nueva Imagen</h3>
+        <input type="file" id="new-image-file" accept="image/*">
+        <button id="add-image-button">Añadir Imagen</button>
+    </div>
+
 
     <div id="proveedores">
         <div id="imagenes">
-            <img src=" {{ asset('img/logos proveedores/3i_logo.png') }} " alt="3i_logo" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/Alsimet_logo.png') }} " alt="Alsimet" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/azuliber.png') }} " alt="azuliber" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/basor.png') }} " alt="basor" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/bayrol_logo.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/benadresa.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/braseli.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/calpeda_logo.JPG') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/Cemex-logo.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/Ceys.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/dake-cocinas.jpg') }} " alt="" width="120px" height="70px">
-            <img src=" {{ asset('img/logos proveedores/DUNE_logo.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/fermax.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/gme_logo.gif') }} " alt="" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/3i_logo.png') }} " alt="3i logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/Alsimet_logo.png') }} " alt="Alsimet logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/azuliber.png') }} " alt="azuliber logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/basor.png') }} " alt="basor logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/bayrol_logo.jpg') }} " alt="bayrol logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/benadresa.png') }} " alt="benadresa logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/braseli.png') }} " alt="braseli logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/calpeda_logo.JPG') }} " alt="calpeda logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/Cemex-logo.jpg') }} " alt="cemex logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/Ceys.jpg') }} " alt="ceys logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/dake-cocinas.jpg') }} " alt="dake cocinas logo" width="120px" height="70px">
+            <img src=" {{ asset('img/logos proveedores/DUNE_logo.png') }} " alt="dune logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/fermax.png') }} " alt="fermax logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/gme_logo.gif') }} " alt="gme logo" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/honeywell_logo_720x176.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/ílogo-dunlop.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/log-prhie.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo caleffi.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/Logo FAMATEL.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo plaza.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_adequa.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_ariston.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_askoll.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_azuliber.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_broquetas.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_celesa.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_ceramicaferres.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_ceramicasbelianes.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_cointra.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_comersin.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_crearplast.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_dajusa.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_dakota.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_dismol.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_efapel.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_emmeti.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_eskubi.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_exagres.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_ferroli.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_fig.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_firstiberica.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_fredimar.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_adequa.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_fujitsu.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_geminis.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_genwec.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/LOGO_GISCOSA.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/Logo_Henkel.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_hiyasu.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_inelca.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_isopipe.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_jimten.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_kapataz.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_laes.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_mapei.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_mediterraneadelbaño.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_mundilite.JPG') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_nielssenclima.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_nomazul.gif') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_papershispania.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_pentrilo.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_procoel.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_ramossoler.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_regarsa.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_riversa.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_rixaab.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_roca.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_rodman.gif') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_rothenberger.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_rubi.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_saunierduval.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_stilker.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_taconova.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_tejasborja.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_tmm.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_unecol.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_vilaralabaro.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_virax.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo_wirquin.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-aco.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-amiguet.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-aparici.jpg') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-asnef.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-ath.png') }} " alt="" width="120px" height="50px">
-            <img src=" {{ asset('img/logos proveedores/logo-barrene.jpg') }} " alt="" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/ílogo-dunlop.png') }} " alt="ílogo dunlop logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/log-prhie.png') }} " alt="prhie logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo caleffi.png') }} " alt="caleffi logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/Logo FAMATEL.png') }} " alt="famatel logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo plaza.jpg') }} " alt="plaza logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_adequa.jpg') }} " alt="adequa logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_ariston.png') }} " alt="ariston logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_askoll.png') }} " alt="askoll logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_azuliber.jpg') }} " alt="azuliber logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_broquetas.jpg') }} " alt="broquetas logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_celesa.jpg') }} " alt="celesa logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_ceramicaferres.jpg') }} " alt="ceramica ferres logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_ceramicasbelianes.jpg') }} " alt="ceramicas belianes logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_cointra.jpg') }} " alt="cointra logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_comersin.png') }} " alt="comersin logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_crearplast.jpg') }} " alt="crearplast logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_dajusa.jpg') }} " alt="dajsua logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_dakota.jpg') }} " alt="dakota logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_dismol.jpg') }} " alt="dismol logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_efapel.jpg') }} " alt="efapel logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_emmeti.png') }} " alt="emmeti logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_eskubi.png') }} " alt="eskubi logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_exagres.png') }} " alt="exagres logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_ferroli.png') }} " alt="ferroli logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_fig.jpg') }} " alt="fig logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_firstiberica.jpg') }} " alt="first iberica logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_fredimar.jpg') }} " alt="fredimar logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_adequa.jpg') }} " alt="adequa logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_fujitsu.png') }} " alt="fujitsu logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_geminis.jpg') }} " alt="geminis logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_genwec.jpg') }} " alt="genwec logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/LOGO_GISCOSA.png') }} " alt="giscosa logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/Logo_Henkel.jpg') }} " alt="hankel logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_hiyasu.jpg') }} " alt="hiyasu logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_inelca.jpg') }} " alt="inelca logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_isopipe.jpg') }} " alt="isopipe logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_jimten.png') }} " alt="jimten logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_kapataz.png') }} " alt="kepataz logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_laes.png') }} " alt="laes logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_mapei.jpg') }} " alt="mapei logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_mediterraneadelbaño.jpg') }} " alt="mediterranea del baño logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_mundilite.JPG') }} " alt="mundilite logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_nielssenclima.png') }} " alt="nielssenclima logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_nomazul.gif') }} " alt="nomazul logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_papershispania.jpg') }} " alt="papershispania logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_pentrilo.png') }} " alt="pentrilo logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_procoel.jpg') }} " alt="procoel" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_ramossoler.png') }} " alt="ramos soler logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_regarsa.jpg') }} " alt="regarsa logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_riversa.jpg') }} " alt="riversa logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_rixaab.jpg') }} " alt="rixaab logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_roca.png') }} " alt="roca logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_rodman.gif') }} " alt="rodman logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_rothenberger.jpg') }} " alt="rothenberger logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_rubi.png') }} " alt="rubi logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_saunierduval.png') }} " alt="saunierduval logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_stilker.jpg') }} " alt="stilker logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_taconova.png') }} " alt="taconova logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_tejasborja.png') }} " alt="tejasborja logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_tmm.png') }} " alt="tmm logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_unecol.png') }} " alt="unecol logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_vilaralabaro.png') }} " alt="vilaralabaro logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_virax.png') }} " alt="virax logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo_wirquin.jpg') }} " alt="wirquin logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo-aco.png') }} " alt="aco logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo-amiguet.png') }} " alt="amiguet logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo-aparici.jpg') }} " alt="aparici logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo-asnef.png') }} " alt="asnef logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo-ath.png') }} " alt="ath logo" width="120px" height="50px">
+            <img src=" {{ asset('img/logos proveedores/logo-barrene.jpg') }} " alt="barrene logo" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-belianes.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-bellota.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/logo-beyem.jpg') }} " alt="" width="120px" height="50px">
@@ -240,6 +257,85 @@
 
     <script src="{{ asset('js/desplegable.js') }}"></script>
     <script src="{{ asset('js/footer.js') }}"></script>
+    <script>
+        document.getElementById('edit-button').addEventListener('click', function() {
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            });
+            document.getElementById('add-image-form').style.display =
+                document.getElementById('add-image-form').style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.getElementById('add-image-button').addEventListener('click', function() {
+            const fileInput = document.getElementById('new-image-file');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                fetch('{{ route("images.upload") }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const newDiv = document.createElement('div');
+                            newDiv.className = 'image-item';
+                            newDiv.setAttribute('data-id', data.id);
+
+                            newDiv.innerHTML = `
+                        <img src="${data.url}" alt="Nueva Imagen" style="max-width: 383px; height: 215px; margin: 10px; border-top: 1px solid #ffc106;">
+                        <form action="/images/${data.id}" method="POST" class="delete-form" style="display:none;">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="delete-button">Eliminar</button>
+                        </form>
+                    `;
+                            document.querySelector('.img-info').appendChild(newDiv);
+                            fileInput.value = '';
+                        } else {
+                            alert(data.message || 'Error al subir la imagen');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                alert('Por favor, selecciona una imagen.');
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('delete-button')) {
+                event.preventDefault();
+
+                const deleteButton = event.target;
+                const form = deleteButton.closest('.delete-form');
+                const imageItem = deleteButton.closest('.image-item');
+                const action = form.getAttribute('action');
+
+                fetch(action, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            imageItem.remove();
+                        } else {
+                            alert(data.message || 'Error al eliminar la imagen.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+
 </body>
 
 </html>

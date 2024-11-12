@@ -18,6 +18,9 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\MainCategoryController;
 use App\Http\Controllers\Admin\SubSubcategoryController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\PageController;
+
 
 
 /*
@@ -31,9 +34,11 @@ use App\Http\Controllers\Admin\SubSubcategoryController;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('index');
-})->name('index');
+})->name('index');*/
+
+Route::get('/', [ImageController::class, 'index'])->name('index');
 
 //LOGIN Y REGISTER
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
@@ -105,6 +110,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
     Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');
+
+
+
+    Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');
+    Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
+
 });
 
 //PRODUCTOS
