@@ -23,13 +23,12 @@
     @endif
 
 
-
-    <div class="img-info">
-        <!-- Imágenes desde la base de datos -->
+    <div id="image-list" class="img-info">
+        <!-- Las imágenes desde la base de datos -->
         @foreach($images as $image)
-        <div class="image-item" data-id="{{ $image->id }}">
-            <div class="image-border"></div>
-            <img src="{{ asset($image->path) }}" alt="Imagen" style="max-width: 383px; height: 215px; margin: 10px;">
+        <div class="image-item" data-id="{{ $image->id }}"> 
+            <div class="border"></div>
+            <img src="{{ asset($image->path) }}" alt="Imagen" class="image" style=" max-width: 383px; height: 215px; margin: 10px;">
             <form action="{{ route('images.destroy', $image->id) }}" method="POST" class="delete-form" style="display:none;">
                 @csrf
                 @method('DELETE')
@@ -39,6 +38,7 @@
         @endforeach
     </div>
 
+
     <!-- Formulario para añadir imágenes -->
     <div id="add-image-form" style="display:none;">
         <h3>Añadir Nueva Imagen</h3>
@@ -47,8 +47,24 @@
     </div>
 
 
+
+    @if (auth()->check() && auth()->user()->role && auth()->user()->role->role === 'admin')
+    <button id="edit-mode-button" style="display: block;">Modo Edición</button>
+    @endif
+
     <div id="proveedores">
         <div id="imagenes">
+            @foreach ($proveedores as $proveedor)
+            <div class="proveedor-item" data-path="{{ $proveedor->path }}">
+                <img src="{{ asset($proveedor->path) }}" alt="Logo del proveedor" width="120px" height="50px">
+                @if (Auth::user() && Auth::user()->role === 'admin') <!-- Solo para administradores -->
+                <button class="delete-proveedor-button" style="display: none;">Eliminar</button>
+                @endif
+            </div>
+            @endforeach
+
+
+
             <img src=" {{ asset('img/logos proveedores/3i_logo.png') }} " alt="3i logo" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/Alsimet_logo.png') }} " alt="Alsimet logo" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/azuliber.png') }} " alt="azuliber logo" width="120px" height="50px">
@@ -250,14 +266,29 @@
             <img src=" {{ asset('img/logos proveedores/soprema.png') }} " alt="" width="120px" height="50px">
             <img src=" {{ asset('img/logos proveedores/tayg.png') }} " alt="" width="120px" height="50px">
         </div>
-
     </div>
 
-    <x-footer />
+    <div id="add-proveedor-form" style="display:none;">
+        <h4>Añadir Nueva Imagen de Proveedor</h4>
+        <input type="file" id="new-proveedor-image" name="file" accept="image/*">
+        <button id="add-proveedor-button">Añadir Imagen</button>
+    </div>
 
+
+    <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>
     <script src="{{ asset('js/footer.js') }}"></script>
+    <script src="{{ asset('js/edit-proveedores.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <script src="{{ asset('js/sortable.js') }}"></script>
     <script>
+        const updateOrderUrl = "{{ route('images.updateOrder') }}";
+    </script>
+    <script>
+        const addProveedorRoute = "{{ route('proveedores.addProveedor') }}";
+        const deleteProveedorRoute = "{{ route('proveedores.deleteProveedor') }}";
+        const csrfToken = "{{ csrf_token() }}";
+
         document.getElementById('edit-button').addEventListener('click', function() {
             document.querySelectorAll('.delete-form').forEach(form => {
                 form.style.display = form.style.display === 'none' ? 'block' : 'none';

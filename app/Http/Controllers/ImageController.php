@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Image;
+use App\Models\Proveedor;
 
 class ImageController extends Controller
 {
@@ -12,8 +13,10 @@ class ImageController extends Controller
     public function index()
     {
         // Obtiene todas las imágenes de la base de datos
-        $images = Image::all();
-        return view('index', compact('images'));
+        $images = Image::orderBy('order', 'asc')->get();
+        $proveedores = Proveedor::all();
+
+        return view('index', compact('images', 'proveedores'));
     }
 
     // Subir una nueva imagen
@@ -47,6 +50,20 @@ class ImageController extends Controller
         }
     }
 
+    public function updateOrder(Request $request)
+    {
+        $order = $request->input('order');
+
+        foreach ($order as $index => $id) {
+            Image::where('id', $id)->update(['order' => $index + 1]);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Orden actualizado correctamente.']);
+    }
+
+
+
+
     // Eliminar imagen
     public function destroy($id)
     {
@@ -72,15 +89,49 @@ class ImageController extends Controller
 
 
 
-    public function destroyStatic($name)
+    // Método para mostrar las imágenes de proveedores
+    public function proveedores()
     {
-        $imagePath = public_path('img/' . $name);
+        $proveedores = Storage::files('img/logos_proveedores');
+        return view('tu_vista_proveedores', compact('proveedores'));
+    }
 
-        if (file_exists($imagePath)) {
-            unlink($imagePath); // Eliminar la imagen del servidor
-            return response()->json(['success' => true, 'message' => 'Imagen eliminada correctamente.']);
+    // Método para subir una nueva imagen de proveedor
+    public function addProveedor(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            // Sube la imagen al almacenamiento
+            $path = $request->file('file')->store('public/img/logos_proveedores');
+            $relativePath = str_replace('public/', 'storage/', $path);
+
+            // Guarda la ruta en la base de datos
+            $proveedor = new Proveedor();
+            $proveedor->path = $relativePath; // Asegúrate de que la columna en la tabla sea 'path'
+            $proveedor->save();
+
+            // Devuelve la ruta para mostrar la imagen en el frontend
+            return response()->json(['path' => asset($relativePath)], 200);
         }
 
-        return response()->json(['success' => false, 'message' => 'La imagen no existe o no se pudo eliminar.']);
+        return response()->json(['error' => 'No se ha recibido ninguna imagen.'], 400);
+    }
+
+
+    // Método para eliminar una imagen de proveedor
+    public function deleteProveedor(Request $request)
+    {
+        $path = $request->input('path');
+
+        // Busca y elimina el registro en la base de datos
+        $proveedor = Proveedor::where('path', $path)->first();
+        if ($proveedor) {
+            $proveedor->delete(); // Elimina el registro
+
+            // Elimina el archivo del almacenamiento
+            Storage::delete(str_replace('storage/', 'public/', $path));
+            return response()->json(['success' => true], 200);
+        }
+
+        return response()->json(['error' => 'Imagen no encontrada.'], 404);
     }
 }
