@@ -131,6 +131,7 @@ class AdminController extends Controller
             'precio_es' => 'required|numeric',
             'precio_oferta_es' => 'nullable|numeric',
             'proveedor' => 'max:255',
+            'referencia' => 'max:255',
             'marca' => 'required|max:255',
             'img' => 'required|image|mimes:jpeg,png,jpg,gif',
             'pdf' => 'nullable|mimes:pdf|max:10000',
@@ -150,6 +151,7 @@ class AdminController extends Controller
             $producto->precio_es = $request->input('precio_es');
             $producto->precio_oferta_es = $request->input('precio_oferta_es');
             $producto->proveedor = $request->input('proveedor');
+            $producto->proveedor = $request->input('referencia');
             $producto->marca = $request->input('marca');
             $producto->img = $imagenNombre;
             $producto->pdf = $pdfNombre; // Guarda la ruta del PDF
@@ -285,6 +287,7 @@ class AdminController extends Controller
             'precio_es' => 'required|numeric',
             'precio_oferta_es' => 'nullable|numeric',
             'proveedor' => 'max:255',
+            'referencia' => 'max:255',
             'marca' => 'nullable|max:255',
             'img*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'pdf' => 'nullable|mimes:pdf|max:10000',
@@ -305,6 +308,7 @@ class AdminController extends Controller
         $product->precio_es = $validated['precio_es'];
         $product->precio_oferta_es = $validated['precio_oferta_es'];
         $product->proveedor = $validated['proveedor'];
+        $product->referencia = $validated['referencia'];
         $product->marca = $validated['marca'];
         $product->main_category_id = $validated['main_category_id'];
         $product->category_id = $validated['category_id'];
