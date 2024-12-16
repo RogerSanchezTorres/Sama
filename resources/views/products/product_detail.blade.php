@@ -115,7 +115,7 @@
                 <h4>¿Tienes alguna duda?</h4><br>
                 <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="form-comentarios">
                     @csrf
-                    
+
                     <textarea name="contenido" rows="3" placeholder="Dejanos tu opinion sobre el producto"></textarea>
                     <div class="publicar">
                         <button type="submit">Publicar Comentario</button>
@@ -144,12 +144,21 @@
             </div>
         </div>
 
+        @php
+        // Verifica si $product->detalles_lista es un string, y si es así, decodifícalo.
+        if (is_string($product->detalles_lista)) {
+        $detalles = json_decode($product->detalles_lista, true) ?? [];
+        } else {
+        // Si ya es un array, úsalo directamente.
+        $detalles = $product->detalles_lista ?? [];
+        }
+        @endphp
+
         <div class="caracteristicas">
             <div id="caracteristicas" class="tab-content">
-                <p>{{ $product->detalles }}</p>
-                @if ($product->detalles_lista)
+                @if (!empty($detalles))
                 <ul>
-                    @foreach ($product->detailsList() as $detalle)
+                    @foreach ($detalles as $detalle)
                     <li>{{ $detalle }}</li>
                     @endforeach
                 </ul>
@@ -158,10 +167,10 @@
                 @endif
             </div>
         </div>
-    </div>
 
 
-    <x-footer />
+
+        <x-footer />
 
 </body>
 

@@ -321,7 +321,7 @@ class AdminController extends Controller
         $product->subcategory_id = $validated['subcategory_id'];
         $product->subsubcategory_id = $validated['subsubcategory_id']; // Actualizar subsubcategoría
         $product->descripcion = $validated['descripcion'];
-        $product->detalles_lista = $validated['detalles_lista'];
+        $product->detalles_lista = json_encode($validated['detalles_lista']);
 
         // Manejo de imágenes
         if ($request->hasFile('img')) {

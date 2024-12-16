@@ -105,25 +105,20 @@
             <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
         </div>
 
-
+        
         <div class="detalles_lista">
             <label for="detalles_lista">Detalles</label>
             <div id="detalles-container">
-                @php
-                $detalles = json_decode($product->detalles_lista, true) ?? [];
-                @endphp
-
-                @foreach($detalles as $detalle)
+                @if($product->detalles_lista)
+                @foreach(json_decode($product->detalles_lista, true) as $detalle)
                 <input type="text" name="detalles_lista[]" value="{{ $detalle }}" class="form-control mb-2">
                 @endforeach
-
-                @if(empty($detalles))
+                @else
                 <input type="text" name="detalles_lista[]" class="form-control mb-2">
                 @endif
             </div>
             <button type="button" id="add-detalle" class="btn btn-primary btn-sm mt-2">Agregar Detalle</button>
         </div>
-
 
 
         <div class="btnSave">

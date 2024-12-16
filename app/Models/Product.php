@@ -59,9 +59,8 @@ class Product extends Model
 
     public function detailsList()
     {
-        return json_decode($this->detalles_lista, true) ?? [];
+        return $this->detalles_lista ?? [];
     }
-
 
     public function mainCategory()
     {
