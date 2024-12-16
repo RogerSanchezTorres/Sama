@@ -18,7 +18,7 @@
     <x-nav />
     <x-header-admin />
 
-    <h2>Añadir Subcategoria</h2>
+    <h2>Añadir Subcategoria 1</h2>
     <div class="form-category">
         <form action="{{ route('admin.store-subcategories') }}" method="post" class="form">
             @csrf

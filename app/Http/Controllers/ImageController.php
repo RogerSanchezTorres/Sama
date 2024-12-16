@@ -118,20 +118,19 @@ class ImageController extends Controller
 
 
     // Método para eliminar una imagen de proveedor
-    public function deleteProveedor(Request $request)
+    public function deleteProveedor($id)
     {
-        $path = $request->input('path');
+        $proveedor = Proveedor::find($id);
 
-        // Busca y elimina el registro en la base de datos
-        $proveedor = Proveedor::where('path', $path)->first();
         if ($proveedor) {
-            $proveedor->delete(); // Elimina el registro
+            // Eliminar la imagen del almacenamiento
+            Storage::delete(str_replace('storage/', '', $proveedor->path));
+            // Eliminar el registro de la base de datos
+            $proveedor->delete();
 
-            // Elimina el archivo del almacenamiento
-            Storage::delete(str_replace('storage/', 'public/', $path));
-            return response()->json(['success' => true], 200);
+            return redirect()->back()->with('success', 'Proveedor eliminado correctamente.');
         }
 
-        return response()->json(['error' => 'Imagen no encontrada.'], 404);
+        return redirect()->back()->with('error', 'Proveedor no encontrado.');
     }
 }

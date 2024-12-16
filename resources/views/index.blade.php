@@ -26,7 +26,7 @@
     <div id="image-list" class="img-info">
         <!-- Las imágenes desde la base de datos -->
         @foreach($images as $image)
-        <div class="image-item" data-id="{{ $image->id }}"> 
+        <div class="image-item" data-id="{{ $image->id }}">
             <div class="border"></div>
             <img src="{{ asset($image->path) }}" alt="Imagen" class="image" style=" max-width: 383px; height: 215px; margin: 10px;">
             <form action="{{ route('images.destroy', $image->id) }}" method="POST" class="delete-form" style="display:none;">
@@ -57,9 +57,11 @@
             @foreach ($proveedores as $proveedor)
             <div class="proveedor-item" data-path="{{ $proveedor->path }}">
                 <img src="{{ asset($proveedor->path) }}" alt="Logo del proveedor" width="120px" height="50px">
-                @if (Auth::user() && Auth::user()->role === 'admin') <!-- Solo para administradores -->
-                <button class="delete-proveedor-button" style="display: none;">Eliminar</button>
-                @endif
+                <form action="{{ route('proveedores.deleteProveedor', $proveedor->id) }}" method="POST" class="delete-form" style="display:none;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="delete-button">Eliminar</button>
+                </form>
             </div>
             @endforeach
 
@@ -286,7 +288,6 @@
     </script>
     <script>
         const addProveedorRoute = "{{ route('proveedores.addProveedor') }}";
-        const deleteProveedorRoute = "{{ route('proveedores.deleteProveedor') }}";
         const csrfToken = "{{ csrf_token() }}";
 
         document.getElementById('edit-button').addEventListener('click', function() {

@@ -69,6 +69,28 @@
             @endforeach
         </select>
 
+        <label for="subsubcategory_id">Subsubcategoría</label>
+        <select id="subsubcategory_id" name="subsubcategory_id" class="form-control">
+            <option value=""></option>
+            @foreach($subsubcategories as $subsubcategory)
+            <option value="{{ $subsubcategory->id }}" data-subcategory-id="{{ $subsubcategory->subcategory_id }}" {{ $product->subsubcategory_id == $subsubcategory->id ? 'selected' : '' }}>
+                {{ $subsubcategory->nombre }}
+            </option>
+            @endforeach
+        </select>
+
+
+        <!--<label for="minor_category_id">Minor Category</label>
+        <select id="minor_category_id" name="minor_category_id" class="form-control">
+            <option value=""></option>
+            @foreach($minorCategories as $minorCategory)
+            <option value="{{ $minorCategory->id }}" data-subcategory-id="{{ $minorCategory->subcategory_id }}" {{ $product->minor_category_id == $minorCategory->id ? 'selected' : '' }}>
+                {{ $minorCategory->nombre }}
+            </option>
+            @endforeach
+        </select>-->
+
+
         <div class="form-group">
             <label for="img">Imagen del Producto</label>
             <input type="file" name="img[]" id="img" multiple accept="image/*">
@@ -82,6 +104,27 @@
             <label for="descripcion">Descripción</label>
             <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
         </div>
+
+
+        <div class="detalles_lista">
+            <label for="detalles_lista">Detalles</label>
+            <div id="detalles-container">
+                @php
+                $detalles = json_decode($product->detalles_lista, true) ?? [];
+                @endphp
+
+                @foreach($detalles as $detalle)
+                <input type="text" name="detalles_lista[]" value="{{ $detalle }}" class="form-control mb-2">
+                @endforeach
+
+                @if(empty($detalles))
+                <input type="text" name="detalles_lista[]" class="form-control mb-2">
+                @endif
+            </div>
+            <button type="button" id="add-detalle" class="btn btn-primary btn-sm mt-2">Agregar Detalle</button>
+        </div>
+
+
 
         <div class="btnSave">
             <button type="submit" aria-label="Actualizar Producto">Actualizar Producto</button>
@@ -100,6 +143,7 @@
 
     <x-footer />
 
+    <script src="{{ asset('js/detalles.js') }}"></script>
     <script>
         document.getElementById('main_category_id').addEventListener('change', function() {
             var mainCategoryId = this.value;
@@ -165,6 +209,19 @@
                     subcategoryOption.style.display = 'none';
                 }
             }
+        });
+
+        document.getElementById('subcategory_id').addEventListener('change', function() {
+            const selectedSubcategory = this.value;
+            const minorCategories = document.querySelectorAll('#minor_category_id option');
+
+            minorCategories.forEach(option => {
+                if (option.dataset.subcategoryId === selectedSubcategory || option.value === "") {
+                    option.style.display = 'block';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
         });
     </script>
 

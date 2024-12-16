@@ -17,6 +17,8 @@
     <x-nav />
     <x-header-admin />
 
+    <h2>Añadir Subcategoria 2</h2>
+
     <div class="form-category">
         <form action="{{ route('admin.storeSubSubcategory') }}" method="POST">
             @csrf
@@ -65,18 +67,18 @@
         </form>
     </div>
 
-
     <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
+        // Filtrar categorías secundarias según la categoría principal seleccionada
         document.getElementById('main_category_id').addEventListener('change', function() {
             var mainCategoryId = this.value;
             var categoryOptions = document.getElementById('category_id').options;
 
-            // Mostrar solo las categorías relacionadas con la categoría principal seleccionada
             for (var i = 0; i < categoryOptions.length; i++) {
                 var categoryOption = categoryOptions[i];
                 if (categoryOption.dataset.mainCategoryId == mainCategoryId || mainCategoryId === '') {
@@ -86,19 +88,22 @@
                 }
             }
 
-            // También restablecer las subcategorías
+            // Restablecer selección de categorías y subcategorías
             document.getElementById('category_id').value = '';
-            var subcategoryOptions = document.getElementById('parent_id').options;
+            document.getElementById('subcategory_id').value = '';
+
+            // Ocultar todas las subcategorías
+            var subcategoryOptions = document.getElementById('subcategory_id').options;
             for (var i = 0; i < subcategoryOptions.length; i++) {
                 subcategoryOptions[i].style.display = 'none';
             }
         });
 
+        // Filtrar subcategorías principales según la categoría secundaria seleccionada
         document.getElementById('category_id').addEventListener('change', function() {
             var categoryId = this.value;
-            var subcategoryOptions = document.getElementById('parent_id').options;
+            var subcategoryOptions = document.getElementById('subcategory_id').options;
 
-            // Mostrar solo las subcategorías relacionadas con la categoría seleccionada
             for (var i = 0; i < subcategoryOptions.length; i++) {
                 var subcategoryOption = subcategoryOptions[i];
                 if (subcategoryOption.dataset.categoryId == categoryId || categoryId === '') {
@@ -107,8 +112,12 @@
                     subcategoryOption.style.display = 'none';
                 }
             }
+
+            // Restablecer selección de subcategorías
+            document.getElementById('subcategory_id').value = '';
         });
     </script>
+
 
 </body>
 

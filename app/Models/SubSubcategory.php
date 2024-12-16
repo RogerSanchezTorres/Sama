@@ -10,7 +10,9 @@ class SubSubcategory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre', 'slug', 'subcategory_id',
+        'nombre',
+        'slug',
+        'subcategory_id',
     ];
 
     public function category()
@@ -30,6 +32,12 @@ class SubSubcategory extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'sub_subcategory_id');
+    }
+
+
+    public function minorcategories()
+    {
+        return $this->hasMany(MinorCategory::class);
     }
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\SubSubcategory;
+use App\Models\MinorCategory;
 
 
 class AdminController extends Controller
@@ -224,7 +225,9 @@ class AdminController extends Controller
         $mainCategories = MainCategory::all();
         $categories = Category::all();
         $subcategories = Subcategory::all();
-        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories'));
+        $subsubcategories = SubSubCategory::all();
+        $minorCategories = MinorCategory::all();
+        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'minorCategories'));
     }
 
     /*public function updateProducts(Request $request, $id)
@@ -294,7 +297,10 @@ class AdminController extends Controller
             'main_category_id' => 'required|exists:main_categories,id',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
+            'subsubcategory_id' => 'nullable|exists:sub_subcategories,id',
             'descripcion' => 'nullable|string|max:5000',
+            'detalles_lista' => 'nullable|array',
+            'detalles_lista.*' => 'string|max:5000',
         ]);
 
         $product = Product::find($id);
@@ -313,40 +319,23 @@ class AdminController extends Controller
         $product->main_category_id = $validated['main_category_id'];
         $product->category_id = $validated['category_id'];
         $product->subcategory_id = $validated['subcategory_id'];
+        $product->subsubcategory_id = $validated['subsubcategory_id']; // Actualizar subsubcategoría
         $product->descripcion = $validated['descripcion'];
+        $product->detalles_lista = $validated['detalles_lista'];
 
-        // Manejo de imagen
+        // Manejo de imágenes
         if ($request->hasFile('img')) {
-            // Verificamos si 'img' es un array de archivos
-            $imgFiles = $request->file('img');  // Obtenemos todas las imágenes
-        
-            // Inicializamos el array de imágenes existentes
-            $existingImages = [];
-        
-            if (!empty($product->img)) {
-                // Intentamos decodificar las imágenes existentes en JSON
-                $existingImages = json_decode($product->img, true);
-        
-                // Si no es JSON, entonces la imagen es una cadena única (producto antiguo)
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    $existingImages = [$product->img];  // Convertimos la imagen en un array
-                }
-            }
-        
-            // Recorremos las imágenes nuevas y las subimos
+            $imgFiles = $request->file('img');
+            $existingImages = json_decode($product->img, true) ?? [];
+
             foreach ($imgFiles as $imgFile) {
                 $imgPath = $imgFile->store('public/img');
                 $imgUrl = Storage::url($imgPath);
-        
-                // Añadimos cada nueva imagen al array de imágenes existentes
                 $existingImages[] = $imgUrl;
             }
-        
-            // Guardamos las imágenes como JSON en la base de datos
+
             $product->img = json_encode($existingImages);
         }
-        
-        
 
         // Manejo de PDF
         if ($request->hasFile('pdf')) {
@@ -355,11 +344,12 @@ class AdminController extends Controller
             $product->pdf = Storage::url($pdfPath);
         }
 
-        // Guardar los cambios en la base de datos
+        // Guardar cambios
         $product->save();
 
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
+
 
 
 
@@ -502,5 +492,37 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.createSubSubcategory')->with('success', 'SubSubcategoría creada correctamente');
+    }
+
+    public function createminorCategory()
+    {
+        $mainCategories = MainCategory::all();
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        $subsubcategories = Subsubcategory::all();
+        return view('admin.create_minor_category', compact('mainCategories', 'categories', 'subcategories', 'subsubcategories'));
+    }
+
+    public function storeminorCategory(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:minor_categories,slug',
+            'main_category_id' => 'required|exists:main_categories,id',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
+            'subsubcategory_id' => 'required|exists:sub_subcategories,id',
+        ]);
+
+        MinorCategory::create([
+            'nombre' => $request->nombre,
+            'slug' => $request->slug,
+            'main_category_id' => $request->main_category_id,
+            'category_id' => $request->category_id,
+            'subcategory_id' => $request->subcategory_id,
+            'sub_subcategory_id' => $request->subsubcategory_id,
+        ]);
+
+        return redirect()->route('admin.createMinorCategory')->with('success', 'Minor Category creada correctamente');
     }
 }

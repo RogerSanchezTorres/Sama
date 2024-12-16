@@ -13,6 +13,7 @@ class CreateProductsTable extends Migration
             $table->id()->nullable();
             $table->integer('category_id')->nullable();
             $table->integer('main_category_id')->nullable();
+            $table->integer('subsubcategory_id')->nullable();
             $table->string('id_interno')->nullable();
             $table->string('proveedor')->nullable();
             $table->string('referencia')->nullable();

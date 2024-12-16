@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\MainCategoryController;
 use App\Http\Controllers\Admin\SubSubcategoryController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\MinorCategoryController;
 
 
 
@@ -69,6 +70,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/update-products/{id}', [AdminController::class, 'updateProducts'])->name('admin-update-products');
     Route::delete('/admin/delete-products/{product}', [AdminController::class, 'deleteProducts'])->name('admin-delete-products');
     Route::delete('/products/bulk-delete', [AdminController::class, 'bulkDelete'])->name('products.bulk-delete');
+    Route::post('/minor-categories/store', [MinorCategoryController::class, 'store'])->name('minor-categories.store');
 
     Route::get('/admin/search-products', [AdminController::class, 'searchProducts'])->name('admin-search-products');
     Route::get('/admin/agregar-producto', [AdminController::class, 'createProduct'])->name('admin-agregar-producto');
@@ -111,6 +113,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
     Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');
 
+    Route::get('/admin/minor-categories/create', [AdminController::class, 'createminorCategory'])->name('admin.createMinorCategory');
+    Route::post('/admin/minor-categories', [AdminController::class, 'storeminorCategory'])->name('admin.storeMinorCategory');
+
 
 
     Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');
@@ -118,9 +123,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/proveedores', [ImageController::class, 'proveedores'])->name('proveedores');
     Route::post('/proveedores/add', [ImageController::class, 'addProveedor'])->name('proveedores.addProveedor');
-    Route::post('/proveedores/delete', [ImageController::class, 'deleteProveedor'])->name('proveedores.deleteProveedor');
+    Route::delete('/proveedores/{id}', [ImageController::class, 'deleteProveedor'])->name('proveedores.deleteProveedor');
     Route::post('/images/update-order', [ImageController::class, 'updateOrder'])->name('images.updateOrder');
-
 });
 
 //PRODUCTOS
@@ -137,7 +141,11 @@ Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.ch
 Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
 Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubcategory');
-Route::get('products/subsubcategory/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
+Route::get('/products/subsubcategoria/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
+Route::get('/products/minorcategory/{minorCategorySlug}', [ProductsController::class, 'showProductsByMinorCategory'])->name('products.showProductsByMinorCategory');
+
+
+
 
 
 

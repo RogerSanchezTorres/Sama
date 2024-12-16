@@ -20,7 +20,7 @@
     <x-headersama />
     <x-nav />
     <x-header-admin />
-    <h2>Crear Subcategoria</h2>
+    <h2>Crear Categoria 2</h2>
     <div class="form-category">
         <form action="{{ route('admin.store.category') }}" method="POST">
             @csrf

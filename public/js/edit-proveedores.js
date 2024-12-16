@@ -3,11 +3,10 @@ document.getElementById("edit-mode-button").addEventListener("click", function (
     imagenesContainer.classList.toggle("edit-mode");
     const isEditMode = imagenesContainer.classList.contains("edit-mode");
 
-    // Mostrar/ocultar botones de eliminación y el formulario de añadir
-    document.querySelectorAll(".delete-proveedor-button").forEach(button => {
-        button.style.display = isEditMode ? 'inline' : 'none';
+    // Mostrar/ocultar formularios de eliminación
+    document.querySelectorAll(".delete-form").forEach(form => {
+        form.style.display = isEditMode ? 'inline' : 'none';
     });
-    document.getElementById("add-proveedor-form").style.display = isEditMode ? 'block' : 'none';
 });
 
 
@@ -50,29 +49,13 @@ document.getElementById("add-proveedor-button").addEventListener("click", functi
         .catch(error => console.error("Error en la petición:", error));
 });
 
-// Evento para eliminar una imagen de proveedor
-document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("delete-proveedor-button")) {
-        const proveedorItem = event.target.closest(".proveedor-item");
-        const path = proveedorItem.getAttribute("data-path");
+document.addEventListener("submit", function (event) {
+    if (event.target.classList.contains("delete-form")) {
+        event.preventDefault(); // Detenemos el envío por defecto para mostrar la confirmación
 
-        fetch(deleteProveedorRoute, {  // Usar la variable de ruta
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": csrfToken
-            },
-            body: JSON.stringify({ path: path })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Eliminar el elemento del DOM
-                    proveedorItem.remove();
-                } else {
-                    console.error("Error al eliminar la imagen");
-                }
-            })
-            .catch(error => console.error("Error en la petición:", error));
+        const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este proveedor?");
+        if (confirmDelete) {
+            event.target.submit(); // Envía el formulario si se confirma
+        }
     }
 });

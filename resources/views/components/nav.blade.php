@@ -27,6 +27,15 @@
                                     <a href="{{ route('products.showProductsBySubsubcategory', ['subsubcategorySlug' => $subsubcategory->slug]) }}">
                                         {{ $subsubcategory->nombre }}
                                     </a>
+                                    <!--<ul class="minor-categories-list">
+                                        @foreach($subsubcategory->minorCategories as $minorCategory)
+                                        <li>
+                                            <a href="{{ route('products.showProductsByMinorCategory', ['minorCategorySlug' => $minorCategory->slug]) }}">
+                                                {{ $minorCategory->nombre }}
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    </ul>-->
                                 </li>
                                 @endforeach
                             </ul>

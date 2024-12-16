@@ -13,6 +13,8 @@ class Product extends Model
         'category_id',
         'main_category_id',
         'subcategory_id',
+        'sub_subcategory_id',
+        'minor_category_id',
         'id_interno',
         'proveedor',
         'referencia',
@@ -40,7 +42,7 @@ class Product extends Model
     protected $casts = [
         'detalles_lista' => 'array',
     ];
-    
+
     public function getImagesAttribute()
     {
         // Si img es un JSON que contiene un array de URLs de imágenes
@@ -50,10 +52,16 @@ class Product extends Model
         // return explode(',', $this->img);
     }
 
+    public function getDetallesListaAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
+    }
+
     public function detailsList()
     {
-        return $this->detalles_lista ?? [];
+        return json_decode($this->detalles_lista, true) ?? [];
     }
+
 
     public function mainCategory()
     {
@@ -78,5 +86,17 @@ class Product extends Model
     public function subcategory()
     {
         return $this->belongsTo(Subcategory::class);
+    }
+
+    public function subsubcategory()
+    {
+        return $this->belongsTo(SubSubcategory::class, 'sub_subcategory_id');
+    }
+
+
+
+    public function minorCategory()
+    {
+        return $this->belongsTo(MinorCategory::class, 'minor_category_id');
     }
 }

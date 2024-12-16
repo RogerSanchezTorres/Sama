@@ -10,6 +10,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Subcategory;
 use App\Models\SubSubcategory;
+use App\Models\MinorCategory;
 
 
 class ProductsController extends Controller
@@ -64,10 +65,35 @@ class ProductsController extends Controller
     public function showProductsBySubsubcategory($subsubcategorySlug)
     {
         $subsubcategory = SubSubcategory::where('slug', $subsubcategorySlug)->firstOrFail();
-        $products = $subsubcategory->products;
+        $subcategory = $subsubcategory->subcategory; // Subcategoría padre
+        $category = $subcategory->category; // Categoría padre
 
-        return view('products.show', compact('subsubcategory', 'products'));
+        $relatedCategories = $category->mainCategory->categories; // Categorías relacionadas
+
+        $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
+
+        return view('products.show_by_subsubcategory', compact('products', 'subsubcategory', 'relatedCategories'));
     }
+
+
+
+    /*public function showProductsByMinorCategory($minorCategorySlug)
+    {
+        $minorCategory = MinorCategory::where('slug', $minorCategorySlug)->firstOrFail();
+
+        $subsubcategory = $minorCategory->subsubcategory;
+        $subcategory = $subsubcategory->subcategory;
+        $category = $subcategory->category;
+
+        $relatedCategories = $category->mainCategory->categories;
+        
+        $products = $minorCategory->products()->paginate(16);
+
+        dd($minorCategory, $subsubcategory, $subcategory, $category, $relatedCategories);
+
+
+        return view('products.show_by_minorcategory', compact('products', 'minorCategory', 'relatedCategories'));
+    }*/
 
 
 
