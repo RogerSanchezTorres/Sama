@@ -120,6 +120,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');
     Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
+    Route::delete('/admin/image/{id}', [ImageController::class, 'destroy'])->name('admin-delete-image');
+
 
     Route::get('/proveedores', [ImageController::class, 'proveedores'])->name('proveedores');
     Route::post('/proveedores/add', [ImageController::class, 'addProveedor'])->name('proveedores.addProveedor');

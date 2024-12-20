@@ -230,58 +230,6 @@ class AdminController extends Controller
         return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'minorCategories'));
     }
 
-    /*public function updateProducts(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'nombre_es' => 'required|max:255',
-            'precio_es' => 'required|numeric',
-            'precio_oferta_es' => 'nullable|numeric',
-            'proveedor' => 'max:255',
-            'marca' => 'nullable|max:255',
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'pdf' => 'nullable|mimes:pdf|max:10000',
-            'main_category_id' => 'required|exists:main_categories,id',
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'descripcion' => 'nullable|string|max:350',
-        ]);
-
-        $product = Product::find($id);
-
-        if (!$product) {
-            return redirect()->back()->with('error', 'El producto no se encontró');
-        }
-
-        // Actualizar los campos del producto
-        $product->nombre_es = $validated['nombre_es'];
-        $product->precio_es = $validated['precio_es'];
-        $product->precio_oferta_es = $validated['precio_oferta_es'];
-        $product->proveedor = $validated['proveedor'];
-        $product->marca = $validated['marca'];
-        $product->main_category_id = $validated['main_category_id'];
-        $product->category_id = $validated['category_id'];
-        $product->subcategory_id = $validated['subcategory_id'];
-        $product->descripcion = $validated['descripcion'];
-
-        // Manejo de imagen
-        if ($request->hasFile('img')) {
-            $imgFile = $request->file('img');
-            $imgPath = $imgFile->store('public/img');
-            $product->img = Storage::url($imgPath); // Guarda la URL de la imagen
-        }
-
-        // Manejo de PDF
-        if ($request->hasFile('pdf')) {
-            $pdfFile = $request->file('pdf');
-            $pdfPath = $pdfFile->store('public/pdf');
-            $product->pdf = Storage::url($pdfPath); // Guarda la URL del PDF
-        }
-
-        // Guardar los cambios en la base de datos
-        $product->save();
-
-        return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
-    }*/
 
     public function updateProducts(Request $request, $id)
     {
@@ -319,23 +267,34 @@ class AdminController extends Controller
         $product->main_category_id = $validated['main_category_id'];
         $product->category_id = $validated['category_id'];
         $product->subcategory_id = $validated['subcategory_id'];
-        $product->subsubcategory_id = $validated['subsubcategory_id']; // Actualizar subsubcategoría
+        $product->subsubcategory_id = $validated['subsubcategory_id'];
         $product->descripcion = $validated['descripcion'];
         $product->detalles_lista = json_encode($validated['detalles_lista']);
 
-        // Manejo de imágenes
+        // Manejo de imágenes existentes
+        $existingImages = [];
+        if (!empty($product->img)) {
+            $existingImages = json_decode($product->img, true) ?? [];
+
+            // Si no es un JSON válido, asumimos que es una sola imagen
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $existingImages = [$product->img];
+            }
+        }
+
+        // Manejo de nuevas imágenes
         if ($request->hasFile('img')) {
             $imgFiles = $request->file('img');
-            $existingImages = json_decode($product->img, true) ?? [];
 
             foreach ($imgFiles as $imgFile) {
                 $imgPath = $imgFile->store('public/img');
                 $imgUrl = Storage::url($imgPath);
-                $existingImages[] = $imgUrl;
+                $existingImages[] = $imgUrl; // Añadir al conjunto de imágenes
             }
-
-            $product->img = json_encode($existingImages);
         }
+
+        // Guardar todas las imágenes en formato JSON
+        $product->img = json_encode($existingImages);
 
         // Manejo de PDF
         if ($request->hasFile('pdf')) {
@@ -344,7 +303,6 @@ class AdminController extends Controller
             $product->pdf = Storage::url($pdfPath);
         }
 
-        // Guardar cambios
         $product->save();
 
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');

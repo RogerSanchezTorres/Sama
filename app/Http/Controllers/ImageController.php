@@ -23,9 +23,10 @@ class ImageController extends Controller
     public function upload(Request $request)
     {
         try {
-            // Validación de la imagen
+            // Validar que se suba una imagen y que exista el product_id
             $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif'
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'product_id' => 'required|exists:products,id',
             ]);
 
             // Guardar la imagen
@@ -34,9 +35,9 @@ class ImageController extends Controller
             // Guardar en la base de datos
             $image = new Image();
             $image->path = 'storage/' . $imagePath;
+            $image->product_id = $request->input('product_id');
             $image->save();
 
-            // Devolver respuesta JSON
             return response()->json([
                 'success' => true,
                 'id' => $image->id,
@@ -45,10 +46,11 @@ class ImageController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error al subir la imagen',
+                'message' => 'Error al subir la imagen: ' . $e->getMessage(),
             ], 500);
         }
     }
+
 
     public function updateOrder(Request $request)
     {

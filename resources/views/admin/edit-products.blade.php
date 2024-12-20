@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('/style/admin/edit-products.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -18,114 +21,153 @@
     <x-nav />
     <x-header-admin />
 
-    <form method="POST" action="{{ route('admin-update-products', $product->id) }}" id="edit-products" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre_es" value="{{ $product->nombre_es }}" class="form-control">
+    <div class="container my-5">
+        <div class="card shadow-sm p-4">
+            <h3 class="text-center mb-4 fw-bold">Editar Producto</h3>
+            <form method="POST" action="{{ route('admin-update-products', $product->id) }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-        <label for="precio">Precio</label>
-        <input type="text" id="precio" name="precio_es" value="{{ $product->precio_es }}" class="form-control">
+                {{-- Información Principal --}}
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-4">
+                        <label for="nombre" class="fw-bold mb-1">Nombre</label>
+                        <input type="text" name="nombre_es" value="{{ $product->nombre_es }}" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="precio" class="fw-bold mb-1">Precio</label>
+                        <input type="number" name="precio_es" value="{{ $product->precio_es }}" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="precio_oferta" class="fw-bold mb-1">Precio Oferta</label>
+                        <input type="number" name="precio_oferta_es" value="{{ $product->precio_oferta_es }}" class="form-control">
+                    </div>
+                    <div class="col-md-4" style="margin-top: 15px;">
+                        <label for="marca" class="fw-bold mb-1">Marca</label>
+                        <input type="text" name="marca" value="{{ $product->marca }}" class="form-control">
+                    </div>
+                    <div class="col-md-4" style="margin-top: 15px;">
+                        <label for="referencia" class="fw-bold mb-1">Referencia</label>
+                        <input type="text" name="referencia" value="{{ $product->referencia }}" class="form-control">
+                    </div>
+                    <div class="col-md-4" style="margin-top: 15px;">
+                        <label for="proveedor" class="fw-bold mb-1">Proveedor</label>
+                        <input type="text" name="proveedor" value="{{ $product->proveedor }}" class="form-control">
+                    </div>
+                </div>
 
-        <label for="precio_oferta">Precio Oferta</label>
-        <input type="text" id="precio_oferta" name="precio_oferta_es" value="{{ $product->precio_oferta_es }}" class="form-control">
+                {{-- Categorías --}}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold mb-1" for="main_category">Categoría Principal</label>
+                        <select name="main_category_id" class="form-select" id="main_category_id">
+                            <option value="">Selecciona</option>
+                            @foreach ($mainCategories as $mainCategory)
+                            <option value="{{ $mainCategory->id }}" {{ $product->main_category_id == $mainCategory->id ? 'selected' : '' }}>
+                                {{ $mainCategory->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold mb-1" for="category_id">Categoría Secundaria</label>
+                        <select id="category_id" name="category_id" class="form-select">
+                            <option value="">Selecciona</option>
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                {{ $category->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <label for="marca">Marca</label>
-        <input type="text" id="marca" name="marca" value="{{ $product->marca }}" class="form-control">
+                    <div class="col-md-6">
+                        <label class="fw-bold mb-1" for="subcategory_id">Subcategoría</label>
+                        <select id="subcategory_id" name="subcategory_id" class="form-select">
+                            <option value="">Selecciona</option>
+                            @foreach($subcategories as $subcategory)
+                            <option value="{{ $subcategory->id }}" data-category-id="{{ $subcategory->category_id }}" {{ $product->subcategory_id == $subcategory->id ? 'selected' : '' }}>
+                                {{ $subcategory->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <label for="referencia">Referencia</label>
-        <input type="text" id="referencia" name="referencia" value="{{ $product->referencia }}" class="form-control">
+                    <div class="col-md-6">
+                        <label class="fw-bold mb-1" for="subsubcategory_id">Subsubcategoría</label>
+                        <select id="subsubcategory_id" name="subsubcategory_id" class="form-select">
+                            <option value="">Selecciona</option>
+                            @foreach($subsubcategories as $subsubcategory)
+                            <option value="{{ $subsubcategory->id }}" data-subcategory-id="{{ $subsubcategory->subcategory_id }}" {{ $product->subsubcategory_id == $subsubcategory->id ? 'selected' : '' }}>
+                                {{ $subsubcategory->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                {{-- Imágenes --}}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold mb-1">Imagen del Producto</label>
+                        <input type="file" name="img[]" class="form-control" multiple>
+                    </div>
+                </div>
 
-        <label for="proveedor">Proveedor</label>
-        <input type="text" id="proveedor" name="proveedor" value="{{ $product->proveedor }}" class="form-control"><br><br>
+                <div class="row">
+                    @if (!empty(json_decode($product->img, true)))
+                    @foreach (json_decode($product->img, true) as $img)
+                    <div class="col-md-3">
+                        <img src="{{ asset($img) }}" class="img-fluid mb-3">
+                    </div>
+                    @endforeach
+                    @endif
+                </div>
 
-        <label for="main_category">Categoría Principal</label>
-        <select id="main_category_id" name="main_category_id" class="form-control" required>
-            @foreach ($mainCategories as $mainCategory)
-            <option value="{{ $mainCategory->id }}" {{ $product->main_category_id == $mainCategory->id ? 'selected' : '' }}>
-                {{ $mainCategory->nombre }}
-            </option>
-            @endforeach
-        </select>
+                {{-- Descripción --}}
+                <div class="mb-3">
+                    <label for="descripcion" class="fw-bold mb-1">Descripción</label>
+                    <textarea name="descripcion" rows="3" class="form-control">{{ $product->descripcion }}</textarea>
+                </div>
 
-        <label for="category_id">Categoría Secundaria</label>
-        <select id="category_id" name="category_id" class="form-control">
-            <option value=""></option>
-            @foreach($categories as $category)
-            <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                {{ $category->nombre }}
-            </option>
-            @endforeach
-        </select><br><br>
-
-
-        <label for="subcategory_id">Subcategoría</label>
-        <select id="subcategory_id" name="subcategory_id" class="form-control">
-            <option value=""></option>
-            @foreach($subcategories as $subcategory)
-            <option value="{{ $subcategory->id }}" data-category-id="{{ $subcategory->category_id }}" {{ $product->subcategory_id == $subcategory->id ? 'selected' : '' }}>
-                {{ $subcategory->nombre }}
-            </option>
-            @endforeach
-        </select>
-
-        <label for="subsubcategory_id">Subsubcategoría</label>
-        <select id="subsubcategory_id" name="subsubcategory_id" class="form-control">
-            <option value=""></option>
-            @foreach($subsubcategories as $subsubcategory)
-            <option value="{{ $subsubcategory->id }}" data-subcategory-id="{{ $subsubcategory->subcategory_id }}" {{ $product->subsubcategory_id == $subsubcategory->id ? 'selected' : '' }}>
-                {{ $subsubcategory->nombre }}
-            </option>
-            @endforeach
-        </select>
-
-
-        <!--<label for="minor_category_id">Minor Category</label>
-        <select id="minor_category_id" name="minor_category_id" class="form-control">
-            <option value=""></option>
-            @foreach($minorCategories as $minorCategory)
-            <option value="{{ $minorCategory->id }}" data-subcategory-id="{{ $minorCategory->subcategory_id }}" {{ $product->minor_category_id == $minorCategory->id ? 'selected' : '' }}>
-                {{ $minorCategory->nombre }}
-            </option>
-            @endforeach
-        </select>-->
+                {{-- Detalles Lista --}}
+                <div class="detalles_lista mb-3">
+                    <label for="detalles_lista" class="fw-bold mb-1">Detalles</label>
+                    <div id="detalles-container">
+                        @php
+                        if (is_string($product->detalles_lista)) {
+                        $detalles = json_decode($product->detalles_lista, true) ?? [];
+                        } else {
+                        $detalles = $product->detalles_lista ?? [];
+                        }
+                        @endphp
+                        @if (!empty($detalles))
+                        @foreach ($detalles as $detalle)
+                        <div class="detalle-item d-flex align-items-center mb-2">
+                            <input type="text" name="detalles_lista[]" value="{{ $detalle }}" class="form-control me-2">
+                            <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
+                        </div>
+                        @endforeach
+                        @else
+                        <div class="detalle-item d-flex align-items-center mb-2">
+                            <input type="text" name="detalles_lista[]" class="form-control me-2">
+                            <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
+                        </div>
+                        @endif
+                    </div>
+                    <button type="button" id="add-detalle" class="btn btn-sm btn-primary mt-2">Agregar Detalle</button>
+                </div>
 
 
-        <div class="form-group">
-            <label for="img">Imagen del Producto</label>
-            <input type="file" name="img[]" id="img" multiple accept="image/*">
-
-
-            <label for="pdf" id="pdf-text">Archivo PDF</label>
-            <input type="file" id="pdf" name="pdf" class="form-control">
+                {{-- Botón Guardar --}}
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-warning px-5 fw-bold">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="description">
-            <label for="descripcion">Descripción</label>
-            <input type="text" id="descripcion" name="descripcion" value="{{ $product->descripcion }}" class="form-control">
-        </div>
-
-        
-        <div class="detalles_lista">
-            <label for="detalles_lista">Detalles</label>
-            <div id="detalles-container">
-                @if($product->detalles_lista)
-                @foreach(json_decode($product->detalles_lista, true) as $detalle)
-                <input type="text" name="detalles_lista[]" value="{{ $detalle }}" class="form-control mb-2">
-                @endforeach
-                @else
-                <input type="text" name="detalles_lista[]" class="form-control mb-2">
-                @endif
-            </div>
-            <button type="button" id="add-detalle" class="btn btn-primary btn-sm mt-2">Agregar Detalle</button>
-        </div>
-
-
-        <div class="btnSave">
-            <button type="submit" aria-label="Actualizar Producto">Actualizar Producto</button>
-        </div>
-
-    </form>
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -138,7 +180,6 @@
 
     <x-footer />
 
-    <script src="{{ asset('js/detalles.js') }}"></script>
     <script>
         document.getElementById('main_category_id').addEventListener('change', function() {
             var mainCategoryId = this.value;
@@ -215,6 +256,30 @@
                     option.style.display = 'block';
                 } else {
                     option.style.display = 'none';
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const detallesContainer = document.getElementById('detalles-container');
+            const btnAddDetalle = document.getElementById('add-detalle');
+
+            // Agregar un nuevo detalle
+            btnAddDetalle.addEventListener('click', () => {
+                const detalleItem = document.createElement('div');
+                detalleItem.classList.add('detalle-item', 'd-flex', 'align-items-center', 'mb-2');
+                detalleItem.innerHTML = `
+            <input type="text" name="detalles_lista[]" class="form-control me-2">
+            <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
+        `;
+                detallesContainer.appendChild(detalleItem);
+            });
+
+            // Eliminar un detalle
+            detallesContainer.addEventListener('click', (event) => {
+                if (event.target.classList.contains('btn-remove-detalle')) {
+                    const detalleItem = event.target.closest('.detalle-item');
+                    detallesContainer.removeChild(detalleItem);
                 }
             });
         });

@@ -29,7 +29,26 @@
         @foreach($resultados as $resultado)
         <a href="{{ route('products.showDetail', ['id' => $resultado->id]) }}">
             <div class="producto">
-                <img src="{{ asset($resultado->img) }}" alt="{{ $resultado->nombre_es }}" class="producto-imagen">
+                <div class="image-container">
+                    @php
+                    // Decodificamos las imágenes del producto si es JSON
+                    $images = json_decode($product->img, true);
+
+                    // Si la imagen no es JSON, asumimos que es un producto antiguo con una imagen única
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                    $images = [$product->img];
+                    }
+                    @endphp
+
+                    @if (!empty($images) && is_array($images))
+                    <!-- Mostramos la primera imagen, ya sea de un producto nuevo o antiguo -->
+                    <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}">
+                    @else
+                    <div class="no-image">
+                        No hay imagen disponible
+                    </div>
+                    @endif
+                </div>
                 <h2 class="producto-nombre">{{ $resultado->nombre_es }}</h2>
                 <p class="producto-precio">Precio: {{ $resultado->precio_es }}€</p>
             </div>

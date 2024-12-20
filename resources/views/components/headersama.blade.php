@@ -1,4 +1,4 @@
-<div id="sama">
+<div id="sama" style="margin-left: 60px;">
     <div id="logo">
         <a href="{{ route('index') }}"> <img src="{{ asset('img/logo-web-negro.svg') }}" alt="logo"></a>
     </div>

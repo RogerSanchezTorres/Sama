@@ -67,8 +67,19 @@
                 <div class="product">
                     <a href="{{ route('products.showDetail', ['id' => $product->id]) }}">
                         <div class="image-container">
-                            @if ($product->img)
-                            <img src="{{ asset($product->img) }}" alt="{{ $product->nombre_es }}">
+                            @php
+                            // Decodificamos las imágenes del producto si es JSON
+                            $images = json_decode($product->img, true);
+
+                            // Si la imagen no es JSON, asumimos que es un producto antiguo con una imagen única
+                            if (json_last_error() !== JSON_ERROR_NONE) {
+                            $images = [$product->img];
+                            }
+                            @endphp
+
+                            @if (!empty($images) && is_array($images))
+                            <!-- Mostramos la primera imagen, ya sea de un producto nuevo o antiguo -->
+                            <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}">
                             @else
                             <div class="no-image">
                                 No hay imagen disponible
