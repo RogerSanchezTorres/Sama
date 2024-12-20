@@ -248,7 +248,7 @@ class AdminController extends Controller
             'subsubcategory_id' => 'nullable|exists:sub_subcategories,id',
             'descripcion' => 'nullable|string|max:5000',
             'detalles_lista' => 'nullable|array',
-            'detalles_lista.*' => 'string|max:5000',
+            'detalles_lista.*' => 'nullable|string|max:5000',
         ]);
 
         $product = Product::find($id);
