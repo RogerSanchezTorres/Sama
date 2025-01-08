@@ -249,6 +249,7 @@ class AdminController extends Controller
             'descripcion' => 'nullable|string|max:5000',
             'detalles_lista' => 'nullable|array',
             'detalles_lista.*' => 'nullable|string|max:5000',
+            'delete_images' => 'nullable|array', // Validar las imágenes a eliminar
         ]);
 
         $product = Product::find($id);
@@ -267,33 +268,44 @@ class AdminController extends Controller
         $product->main_category_id = $validated['main_category_id'];
         $product->category_id = $validated['category_id'];
         $product->subcategory_id = $validated['subcategory_id'];
-        $product->subsubcategory_id = $validated['subsubcategory_id'];
+        $product->subsubcategory_id = $validated['subsubcategory_id'] ?? null;
         $product->descripcion = $validated['descripcion'];
-        $product->detalles_lista = json_encode($validated['detalles_lista']);
+        $product->detalles_lista = isset($validated['detalles_lista'])
+            ? json_encode($validated['detalles_lista'])
+            : json_encode([]);
 
         // Manejo de imágenes existentes
-        $existingImages = [];
-        if (!empty($product->img)) {
-            $existingImages = json_decode($product->img, true) ?? [];
+        $existingImages = json_decode($product->img, true) ?? [];
 
-            // Si no es un JSON válido, asumimos que es una sola imagen
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $existingImages = [$product->img];
+        // Eliminar imágenes marcadas
+        if ($request->has('delete_images')) {
+            foreach ($request->input('delete_images') as $index) {
+                if (isset($existingImages[$index])) {
+                    // Eliminar archivo del almacenamiento
+                    $imagePath = public_path($existingImages[$index]);
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+
+                    // Eliminar del array
+                    unset($existingImages[$index]);
+                }
             }
+
+            // Reindexar el array para mantener un formato consistente
+            $existingImages = array_values($existingImages);
         }
 
         // Manejo de nuevas imágenes
         if ($request->hasFile('img')) {
-            $imgFiles = $request->file('img');
-
-            foreach ($imgFiles as $imgFile) {
+            foreach ($request->file('img') as $imgFile) {
                 $imgPath = $imgFile->store('public/img');
                 $imgUrl = Storage::url($imgPath);
                 $existingImages[] = $imgUrl; // Añadir al conjunto de imágenes
             }
         }
 
-        // Guardar todas las imágenes en formato JSON
+        // Guardar todas las imágenes actualizadas en formato JSON
         $product->img = json_encode($existingImages);
 
         // Manejo de PDF
@@ -307,6 +319,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
+
 
 
 

@@ -32,21 +32,18 @@
                 <div class="image-container">
                     @php
                     // Decodificamos las imágenes del producto si es JSON
-                    $images = json_decode($product->img, true);
+                    $images = json_decode($resultado->img, true);
 
                     // Si la imagen no es JSON, asumimos que es un producto antiguo con una imagen única
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                    $images = [$product->img];
+                    if (json_last_error() !== JSON_ERROR_NONE || !is_array($images)) {
+                    $images = [$resultado->img];
                     }
                     @endphp
 
                     @if (!empty($images) && is_array($images))
-                    <!-- Mostramos la primera imagen, ya sea de un producto nuevo o antiguo -->
-                    <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}">
+                    <img src="{{ asset($images[0]) }}" alt="{{ $resultado->nombre_es }}">
                     @else
-                    <div class="no-image">
-                        No hay imagen disponible
-                    </div>
+                    <div class="no-image">No hay imagen disponible</div>
                     @endif
                 </div>
                 <h2 class="producto-nombre">{{ $resultado->nombre_es }}</h2>
@@ -60,6 +57,7 @@
     <div class="pagination">
         {{ $resultados->appends(request()->query())->links() }}
     </div>
+
 
 
     <x-footer />

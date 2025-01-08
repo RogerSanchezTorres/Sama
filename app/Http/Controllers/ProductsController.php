@@ -95,6 +95,30 @@ class ProductsController extends Controller
         return view('products.show_by_minorcategory', compact('products', 'minorCategory', 'relatedCategories'));
     }*/
 
+    public function deleteProductImage($id, $index)
+    {
+        $product = Product::findOrFail($id);
+
+        // Decodificar las imágenes del producto
+        $images = json_decode($product->img, true) ?? [];
+
+        if (isset($images[$index])) {
+            // Eliminar la imagen físicamente del almacenamiento
+            $imagePath = public_path($images[$index]);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            // Eliminar la imagen del array
+            unset($images[$index]);
+
+            // Reindexar el array y guardarlo de nuevo
+            $product->img = json_encode(array_values($images));
+            $product->save();
+        }
+
+        return redirect()->back()->with('success', 'Imagen eliminada correctamente.');
+    }
 
 
     public function showDetail($id)
