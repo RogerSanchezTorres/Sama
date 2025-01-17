@@ -54,8 +54,10 @@ body {
     background-color: black;
     position: relative;
     margin-top: 10.5%;
-    width: 100%;
+    width: 143.9%;
     height: auto;
+    margin-left: -285px;
+    margin-bottom: -48px;
 }
 
 #info-footer {

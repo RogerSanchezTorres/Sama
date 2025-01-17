@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration
             $table->integer('subsubcategory_id')->nullable();
             $table->string('id_interno')->nullable();
             $table->string('proveedor')->nullable();
+            $table->string('proveedor_logo_path')->nullable(); // Eliminado ->after('proveedor')
             $table->string('referencia')->nullable();
             $table->string('marca')->nullable();
             $table->bigInteger('codigo_barras')->nullable();
@@ -46,4 +47,3 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('products');
     }
 }
-

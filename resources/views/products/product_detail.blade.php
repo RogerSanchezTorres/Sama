@@ -63,6 +63,12 @@
                 <p class="marca"><b>Marca:</b> {{$product->marca}}</p><br>
                 <p class="ref"><b>Referencia:</b> {{$product->referencia}}</p>
             </div><br>
+            @if ($product->proveedor_logo_path)
+            <div class="proveedor-logo">
+                <p class="proveedor"><b>Proveedor:</b> {{$product->proveedor}}</p>
+                <img src="{{ asset($product->proveedor_logo_path) }}" alt="Logo del Proveedor" class="img-fluid" style="max-width: 150px; max-height: 150px;">
+            </div><br>
+            @endif
             @if (auth()->check() && auth()->user()->role)
             @if (auth()->user()->role->role === 'profesional')
             <div class="product-price">

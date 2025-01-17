@@ -54,6 +54,27 @@
                         <label for="proveedor" class="fw-bold mb-1">Proveedor</label>
                         <input type="text" name="proveedor" value="{{ $product->proveedor }}" class="form-control">
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="proveedor_logo" class="fw-bold mb-1">Logo del Proveedor</label>
+                            <input type="file" name="proveedor_logo" class="form-control">
+                        </div>
+                    </div>
+
+                    {{-- Vista previa del logo actual, si existe --}}
+                    @if ($product->proveedor_logo_path ?? false)
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold mb-1">Logo Actual</label><br>
+                            <img src="{{ asset($product->proveedor_logo_path) }}" alt="Logo del Proveedor" class="img-fluid" style="max-width: 150px; max-height: 150px;">
+                            <div class="form-check mt-2">
+                                <input type="checkbox" name="delete_proveedor_logo" value="1" id="delete_proveedor_logo" class="form-check-input">
+                                <label for="delete_proveedor_logo" class="form-check-label">Eliminar Logo</label>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
                 </div>
 
                 {{-- Categorías --}}
@@ -104,71 +125,70 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-                {{-- Imágenes --}}
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label class="fw-bold mb-1">Imagen del Producto</label>
-                        <input type="file" name="img[]" class="form-control" multiple>
-                    </div>
-                </div>
-
-                <div class="row">
-                    @if (!empty(json_decode($product->img, true)))
-                    @foreach (json_decode($product->img, true) as $index => $img)
-                    <div class="col-md-3">
-                        <img src="{{ asset($img) }}" class="img-fluid mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="form-check-input" id="delete_image_{{ $index }}">
-                            <label class="form-check-label" for="delete_image_{{ $index }}">Eliminar</label>
+                    {{-- Imágenes --}}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold mb-1">Imagen del Producto</label>
+                            <input type="file" name="img[]" class="form-control" multiple>
                         </div>
-
                     </div>
-                    @endforeach
-                    @endif
-                </div>
 
-                {{-- Descripción --}}
-                <div class="mb-3">
-                    <label for="descripcion" class="fw-bold mb-1">Descripción</label>
-                    <textarea name="descripcion" rows="3" class="form-control">{{ $product->descripcion }}</textarea>
-                </div>
+                    <div class="row">
+                        @if (!empty(json_decode($product->img, true)))
+                        @foreach (json_decode($product->img, true) as $index => $img)
+                        <div class="col-md-3">
+                            <img src="{{ asset($img) }}" class="img-fluid mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="form-check-input" id="delete_image_{{ $index }}">
+                                <label class="form-check-label" for="delete_image_{{ $index }}">Eliminar</label>
+                            </div>
 
-                {{-- Detalles Lista --}}
-                <div class="detalles_lista mb-3">
-                    <label for="detalles_lista" class="fw-bold mb-1">Detalles</label>
-                    <div id="detalles-container">
-                        @php
-                        if (is_string($product->detalles_lista)) {
-                        $detalles = json_decode($product->detalles_lista, true) ?? [];
-                        } else {
-                        $detalles = $product->detalles_lista ?? [];
-                        }
-                        @endphp
-                        @if (!empty($detalles))
-                        @foreach ($detalles as $detalle)
-                        <div class="detalle-item d-flex align-items-center mb-2">
-                            <input type="text" name="detalles_lista[]" value="{{ $detalle }}" class="form-control me-2">
-                            <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
                         </div>
                         @endforeach
-                        @else
-                        <div class="detalle-item d-flex align-items-center mb-2">
-                            <input type="text" name="detalles_lista[]" class="form-control me-2">
-                            <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
-                        </div>
                         @endif
                     </div>
-                    <button type="button" id="add-detalle" class="btn btn-sm btn-primary mt-2">Agregar Detalle</button>
-                </div>
+
+                    {{-- Descripción --}}
+                    <div class="mb-3">
+                        <label for="descripcion" class="fw-bold mb-1">Descripción</label>
+                        <textarea name="descripcion" rows="3" class="form-control">{{ $product->descripcion }}</textarea>
+                    </div>
+
+                    {{-- Detalles Lista --}}
+                    <div class="detalles_lista mb-3">
+                        <label for="detalles_lista" class="fw-bold mb-1">Detalles</label>
+                        <div id="detalles-container">
+                            @php
+                            if (is_string($product->detalles_lista)) {
+                            $detalles = json_decode($product->detalles_lista, true) ?? [];
+                            } else {
+                            $detalles = $product->detalles_lista ?? [];
+                            }
+                            @endphp
+                            @if (!empty($detalles))
+                            @foreach ($detalles as $detalle)
+                            <div class="detalle-item d-flex align-items-center mb-2">
+                                <input type="text" name="detalles_lista[]" value="{{ $detalle }}" class="form-control me-2">
+                                <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
+                            </div>
+                            @endforeach
+                            @else
+                            <div class="detalle-item d-flex align-items-center mb-2">
+                                <input type="text" name="detalles_lista[]" class="form-control me-2">
+                                <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
+                            </div>
+                            @endif
+                        </div>
+                        <button type="button" id="add-detalle" class="btn btn-sm btn-primary mt-2">Agregar Detalle</button>
+                    </div>
 
 
-                {{-- Botón Guardar --}}
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-warning px-5 fw-bold">
-                        <i class="fas fa-save"></i> Guardar Cambios
-                    </button>
-                </div>
+                    {{-- Botón Guardar --}}
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-warning px-5 fw-bold">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                    </div>
             </form>
         </div>
     </div>
@@ -264,6 +284,34 @@
                 }
             });
         });
+        document.addEventListener('DOMContentLoaded', function() {
+            const subcategorySelect = document.getElementById('subcategory_id');
+            const subsubcategorySelect = document.getElementById('subsubcategory_id');
+
+            // Evento para detectar cambios en la subcategoría seleccionada
+            subcategorySelect.addEventListener('change', function() {
+                const selectedSubcategoryId = this.value;
+
+                // Limpia las opciones actuales de subsubcategorías
+                subsubcategorySelect.innerHTML = '<option value="">Selecciona</option>';
+
+                // Agrega las opciones que coincidan con la subcategoría seleccionada
+                const subsubcategories = Array.from(subsubcategorySelect.querySelectorAll('option[data-subcategory-id]'));
+                subsubcategories.forEach(option => {
+                    if (option.dataset.subcategoryId === selectedSubcategoryId) {
+                        subsubcategorySelect.appendChild(option);
+                    }
+                });
+            });
+
+            // Filtra automáticamente al cargar la página si ya hay una subcategoría seleccionada
+            const initialSubcategoryId = subcategorySelect.value;
+            if (initialSubcategoryId) {
+                const event = new Event('change');
+                subcategorySelect.dispatchEvent(event);
+            }
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const detallesContainer = document.getElementById('detalles-container');
@@ -274,9 +322,9 @@
                 const detalleItem = document.createElement('div');
                 detalleItem.classList.add('detalle-item', 'd-flex', 'align-items-center', 'mb-2');
                 detalleItem.innerHTML = `
-            <input type="text" name="detalles_lista[]" class="form-control me-2">
-            <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
-        `;
+    <input type="text" name="detalles_lista[]" class="form-control me-2">
+    <button type="button" class="btn btn-danger btn-sm btn-remove-detalle">Eliminar</button>
+    `;
                 detallesContainer.appendChild(detalleItem);
             });
 
