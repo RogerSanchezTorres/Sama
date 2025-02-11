@@ -126,7 +126,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
     Route::get('/proveedores', [ImageController::class, 'proveedores'])->name('proveedores');
-    Route::post('/proveedores/add', [ImageController::class, 'addProveedor'])->name('proveedores.addProveedor');
+    Route::post('/proveedores/upload', [ImageController::class, 'uploadProveedor'])->name('proveedores.upload');
     Route::delete('/proveedores/{id}', [ImageController::class, 'deleteProveedor'])->name('proveedores.deleteProveedor');
     Route::post('/images/update-order', [ImageController::class, 'updateOrder'])->name('images.updateOrder');
 });

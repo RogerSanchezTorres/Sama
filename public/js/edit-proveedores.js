@@ -1,61 +1,118 @@
 document.getElementById("edit-mode-button").addEventListener("click", function () {
-    const imagenesContainer = document.getElementById("imagenes");
-    imagenesContainer.classList.toggle("edit-mode");
-    const isEditMode = imagenesContainer.classList.contains("edit-mode");
+    let addProveedorForm = document.getElementById("add-proveedor-form");
+    let proveedoresContainer = document.getElementById("proveedores");
 
-    // Mostrar/ocultar formularios de eliminación
+    // Alternar visibilidad del formulario de añadir proveedor
+    addProveedorForm.style.display = addProveedorForm.style.display === "none" ? "block" : "none";
+
+    // Alternar la clase para detener la animación y mostrar todas las imágenes
+    proveedoresContainer.classList.toggle("editing");
+
+    // Mostrar u ocultar los botones de eliminar
     document.querySelectorAll(".delete-form").forEach(form => {
-        form.style.display = isEditMode ? 'inline' : 'none';
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    });
+    document.querySelectorAll(".delete-button").forEach(button => {
+        console.log(button, button.closest(".proveedor-item"));
+    });
+
+});
+
+
+
+
+document.getElementById("add-proveedor-button").addEventListener("click", function () {
+    let fileInput = document.getElementById("new-proveedor-image");
+    let file = fileInput.files[0];
+
+    if (!file) {
+        alert("Por favor, selecciona una imagen.");
+        return;
+    }
+
+    let csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfMeta) {
+        alert("Error: CSRF token no encontrado.");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("image", file);
+
+    fetch(uploadProveedorUrl, {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRF-TOKEN": csrfMeta.getAttribute("content"),
+        },
+    })
+
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                let imageList = document.getElementById("imagenes");
+                let newImage = document.createElement("div");
+                newImage.classList.add("proveedor-item");
+                newImage.innerHTML = `
+    <img src="${data.url}" alt="Nuevo Proveedor" width="120px" height="50px">
+    <form action="/proveedores/deleteProveedor/${data.id}" method="POST" class="delete-form" style="display:none;">
+        <input type="hidden" name="_token" value="${csrfMeta.getAttribute("content")}">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="delete-button">Eliminar</button>
+    </form>
+`;
+
+                imageList.appendChild(newImage);
+
+                fileInput.value = "";
+            } else {
+                alert("Error al subir la imagen: " + data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
+});
+
+
+document.querySelectorAll("#proveedores .delete-form").forEach(form => {
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Evita la recarga de la página
+
+        let formData = new FormData(this);
+
+        fetch(this.action, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let proveedorItem = this.closest(".proveedor-item"); // Solo busca dentro de proveedores
+                    console.log("Formulario de proveedor:", this);
+                    console.log("Elemento proveedor encontrado:", proveedorItem);
+
+                    if (proveedorItem) {
+                        proveedorItem.remove(); // Elimina la imagen de proveedor inmediatamente
+                    } else {
+                        console.error("❌ No se encontró el elemento proveedor-item");
+                    }
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => console.error("Error en la petición:", error));
     });
 });
 
 
 
-// Evento para añadir una nueva imagen de proveedor
-document.getElementById("add-proveedor-button").addEventListener("click", function () {
-    const fileInput = document.getElementById("new-proveedor-image");
 
-    if (fileInput.files.length === 0) {
-        alert("Por favor, selecciona una imagen.");
-        return;
-    }
 
-    const formData = new FormData();
-    formData.append("file", fileInput.files[0]);  // El nombre debe ser "file" para coincidir con el controlador
 
-    fetch(addProveedorRoute, {  // Usar la variable de ruta
-        method: "POST",
-        body: formData,
-        headers: {
-            "X-CSRF-TOKEN": csrfToken
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.path) {
-                // Añadir la nueva imagen al DOM
-                const newProveedor = document.createElement("div");
-                newProveedor.className = "proveedor-item";
-                newProveedor.setAttribute("data-path", data.path);
-                newProveedor.innerHTML = `<img src="${data.path}" alt="Logo del proveedor" width="120px" height="50px">
-                <button class="delete-proveedor-button" style="display:inline;">Eliminar</button>
-                `;
-                document.getElementById("imagenes").appendChild(newProveedor);
-                fileInput.value = '';  // Limpiar el campo de archivo
-            } else {
-                console.error("Error al añadir la imagen:", data.error || "Error desconocido.");
-            }
-        })
-        .catch(error => console.error("Error en la petición:", error));
-});
 
-document.addEventListener("submit", function (event) {
-    if (event.target.classList.contains("delete-form")) {
-        event.preventDefault(); // Detenemos el envío por defecto para mostrar la confirmación
 
-        const confirmDelete = confirm("¿Estás seguro de que deseas eliminar este proveedor?");
-        if (confirmDelete) {
-            event.target.submit(); // Envía el formulario si se confirma
-        }
-    }
-});
+
+
+

@@ -156,7 +156,7 @@ class AdminController extends Controller
             $producto->proveedor = $request->input('referencia');
             $producto->marca = $request->input('marca');
             $producto->img = $imagenNombre;
-            $producto->pdf = $pdfNombre; // Guarda la ruta del PDF
+            $producto->pdf = $pdfNombre;
             $producto->main_category_id = $request->input('main_category_id');
             $producto->category_id = $request->input('category_id');
             $producto->subcategory_id = $request->input('subcategory_id');
@@ -201,20 +201,15 @@ class AdminController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        // Verificar si se han seleccionado productos
         if ($request->has('product_ids')) {
-            // Eliminar los productos seleccionados
             Product::whereIn('id', $request->input('product_ids'))->delete();
 
-            // Obtener la página actual desde el request
             $currentPage = $request->input('page', 1);
 
-            // Redireccionar con un mensaje de éxito y a la página correspondiente
             return redirect()->route('admin-view-products', ['page' => $currentPage])
                 ->with('success', 'Productos eliminados exitosamente.');
         }
 
-        // Si no se seleccionó ningún producto
         return redirect()->route('admin-view-products')->with('error', 'No se seleccionó ningún producto.');
     }
 
@@ -252,8 +247,8 @@ class AdminController extends Controller
         'detalles_lista' => 'nullable|array',
         'detalles_lista.*' => 'nullable|string|max:5000',
         'delete_images' => 'nullable|array',
-        'proveedor_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación para el logo del proveedor
-        'delete_proveedor_logo' => 'nullable|boolean', // Validación para eliminar logo
+        'proveedor_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'delete_proveedor_logo' => 'nullable|boolean',
     ]);
 
     $product = Product::find($id);
@@ -262,7 +257,6 @@ class AdminController extends Controller
         return redirect()->back()->with('error', 'El producto no se encontró');
     }
 
-    // Actualizar los campos del producto
     $product->nombre_es = $validated['nombre_es'];
     $product->precio_es = $validated['precio_es'];
     $product->precio_oferta_es = $validated['precio_oferta_es'];
@@ -278,60 +272,48 @@ class AdminController extends Controller
         ? json_encode($validated['detalles_lista'])
         : json_encode([]);
 
-    // Manejo de imágenes existentes
     $existingImages = json_decode($product->img, true) ?? [];
 
-    // Eliminar imágenes marcadas
     if ($request->has('delete_images')) {
         foreach ($request->input('delete_images') as $index) {
             if (isset($existingImages[$index])) {
-                // Eliminar archivo del almacenamiento
                 $imagePath = public_path($existingImages[$index]);
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
                 }
 
-                // Eliminar del array
                 unset($existingImages[$index]);
             }
         }
 
-        // Reindexar el array para mantener un formato consistente
         $existingImages = array_values($existingImages);
     }
 
-    // Manejo de nuevas imágenes
     if ($request->hasFile('img')) {
         foreach ($request->file('img') as $imgFile) {
             $imgPath = $imgFile->store('public/img');
             $imgUrl = Storage::url($imgPath);
-            $existingImages[] = $imgUrl; // Añadir al conjunto de imágenes
+            $existingImages[] = $imgUrl;
         }
     }
 
-    // Guardar todas las imágenes actualizadas en formato JSON
     $product->img = json_encode($existingImages);
 
-    // Manejo de PDF
     if ($request->hasFile('pdf')) {
         $pdfFile = $request->file('pdf');
         $pdfPath = $pdfFile->store('public/pdf');
         $product->pdf = Storage::url($pdfPath);
     }
 
-    // Manejo del logo del proveedor
     if ($request->hasFile('proveedor_logo')) {
-        // Eliminar el logo existente si hay uno
         if ($product->proveedor_logo_path) {
             Storage::delete($product->proveedor_logo_path);
         }
 
-        // Guardar el nuevo logo
         $logoPath = $request->file('proveedor_logo')->store('public/proveedores');
-        $product->proveedor_logo_path = Storage::url($logoPath); // Guardar URL en la base de datos
+        $product->proveedor_logo_path = Storage::url($logoPath);
     }
 
-    // Si se selecciona eliminar el logo actual
     if ($request->has('delete_proveedor_logo') && $product->proveedor_logo_path) {
         Storage::delete($product->proveedor_logo_path);
         $product->proveedor_logo_path = null;

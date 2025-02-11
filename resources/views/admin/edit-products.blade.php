@@ -55,7 +55,7 @@
                         <input type="text" name="proveedor" value="{{ $product->proveedor }}" class="form-control">
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="margin-top: 15px;">
                             <label for="proveedor_logo" class="fw-bold mb-1">Logo del Proveedor</label>
                             <input type="file" name="proveedor_logo" class="form-control">
                         </div>
@@ -102,7 +102,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="margin-top: 15px;">
                         <label class="fw-bold mb-1" for="subcategory_id">Subcategoría</label>
                         <select id="subcategory_id" name="subcategory_id" class="form-select">
                             <option value="">Selecciona</option>
@@ -114,7 +114,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="margin-top: 15px;">
                         <label class="fw-bold mb-1" for="subsubcategory_id">Subsubcategoría</label>
                         <select id="subsubcategory_id" name="subsubcategory_id" class="form-select">
                             <option value="">Selecciona</option>
@@ -127,7 +127,7 @@
                     </div>
                     {{-- Imágenes --}}
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="margin-top: 15px;">
                             <label class="fw-bold mb-1">Imagen del Producto</label>
                             <input type="file" name="img[]" class="form-control" multiple>
                         </div>
@@ -142,7 +142,6 @@
                                 <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="form-check-input" id="delete_image_{{ $index }}">
                                 <label class="form-check-label" for="delete_image_{{ $index }}">Eliminar</label>
                             </div>
-
                         </div>
                         @endforeach
                         @endif

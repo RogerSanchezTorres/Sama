@@ -205,14 +205,17 @@ body {
     position: relative;
     margin-top: 30px;
     margin-bottom: 30px;
-    z-index: -1;
+    pointer-events: auto;
+    display: flex;
 }
+
 
 #imagenes img {
     display: inline-block;
     animation: scroll 180s infinite linear;
     animation-play-state: running;
     margin-left: 50px;
+    pointer-events: auto;
 
 }
 
@@ -225,6 +228,22 @@ body {
         transform: translateX(calc(-100% * 196));
     }
 }
+
+/* 🔴 Modo Edición: Detener la animación y mostrar todas las imágenes */
+#proveedores.editing #imagenes {
+    white-space: normal;  /* Permite que las imágenes se muestren en varias líneas */
+    overflow: visible;    /* Asegura que se vean todas las imágenes */
+    display: flex;        /* Hace que las imágenes se alineen correctamente */
+    flex-wrap: wrap;      /* Permite que las imágenes pasen a la siguiente línea si es necesario */
+    justify-content: center; /* Centra las imágenes */
+}
+
+#proveedores.editing #imagenes img {
+    animation: none;      /* Desactiva la animación */
+    margin: 10px;        /* Añade un pequeño margen entre imágenes */
+}
+
+
 
 #abrirBuscador {
     background: none;
@@ -426,6 +445,9 @@ button {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-left: 10px;
+    position: relative;
+    z-index: 9999;
+    pointer-events: auto;
 }
 
 .delete-button:hover {
@@ -436,6 +458,10 @@ button {
 .delete-button:focus {
     outline: none;
     box-shadow: 0 0 8px rgba(51, 51, 51, 0.6);
+}
+
+.proveedor-item {
+    pointer-events: auto;
 }
 
 #add-proveedor-form {
@@ -536,6 +562,7 @@ button {
     outline: none;
     box-shadow: 0 0 8px rgba(51, 51, 51, 0.6);
 }
+
 
 
 @media only screen and (max-width: 768px) {
