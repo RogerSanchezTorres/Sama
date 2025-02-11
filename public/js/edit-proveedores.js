@@ -12,9 +12,6 @@ document.getElementById("edit-mode-button").addEventListener("click", function (
     document.querySelectorAll(".delete-form").forEach(form => {
         form.style.display = form.style.display === "none" ? "block" : "none";
     });
-    document.querySelectorAll(".delete-button").forEach(button => {
-        console.log(button, button.closest(".proveedor-item"));
-    });
 
 });
 
@@ -90,8 +87,6 @@ document.querySelectorAll("#proveedores .delete-form").forEach(form => {
             .then(data => {
                 if (data.success) {
                     let proveedorItem = this.closest(".proveedor-item"); // Solo busca dentro de proveedores
-                    console.log("Formulario de proveedor:", this);
-                    console.log("Elemento proveedor encontrado:", proveedorItem);
 
                     if (proveedorItem) {
                         proveedorItem.remove(); // Elimina la imagen de proveedor inmediatamente
