@@ -10,7 +10,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('/style/admin/edit-products.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 
@@ -36,11 +36,11 @@
                     </div>
                     <div class="col-md-4">
                         <label for="precio" class="fw-bold mb-1">Precio</label>
-                        <input type="number" name="precio_es" value="{{ $product->precio_es }}" class="form-control">
+                        <input type="number" name="precio_es" value="{{ $product->precio_es }}" class="form-control" step="0.01">
                     </div>
                     <div class="col-md-4">
                         <label for="precio_oferta" class="fw-bold mb-1">Precio Oferta</label>
-                        <input type="number" name="precio_oferta_es" value="{{ $product->precio_oferta_es }}" class="form-control">
+                        <input type="number" name="precio_oferta_es" value="{{ $product->precio_oferta_es }}" class="form-control" step="0.01">
                     </div>
                     <div class="col-md-4" style="margin-top: 15px;">
                         <label for="marca" class="fw-bold mb-1">Marca</label>
