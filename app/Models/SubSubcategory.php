@@ -34,10 +34,4 @@ class SubSubcategory extends Model
     {
         return $this->hasMany(Product::class, 'sub_subcategory_id');
     }
-
-
-    public function minorcategories()
-    {
-        return $this->hasMany(MinorCategory::class);
-    }
 }

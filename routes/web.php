@@ -113,10 +113,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
     Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');
 
-    Route::get('/admin/minor-categories/create', [AdminController::class, 'createminorCategory'])->name('admin.createMinorCategory');
-    Route::post('/admin/minor-categories', [AdminController::class, 'storeminorCategory'])->name('admin.storeMinorCategory');
-
-
 
     Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');
     Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');

@@ -119,9 +119,10 @@
                         <select id="subsubcategory_id" name="subsubcategory_id" class="form-select">
                             <option value="">Selecciona</option>
                             @foreach($subsubcategories as $subsubcategory)
-                            <option value="{{ $subsubcategory->id }}" data-subcategory-id="{{ $subsubcategory->subcategory_id }}" {{ $product->subsubcategory_id == $subsubcategory->id ? 'selected' : '' }}>
-                                {{ $subsubcategory->nombre }}
+                            <option value="{{ $subsubcategory->id }}"
+                                data-subcategory-id="{{ $subsubcategory->subcategory_id }}" {{ $product->subsubcategory_id == $subsubcategory->id ? 'selected' : '' }}> {{ $subsubcategory->nombre }}
                             </option>
+
                             @endforeach
                         </select>
                     </div>
@@ -287,29 +288,32 @@
             const subcategorySelect = document.getElementById('subcategory_id');
             const subsubcategorySelect = document.getElementById('subsubcategory_id');
 
-            // Evento para detectar cambios en la subcategoría seleccionada
-            subcategorySelect.addEventListener('change', function() {
-                const selectedSubcategoryId = this.value;
+            function actualizarSubsubcategorias() {
+                const selectedSubcategoryId = subcategorySelect.value;
 
-                // Limpia las opciones actuales de subsubcategorías
-                subsubcategorySelect.innerHTML = '<option value="">Selecciona</option>';
-
-                // Agrega las opciones que coincidan con la subcategoría seleccionada
-                const subsubcategories = Array.from(subsubcategorySelect.querySelectorAll('option[data-subcategory-id]'));
-                subsubcategories.forEach(option => {
-                    if (option.dataset.subcategoryId === selectedSubcategoryId) {
-                        subsubcategorySelect.appendChild(option);
+                // Iterar sobre las opciones y mostrar solo las que correspondan a la subcategoría seleccionada
+                subsubcategorySelect.querySelectorAll('option').forEach(option => {
+                    if (option.value === "" || option.dataset.subcategoryId === selectedSubcategoryId) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
                     }
                 });
-            });
 
-            // Filtra automáticamente al cargar la página si ya hay una subcategoría seleccionada
-            const initialSubcategoryId = subcategorySelect.value;
-            if (initialSubcategoryId) {
-                const event = new Event('change');
-                subcategorySelect.dispatchEvent(event);
+                // Si la opción seleccionada ya no es válida, resetear el select
+                if (!subsubcategorySelect.querySelector("option:checked") || subsubcategorySelect.querySelector("option:checked").style.display === 'none') {
+                    subsubcategorySelect.value = "";
+                }
             }
+
+            // Ejecutar al cambiar la subcategoría
+            subcategorySelect.addEventListener('change', actualizarSubsubcategorias);
+
+            // Ejecutar al cargar la página si ya hay una subcategoría seleccionada
+            actualizarSubsubcategorias();
         });
+
+
 
 
         document.addEventListener('DOMContentLoaded', () => {

@@ -222,9 +222,8 @@ class AdminController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $subsubcategories = SubSubCategory::all();
-        $minorCategories = MinorCategory::all();
         $proveedores = Proveedor::all();
-        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'minorCategories', 'proveedores'));
+        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories','proveedores'));
     }
 
 
@@ -465,37 +464,5 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.createSubSubcategory')->with('success', 'SubSubcategoría creada correctamente');
-    }
-
-    public function createminorCategory()
-    {
-        $mainCategories = MainCategory::all();
-        $categories = Category::all();
-        $subcategories = Subcategory::all();
-        $subsubcategories = Subsubcategory::all();
-        return view('admin.create_minor_category', compact('mainCategories', 'categories', 'subcategories', 'subsubcategories'));
-    }
-
-    public function storeminorCategory(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:minor_categories,slug',
-            'main_category_id' => 'required|exists:main_categories,id',
-            'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'required|exists:subcategories,id',
-            'subsubcategory_id' => 'required|exists:sub_subcategories,id',
-        ]);
-
-        MinorCategory::create([
-            'nombre' => $request->nombre,
-            'slug' => $request->slug,
-            'main_category_id' => $request->main_category_id,
-            'category_id' => $request->category_id,
-            'subcategory_id' => $request->subcategory_id,
-            'sub_subcategory_id' => $request->subsubcategory_id,
-        ]);
-
-        return redirect()->route('admin.createMinorCategory')->with('success', 'Minor Category creada correctamente');
     }
 }
