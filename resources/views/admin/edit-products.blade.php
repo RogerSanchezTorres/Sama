@@ -42,6 +42,10 @@
                         <label for="precio_oferta" class="fw-bold mb-1">Precio Oferta</label>
                         <input type="number" name="precio_oferta_es" value="{{ $product->precio_oferta_es }}" class="form-control" step="0.01">
                     </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold mb-1" for="stock">Stock</label>
+                        <input type="number" id="stock" name="stock" class="form-control" value="{{ old('stock', $product->stock) }}" min="0">
+                    </div>
                     <div class="col-md-4" style="margin-top: 15px;">
                         <label for="marca" class="fw-bold mb-1">Marca</label>
                         <input type="text" name="marca" value="{{ $product->marca }}" class="form-control">

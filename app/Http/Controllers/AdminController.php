@@ -248,6 +248,7 @@ class AdminController extends Controller
         'delete_images' => 'nullable|array',
         'proveedor_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'delete_proveedor_logo' => 'nullable|boolean',
+        'stock' => 'required|integer|min:0',
     ]);
 
     $product = Product::find($id);
@@ -270,6 +271,7 @@ class AdminController extends Controller
     $product->detalles_lista = isset($validated['detalles_lista'])
         ? json_encode($validated['detalles_lista'])
         : json_encode([]);
+    $product->stock = $validated['stock'];
 
     $existingImages = json_decode($product->img, true) ?? [];
 
