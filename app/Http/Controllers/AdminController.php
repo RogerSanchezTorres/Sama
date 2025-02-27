@@ -223,107 +223,133 @@ class AdminController extends Controller
         $subcategories = Subcategory::all();
         $subsubcategories = SubSubCategory::all();
         $proveedores = Proveedor::all();
-        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories','proveedores'));
+        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'proveedores'));
     }
 
 
     public function updateProducts(Request $request, $id)
-{
-    $validated = $request->validate([
-        'nombre_es' => 'required|max:255',
-        'precio_es' => 'required|numeric',
-        'precio_oferta_es' => 'nullable|numeric',
-        'proveedor' => 'max:255',
-        'referencia' => 'max:255',
-        'marca' => 'nullable|max:255',
-        'img*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'pdf' => 'nullable|mimes:pdf|max:10000',
-        'main_category_id' => 'required|exists:main_categories,id',
-        'category_id' => 'required|exists:categories,id',
-        'subcategory_id' => 'nullable|exists:subcategories,id',
-        'subsubcategory_id' => 'nullable|exists:sub_subcategories,id',
-        'descripcion' => 'nullable|string|max:5000',
-        'detalles_lista' => 'nullable|array',
-        'detalles_lista.*' => 'nullable|string|max:5000',
-        'delete_images' => 'nullable|array',
-        'proveedor_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'delete_proveedor_logo' => 'nullable|boolean',
-        'stock' => 'required|integer|min:0',
-    ]);
+    {
+        $validated = $request->validate([
+            'nombre_es' => 'required|max:255',
+            'precio_es' => 'required|numeric',
+            'precio_oferta_es' => 'nullable|numeric',
+            'proveedor' => 'max:255',
+            'referencia' => 'max:255',
+            'marca' => 'nullable|max:255',
+            'img*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'pdf' => 'nullable|mimes:pdf|max:10000',
+            'delete_pdf' => 'nullable|boolean',
+            'main_category_id' => 'required|exists:main_categories,id',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
+            'subsubcategory_id' => 'nullable|exists:sub_subcategories,id',
+            'descripcion' => 'nullable|string|max:5000',
+            'detalles_lista' => 'nullable|array',
+            'detalles_lista.*' => 'nullable|string|max:5000',
+            'delete_images' => 'nullable|array',
+            'proveedor_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'delete_proveedor_logo' => 'nullable|boolean',
+            'stock' => 'required|integer|min:0',
+        ]);
 
-    $product = Product::find($id);
+        $product = Product::find($id);
 
-    if (!$product) {
-        return redirect()->back()->with('error', 'El producto no se encontró');
-    }
+        if (!$product) {
+            return redirect()->back()->with('error', 'El producto no se encontró');
+        }
 
-    $product->nombre_es = $validated['nombre_es'];
-    $product->precio_es = $validated['precio_es'];
-    $product->precio_oferta_es = $validated['precio_oferta_es'];
-    $product->proveedor = $validated['proveedor'];
-    $product->referencia = $validated['referencia'];
-    $product->marca = $validated['marca'];
-    $product->main_category_id = $validated['main_category_id'];
-    $product->category_id = $validated['category_id'];
-    $product->subcategory_id = $validated['subcategory_id'];
-    $product->subsubcategory_id = $validated['subsubcategory_id'] ?? null;
-    $product->descripcion = $validated['descripcion'];
-    $product->detalles_lista = isset($validated['detalles_lista'])
-        ? json_encode($validated['detalles_lista'])
-        : json_encode([]);
-    $product->stock = $validated['stock'];
+        $product->nombre_es = $validated['nombre_es'];
+        $product->precio_es = $validated['precio_es'];
+        $product->precio_oferta_es = $validated['precio_oferta_es'];
+        $product->proveedor = $validated['proveedor'];
+        $product->referencia = $validated['referencia'];
+        $product->marca = $validated['marca'];
+        $product->main_category_id = $validated['main_category_id'];
+        $product->category_id = $validated['category_id'];
+        $product->subcategory_id = $validated['subcategory_id'];
+        $product->subsubcategory_id = $validated['subsubcategory_id'] ?? null;
+        $product->descripcion = $validated['descripcion'];
+        $product->detalles_lista = isset($validated['detalles_lista'])
+            ? json_encode($validated['detalles_lista'])
+            : json_encode([]);
+        $product->stock = $validated['stock'];
 
-    $existingImages = json_decode($product->img, true) ?? [];
+        $existingImages = json_decode($product->img, true) ?? [];
 
-    if ($request->has('delete_images')) {
-        foreach ($request->input('delete_images') as $index) {
-            if (isset($existingImages[$index])) {
-                $imagePath = public_path($existingImages[$index]);
-                if (file_exists($imagePath)) {
-                    unlink($imagePath);
+        if ($request->has('delete_images')) {
+            foreach ($request->input('delete_images') as $index) {
+                if (isset($existingImages[$index])) {
+                    $imagePath = public_path($existingImages[$index]);
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+
+                    unset($existingImages[$index]);
                 }
+            }
 
-                unset($existingImages[$index]);
+            $existingImages = array_values($existingImages);
+        }
+
+        if ($request->hasFile('img')) {
+            foreach ($request->file('img') as $imgFile) {
+                $imgPath = $imgFile->store('public/img');
+                $imgUrl = Storage::url($imgPath);
+                $existingImages[] = $imgUrl;
             }
         }
 
-        $existingImages = array_values($existingImages);
-    }
+        $product->img = json_encode($existingImages);
 
-    if ($request->hasFile('img')) {
-        foreach ($request->file('img') as $imgFile) {
-            $imgPath = $imgFile->store('public/img');
-            $imgUrl = Storage::url($imgPath);
-            $existingImages[] = $imgUrl;
+        // Si el usuario ha marcado el checkbox para eliminar el PDF
+        if ($request->has('delete_pdf') && $request->delete_pdf == 1) {
+            if ($product->pdf) {
+                Storage::delete($product->pdf);
+                $product->pdf = null;
+            }
         }
-    }
 
-    $product->img = json_encode($existingImages);
+        // Si se ha subido un nuevo PDF, lo guardamos
+        if ($request->hasFile('pdf')) {
+            // Eliminar el PDF anterior si existe
+            if ($product->pdf) {
+                Storage::delete($product->pdf);
+            }
 
-    if ($request->hasFile('pdf')) {
-        $pdfFile = $request->file('pdf');
-        $pdfPath = $pdfFile->store('public/pdf');
-        $product->pdf = Storage::url($pdfPath);
-    }
+            // Guardar el nuevo PDF
+            $product->pdf = $request->file('pdf')->store('pdfs', 'public');
+        }
 
-    if ($request->hasFile('proveedor_logo')) {
-        if ($product->proveedor_logo_path) {
+        if ($request->hasFile('proveedor_logo')) {
+            if ($product->proveedor_logo_path) {
+                Storage::delete($product->proveedor_logo_path);
+            }
+
+            $logoPath = $request->file('proveedor_logo')->store('public/proveedores');
+            $product->proveedor_logo_path = Storage::url($logoPath);
+        }
+
+        if ($request->has('delete_proveedor_logo') && $product->proveedor_logo_path) {
             Storage::delete($product->proveedor_logo_path);
+            $product->proveedor_logo_path = null;
         }
 
-        $logoPath = $request->file('proveedor_logo')->store('public/proveedores');
-        $product->proveedor_logo_path = Storage::url($logoPath);
+        $product->save();
+
+        return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
+    public function deleteProductPdf($id)
+    {
+        $product = Product::findOrFail($id);
 
-    if ($request->has('delete_proveedor_logo') && $product->proveedor_logo_path) {
-        Storage::delete($product->proveedor_logo_path);
-        $product->proveedor_logo_path = null;
+        if ($product->pdf) {
+            Storage::delete($product->pdf); // Elimina el archivo del almacenamiento
+            $product->pdf = null;
+            $product->save();
+        }
+
+        return response()->json(['success' => true]);
     }
-
-    $product->save();
-
-    return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
-}
 
 
 

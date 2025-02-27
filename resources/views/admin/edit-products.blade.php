@@ -78,8 +78,21 @@
                         </div>
                     </div>
                     @endif
-
                 </div>
+
+                <div class="col-md-6">
+                    <label for="pdf" class="fw-bold mb-1">Archivo PDF</label>
+                    <input type="file" id="pdf" name="pdf" class="form-control">
+
+                    @if($product->pdf)
+                    <p>Archivo actual: <a href="{{ asset('storage/' . $product->pdf) }}" target="_blank">Ver PDF</a></p>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="delete_pdf" name="delete_pdf" value="1">
+                        <label class="form-check-label" for="delete_pdf">Eliminar PDF</label>
+                    </div>
+                    @endif
+                </div><br>
+
 
                 {{-- Categorías --}}
                 <div class="row mb-3">
@@ -341,6 +354,23 @@
                     const detalleItem = event.target.closest('.detalle-item');
                     detallesContainer.removeChild(detalleItem);
                 }
+            });
+        });
+
+        document.querySelectorAll('.delete-pdf-form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                fetch(this.action, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    }).then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.closest('.pdf-container').remove(); // Ajusta según tu estructura HTML
+                        }
+                    });
             });
         });
     </script>
