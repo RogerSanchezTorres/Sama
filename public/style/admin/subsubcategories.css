@@ -188,7 +188,7 @@ body {
 h3 {
     text-align: center;
     margin-top: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 .logout button {
@@ -198,6 +198,9 @@ h3 {
     cursor: pointer;
     background-color: rgb(24, 24, 24);
     color: white;
+    position: relative;
+    top: -155px;
+    left: -50px;
 }
 
 .logout button:hover {

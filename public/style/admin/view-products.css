@@ -176,6 +176,7 @@ body {
 
 .rutas {
     display: flex;
+    margin-left: 80px;
 }
 
 .rutas>div {
@@ -210,6 +211,9 @@ h3 {
     cursor: pointer;
     background-color: rgb(24, 24, 24);
     color: white;
+    position: relative;
+    top: -155px;
+    left: -50px;
 }
 
 .logout button:hover {
