@@ -15,11 +15,11 @@ body {
     position: relative;
 }
 
-#menu-icon{
+#menu-icon {
     display: none;
 }
 
-.close-icon{
+.close-icon {
     display: none;
 }
 
@@ -47,6 +47,48 @@ body {
 
 #buscador img {
     width: 25px;
+}
+
+#abrirBuscador {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-contenido {
+    background-color: #fff;
+    margin: 20% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+    position: relative;
+}
+
+.modal-contenido input[type="text"] {
+    width: 98%;
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
 }
 
 
@@ -141,8 +183,6 @@ body {
     margin-left: 10px;
 }
 
-
-
 .footer-empresa {
     display: flex;
     justify-content: center;
@@ -172,7 +212,6 @@ body {
     display: flex;
     margin-top: 30px;
     justify-content: space-around;
-    margin-left: 10px;
 }
 
 .rutas {
@@ -222,199 +261,152 @@ h3 {
 }
 
 
-.actions {
-    display: flex;
-}
-
-.actions>* {
-    margin-right: 5px;
-}
-
-.table-container {
-    margin: 20px;
-}
-
-.products-table {
-    margin-left: 100px;
-    width: 90%;
-    border-collapse: collapse;
-}
-
-.products-table th,
-.products-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-.products-table th {
-    background-color: #f2f2f2;
-}
-
-.products-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.products-table tr:hover {
-    background-color: #ddd;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.edit-button,
-.delete-button {
-    display: inline-block;
-    padding: 5px 10px;
-    text-decoration: none;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+.container {
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 5px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 30px;
 }
 
-.edit-button {
-    background-color: #4CAF50;
-}
-
-.delete-button {
-    background-color: #f44336;
-}
-
-h3 {
-    font-size: 20px;
-    font-weight: bold;
+h2 {
     text-align: center;
-}
-
-#buscador{
-    display: flex;
-    justify-content: center;
+    padding: 10px;
     margin-bottom: 10px;
 }
 
-#buscador input{
-    padding: 2px;
-    margin-right: 10px;
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
-#abrirBuscador{
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: relative;
-}
-
-.modal {
-    display: none; 
-    position: fixed;
-    z-index: 1000; 
-    left: 0;
-    top: 0;
+.form-control {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); 
-}
-
-.modal-contenido {
-    background-color: #fff;
-    margin: 20% auto;
-    padding: 20px;
-    border-radius: 5px;
-    width: 60%;
-    position: relative;
-}
-
-.modal-contenido input[type="text"] {
-    width: 98%; 
-    height: 40px; 
-    font-size: 16px; 
-    padding: 10px; 
-}
-
-.modal-cerrar {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.pagination {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-    justify-content: center;
-    text-align: center;
-}
-
-.pagination li {
-    margin: 0 5px;
-}
-
-.pagination a,
-.pagination span {
-    padding: 8px 12px;
+    padding: 10px;
     border: 1px solid #ccc;
-    background-color: #fff;
-    color: #333;
-    text-decoration: none;
-    border-radius: 3px;
-}
-
-.pagination a:hover {
-    background-color: #f0f0f0;
-}
-
-.pagination a {
-    display: inline-block;
-    padding: 8px 12px;
-    margin: 3px;
-    background-color: #f0f0f0;
-    border: 1px solid #e0e0e0;
-    color: #333;
-    text-decoration: none;
-    border-radius: 3px;
-}
-
-.pagination a.active {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
     border-radius: 4px;
-    position: relative;
     font-size: 16px;
 }
 
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
+.form-group {
+    position: relative;
+    width: 100%;
+    margin: 10px 0;
+    margin-left: 20px;
 }
 
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
+.form-group input {
+    width: 90%;
+    padding: 7px;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin-top: 10px;
 }
 
-.alert-dismissible .btn-close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
+#nombre_es {
+    width: 500px;
+    padding: 10px;
+}
+
+.price {
+    display: flex;
+}
+
+#precio_es {
+    width: 150px;
+}
+
+#precio_oferta_es {
+    width: 150px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-primary {
+    display: block;
+    width: 90%;
+    padding: 10px;
+    background-color: #ffc106;
+    color: black;
     border: none;
-    font-size: 20px;
+    border-radius: 4px;
     cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 30px;
 }
 
+.btn-primary:hover {
+    background-color: #e9af02;
+}
 
+.form-control-file {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+#main_category_id {
+    width: 95%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+#category_id {
+    width: 95%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+#subcategory_id {
+    width: 95%;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.content{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+.upload-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.upload-form .form-group {
+    margin-bottom: 15px;
+}
+
+.upload-form label {
+    font-weight: bold;
+}
+
+.upload-form select {
+    width: 74%;
+}
+
+#file, #invoice {
+    width: 70%;
+}
+
+.upload-form .btn {
+    width: 100%;
+    font-weight: bold;
+    padding: 10px;
+}

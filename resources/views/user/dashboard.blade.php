@@ -14,11 +14,11 @@
 <body>
 
     <x-header />
-    <x-headersama /> 
+    <x-headersama />
     <x-nav />
 
     <h1>Tu Información</h1>
-    
+
     <form action="{{ route('logout') }}" method="post" id="logout">
         @csrf
         <button type="submit">Cerrar Sesión</button>
@@ -37,6 +37,40 @@
             </div>
         </form>
     </div>
+
+    <div class="archivos">
+        <h2>📂 Archivos Subidos</h2>
+
+        @if (isset($files) && isset($invoices))
+        @if ($files->isEmpty() && $invoices->isEmpty())
+        <p>No tienes archivos ni facturas subidas.</p>
+        @else
+        <ul>
+            @foreach ($files as $file)
+            <li>
+                <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank">
+                    {{ $file->file_name }}
+                </a>
+            </li>
+            @endforeach
+        </ul>
+
+        <h2>🧾 Facturas</h2>
+        <ul>
+            @foreach ($invoices as $invoice)
+            <li>
+                <a href="{{ asset('storage/' . $invoice->file_path) }}" target="_blank">
+                    {{ $invoice->file_name }}
+                </a>
+            </li>
+            @endforeach
+        </ul>
+        @endif
+        @else
+        <p>No hay datos disponibles.</p>
+        @endif
+    </div>
+
 
     <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>

@@ -60,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/user/update-password', [UserController::class, 'updatePassword'])->name('user-update-password');
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user-delete');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
 });
 
 //ADMIN
@@ -128,6 +129,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/proveedores/upload', [ImageController::class, 'uploadProveedor'])->name('proveedores.upload');
     Route::delete('/proveedores/{id}', [ImageController::class, 'deleteProveedor'])->name('proveedores.deleteProveedor');
     Route::post('/images/update-order', [ImageController::class, 'updateOrder'])->name('images.updateOrder');
+
+    Route::get('/admin/upload', [AdminController::class, 'showUploadForm'])->name('admin.upload');
+    Route::post('/admin/upload', [AdminController::class, 'uploadContent'])->name('admin.uploadContent');
+    Route::post('/admin/upload-invoice', [AdminController::class, 'uploadInvoice'])->name('admin.uploadInvoice');
 });
 
 //PRODUCTOS

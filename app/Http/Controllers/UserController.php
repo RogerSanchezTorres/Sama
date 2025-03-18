@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Billing;
 use Illuminate\Validation\Rule;
+use App\Models\UploadedFile;
+use App\Models\Invoice;
 
 
 class UserController extends Controller
@@ -16,7 +18,9 @@ class UserController extends Controller
     public function dashboard(Request $request)
     {
         $user = Auth::user();
-        return view('user.dashboard', compact('user'));
+        $files = UploadedFile::where('user_id', $user->id)->get();
+        $invoices = Invoice::where('user_id', $user->id)->get();
+        return view('user.dashboard', compact('user', 'files', 'invoices'));
     }
 
     public function account()
@@ -112,4 +116,6 @@ class UserController extends Controller
 
         return redirect(route('index'));
     }
+
+    
 }

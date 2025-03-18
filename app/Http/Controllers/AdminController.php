@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\Paginator;
 use App\Models\Category;
 use App\Models\Subcategory;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\SubSubcategory;
-use App\Models\MinorCategory;
 use App\Models\Proveedor;
-
+use App\Models\UploadedFile;
+use App\Models\Invoice;
 
 class AdminController extends Controller
 {
@@ -492,5 +491,50 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.createSubSubcategory')->with('success', 'SubSubcategoría creada correctamente');
+    }
+
+    public function showUploadForm()
+    {
+        $users = User::all(); // Obtener todos los usuarios para que el admin pueda elegir a cuál subir contenido
+        return view('admin.upload-content', compact('users'));
+    }
+
+    public function uploadContent(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'file' => 'required|file|max:10240', // Máx 10MB
+        ]);
+
+        $file = $request->file('file');
+        $filePath = $file->store('uploads', 'public');
+
+        UploadedFile::create([
+            'user_id' => $request->user_id,
+            'file_name' => $file->getClientOriginalName(),
+            'file_path' => $filePath,
+        ]);
+
+        return redirect()->route('admin.upload')->with('success', 'Archivo subido correctamente.');
+    }
+
+
+    public function uploadInvoice(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'file' => 'required|file|max:10240', // Máx 10MB
+        ]);
+
+        $file = $request->file('file');
+        $filePath = $file->store('invoices', 'public');
+
+        Invoice::create([
+            'user_id' => $request->user_id,
+            'file_name' => $file->getClientOriginalName(),
+            'file_path' => $filePath,
+        ]);
+
+        return redirect()->route('admin.upload')->with('success', 'Factura subida correctamente.');
     }
 }

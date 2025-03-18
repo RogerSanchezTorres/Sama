@@ -36,6 +36,9 @@
         <div class="delete-category">
             <a href="{{ route('admin.categories.index') }}" aria-label="Add Category">Borrar Categoría</a>
         </div>
+        <div class="upload-content">
+            <a href="{{ route('admin.upload') }}" aria-label="Subir Archivos">Archivos Usuarios</a>
+        </div>
 
     </div>
     <div class="logout">
