@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class User extends Authenticatable
@@ -55,5 +56,17 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    // Relación con los archivos subidos
+    public function files(): HasMany
+    {
+        return $this->hasMany(UploadedFile::class, 'user_id');
+    }
+
+    // Relación con las facturas
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'user_id');
     }
 }

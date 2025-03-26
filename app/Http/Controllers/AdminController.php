@@ -495,9 +495,18 @@ class AdminController extends Controller
 
     public function showUploadForm()
     {
-        $users = User::all(); // Obtener todos los usuarios para que el admin pueda elegir a cuál subir contenido
-        return view('admin.upload-content', compact('users'));
+        // Obtiene todos los usuarios para el select
+        $users = User::all();
+
+        // Obtiene solo los usuarios que tienen archivos o facturas para la tabla
+        $usersWithFilesOrInvoices = User::whereHas('files')->orWhereHas('invoices')
+            ->with(['files', 'invoices'])
+            ->get();
+
+        return view('admin.upload-content', compact('users', 'usersWithFilesOrInvoices'));
     }
+
+
 
     public function uploadContent(Request $request)
     {
@@ -536,5 +545,29 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.upload')->with('success', 'Factura subida correctamente.');
+    }
+
+    public function deleteFile($id)
+    {
+        $file = UploadedFile::find($id);
+
+        if ($file) {
+            Storage::disk('public')->delete($file->file_path); // Eliminar archivo del almacenamiento
+            $file->delete(); // Eliminar registro de la base de datos
+        }
+
+        return redirect()->route('admin.upload')->with('success', 'Archivo eliminado correctamente.');
+    }
+
+    public function deleteInvoice($id)
+    {
+        $invoice = Invoice::find($id);
+
+        if ($invoice) {
+            Storage::disk('public')->delete($invoice->file_path); // Eliminar factura del almacenamiento
+            $invoice->delete(); // Eliminar registro de la base de datos
+        }
+
+        return redirect()->route('admin.upload')->with('success', 'Factura eliminada correctamente.');
     }
 }

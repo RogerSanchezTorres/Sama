@@ -375,7 +375,7 @@ form label {
     border-radius: 3px;
 }
 
-.content{
+.content {
     display: flex;
     justify-content: space-evenly;
     margin-top: 30px;
@@ -401,7 +401,8 @@ form label {
     width: 74%;
 }
 
-#file, #invoice {
+#file,
+#invoice {
     width: 70%;
 }
 
@@ -410,3 +411,74 @@ form label {
     font-weight: bold;
     padding: 10px;
 }
+
+
+
+.files-container table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+.files-container th,
+.files-container td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.files-container th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.files-container tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s;
+}
+
+.files-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.files-container li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+}
+
+.files-container a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+}
+
+.files-container a:hover {
+    text-decoration: underline;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+

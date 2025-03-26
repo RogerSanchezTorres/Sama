@@ -133,6 +133,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/upload', [AdminController::class, 'showUploadForm'])->name('admin.upload');
     Route::post('/admin/upload', [AdminController::class, 'uploadContent'])->name('admin.uploadContent');
     Route::post('/admin/upload-invoice', [AdminController::class, 'uploadInvoice'])->name('admin.uploadInvoice');
+    Route::delete('/admin/delete-file/{id}', [AdminController::class, 'deleteFile'])->name('admin.deleteFile');
+    Route::delete('/admin/delete-invoice/{id}', [AdminController::class, 'deleteInvoice'])->name('admin.deleteInvoice');
+    
+
 });
 
 //PRODUCTOS

@@ -64,6 +64,72 @@
 
     </div>
 
+    <div class="files-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>👤 Usuario</th>
+                    <th>📂 Archivos Subidos</th>
+                    <th>🧾 Facturas</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($usersWithFilesOrInvoices as $user)
+                <tr>
+                    <td>{{ $user->name }} {{ $user->surname }}</td>
+                    <td>
+                        @if ($user->files->count() > 0)
+                        <ul>
+                            @foreach ($user->files as $file)
+                            <li>
+                                <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank">
+                                    📄 {{ $file->file_name }}
+                                </a>
+                                <form action="{{ route('admin.deleteFile', $file->id) }}" method="POST" class="delete-form" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete">🗑️</button>
+                                </form>
+                            </li>
+                            @endforeach
+                        </ul>
+                        @else
+                        <span style="color: gray;">Sin archivos</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($user->invoices->count() > 0)
+                        <ul>
+                            @foreach ($user->invoices as $invoice)
+                            <li>
+                                <a href="{{ asset('storage/' . $invoice->file_path) }}" target="_blank">
+                                    🧾 {{ $invoice->file_name }}
+                                </a>
+                                <form action="{{ route('admin.deleteInvoice', $invoice->id) }}" method="POST" class="delete-form" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete">🗑️</button>
+                                </form>
+                            </li>
+                            @endforeach
+                        </ul>
+                        @else
+                        <span style="color: gray;">Sin facturas</span>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+
+
+
+
 
 
     <x-footer />
