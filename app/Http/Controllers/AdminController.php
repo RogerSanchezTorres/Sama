@@ -495,8 +495,8 @@ class AdminController extends Controller
 
     public function showUploadForm()
     {
-        // Obtiene todos los usuarios para el select
-        $users = User::all();
+        // Obtiene solo los usuarios que NO son administradores para el select
+        $users = User::where('role_id', '!=', 1)->get();
 
         // Obtiene solo los usuarios que tienen archivos o facturas para la tabla
         $usersWithFilesOrInvoices = User::whereHas('files')->orWhereHas('invoices')
@@ -505,6 +505,7 @@ class AdminController extends Controller
 
         return view('admin.upload-content', compact('users', 'usersWithFilesOrInvoices'));
     }
+
 
 
 
