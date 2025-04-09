@@ -50,8 +50,10 @@
     </div>
 
 
+    @if($news->count() || (auth()->check() && auth()->user()->role_id == 1))
     <div class="news-section">
         <h2>📰 Noticias</h2>
+
         @auth
         @if(auth()->user()->role_id == 1)
         <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data" id="store">
@@ -65,6 +67,7 @@
         @endif
         @endauth
 
+        @if($news->count())
         <div id="news-list">
             @foreach($news as $item)
             <div class="news-item" data-id="{{ $item->id }}">
@@ -88,7 +91,10 @@
             </div>
             @endforeach
         </div>
+        @endif
     </div>
+    @endif
+
 
 
 
