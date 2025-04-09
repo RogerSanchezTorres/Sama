@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\MainCategoryController;
 use App\Http\Controllers\Admin\SubSubcategoryController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MinorCategoryController;
+use App\Http\Controllers\NewsController;
 
 
 
@@ -40,6 +41,10 @@ use App\Http\Controllers\MinorCategoryController;
 })->name('index');*/
 
 Route::get('/', [ImageController::class, 'index'])->name('index');
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::post('/news/store', [NewsController::class, 'store'])->name('news.store')->middleware('auth');
+Route::delete('/news/{id}', [NewsController::class, 'destroy'])->name('news.destroy')->middleware('auth');
+
 
 //LOGIN Y REGISTER
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
@@ -136,6 +141,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/delete-file/{id}', [AdminController::class, 'deleteFile'])->name('admin.deleteFile');
     Route::delete('/admin/delete-invoice/{id}', [AdminController::class, 'deleteInvoice'])->name('admin.deleteInvoice');
     
+    Route::post('/admin/news/sort', [NewsController::class, 'sort'])->name('news.sort');
 
 });
 

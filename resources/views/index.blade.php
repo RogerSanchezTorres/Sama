@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <link rel="stylesheet" href="{{ asset('style/index.css') }}">
 
 </head>
@@ -47,6 +48,48 @@
         <input type="file" id="new-image-file" accept="image/*">
         <button id="add-image-button">Añadir Imagen</button>
     </div>
+
+
+    <div class="news-section">
+        <h2>📰 Noticias</h2>
+        @auth
+        @if(auth()->user()->role_id == 1)
+        <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data" id="store">
+            @csrf
+            <input type="text" name="title" placeholder="Título" required>
+            <textarea name="content" placeholder="Descripción" required></textarea>
+            <input type="file" name="image" accept="image/*">
+            <input type="url" name="link" placeholder="Enlace al producto (opcional)">
+            <button type="submit" id="publicar">Publicar Noticia</button>
+        </form>
+        @endif
+        @endauth
+
+        <div id="news-list">
+            @foreach($news as $item)
+            <div class="news-item" data-id="{{ $item->id }}">
+                @if($item->image)
+                <img src="{{ asset('storage/' . $item->image) }}" alt="Imagen Noticia">
+                @endif
+                <h3>{{ $item->title }}</h3>
+                <p>{{ $item->content }}</p>
+                @if($item->link)
+                <a href="{{ $item->link }}" target="_blank">Leer más</a>
+                @endif
+                @auth
+                @if(auth()->user()->role_id == 1)
+                <form action="{{ route('news.destroy', $item->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Eliminar</button>
+                </form>
+                @endif
+                @endauth
+            </div>
+            @endforeach
+        </div>
+    </div>
+
 
 
 
@@ -168,6 +211,32 @@
                         }
                     })
                     .catch(error => console.error('Error:', error));
+            }
+        });
+
+        const container = document.getElementById('news-list'); // ID correcto
+        Sortable.create(container, {
+            animation: 150,
+            handle: null, // Puedes poner una clase específica si quieres arrastrar solo desde un icono
+            onEnd: function(evt) {
+                const orden = [];
+                document.querySelectorAll('.news-item').forEach((item, index) => {
+                    orden.push({
+                        id: item.getAttribute('data-id'),
+                        position: index + 1
+                    });
+                });
+
+                fetch("{{ route('news.sort') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        orden: orden
+                    })
+                });
             }
         });
     </script>

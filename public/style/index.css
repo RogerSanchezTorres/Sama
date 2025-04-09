@@ -219,6 +219,175 @@ body {
 
 }
 
+.news-section {
+    background-color: #f4f4f4;
+    /* Color de fondo gris claro */
+    padding: 30px 0;
+    /* Espaciado superior e inferior */
+}
+
+.news-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#news-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Centrado horizontal */
+    margin-top: 30px;
+}
+
+
+.news-item {
+    width: 300px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.news-item:hover {
+    transform: scale(1.02);
+}
+
+.news-item p {
+    font-size: 14px;
+    color: #555;
+    max-height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+
+.news-item img {
+    width: 100%;
+    /* La imagen ocupará todo el ancho del contenedor */
+    height: 180px;
+    /* Altura fija para todas las imágenes */
+    object-fit: cover;
+    /* Ajusta la imagen sin distorsionarla */
+    border-radius: 5px;
+}
+
+.news-item h3 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.news-item p {
+    font-size: 14px;
+    color: #555;
+}
+
+.news-item a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #ffc106;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.news-item a:hover {
+    background: #c79500;
+}
+
+.news-item button {
+    width: 100%;
+    background: white;
+    color: red;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid red;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 🔵 Efecto Hover para el botón */
+.news-item button:hover {
+    background: red;
+    color: white;
+}
+
+
+.news-section #store{
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilo general para inputs y textarea */
+.news-section form input[type="text"],
+.news-section form textarea,
+.news-section form input[type="url"],
+.news-section form input[type="file"] {
+    font-size: 14px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fafafa;
+}
+
+/* Focus */
+.news-section form input:focus,
+.news-section form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Área de texto */
+.news-section form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Estilo para el botón */
+.news-section form #publicar[type="submit"] {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+    background-color: #ffc106;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.news-section form #publicar[type="submit"]:hover {
+    background-color: #ffc106;
+}
+
+/* Input file personalizado opcional */
+.news-section form input[type="file"] {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+
+
 @keyframes scroll {
     0% {
         transform: translateX(0);
@@ -231,16 +400,23 @@ body {
 
 /* 🔴 Modo Edición: Detener la animación y mostrar todas las imágenes */
 #proveedores.editing #imagenes {
-    white-space: normal;  /* Permite que las imágenes se muestren en varias líneas */
-    overflow: visible;    /* Asegura que se vean todas las imágenes */
-    display: flex;        /* Hace que las imágenes se alineen correctamente */
-    flex-wrap: wrap;      /* Permite que las imágenes pasen a la siguiente línea si es necesario */
-    justify-content: center; /* Centra las imágenes */
+    white-space: normal;
+    /* Permite que las imágenes se muestren en varias líneas */
+    overflow: visible;
+    /* Asegura que se vean todas las imágenes */
+    display: flex;
+    /* Hace que las imágenes se alineen correctamente */
+    flex-wrap: wrap;
+    /* Permite que las imágenes pasen a la siguiente línea si es necesario */
+    justify-content: center;
+    /* Centra las imágenes */
 }
 
 #proveedores.editing #imagenes img {
-    animation: none;      /* Desactiva la animación */
-    margin: 10px;        /* Añade un pequeño margen entre imágenes */
+    animation: none;
+    /* Desactiva la animación */
+    margin: 10px;
+    /* Añade un pequeño margen entre imágenes */
 }
 
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Image;
 use App\Models\Proveedor;
+use App\Models\News;
 
 class ImageController extends Controller
 {
@@ -13,8 +14,9 @@ class ImageController extends Controller
     {
         $images = Image::orderBy('order', 'asc')->get();
         $proveedores = Proveedor::all();
+        $news = News::latest()->get();
 
-        return view('index', compact('images', 'proveedores'));
+        return view('index', compact('images', 'proveedores', 'news'));
     }
 
     public function upload(Request $request)

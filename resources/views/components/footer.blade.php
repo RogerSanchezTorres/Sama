@@ -26,17 +26,12 @@
                     <div id="info-ubicacion">
                         <p>Castelldefels</p>
                         <p>Avinguda de la Constitució 77-79</p>
-                        <p>Begues</p>
-                        <p>Carrer Sant Oreste, 33</p>
                     </div>
                 </div>
                 <div class="telefono">
                     <img src="{{ asset('img/telefono.svg') }}" alt="telefono" width="15px">
                     <div class="castelldefels">
                         <a href="tel:+34931050559">Castelldefels 931 050 559 /</a>
-                    </div>
-                    <div class="begues">
-                        <a href="tel:+34936551245">Begues 936 551 245</a>
                     </div>
                 </div>
                 <div class="correo">
