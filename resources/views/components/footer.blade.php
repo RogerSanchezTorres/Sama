@@ -31,7 +31,7 @@
                 <div class="telefono">
                     <img src="{{ asset('img/telefono.svg') }}" alt="telefono" width="15px">
                     <div class="castelldefels">
-                        <a href="tel:+34931050559">Castelldefels 931 050 559 /</a>
+                        <a href="tel:+34931050559">Castelldefels 931 050 559</a>
                     </div>
                 </div>
                 <div class="correo">

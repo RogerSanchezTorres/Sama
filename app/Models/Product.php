@@ -101,4 +101,9 @@ class Product extends Model
     {
         return $this->belongsTo(MinorCategory::class, 'minor_category_id');
     }
+
+    public function marca()
+    {
+        return $this->belongsTo(Marca::class, 'marca_id');
+    }
 }

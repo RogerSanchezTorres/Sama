@@ -437,7 +437,7 @@ body {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.modal-contenido {
+.modal-contenido {  
     background-color: #fff;
     margin: 20% auto;
     padding: 20px;
@@ -461,281 +461,50 @@ body {
     cursor: pointer;
 }
 
-
-.img-info {
-    margin-bottom: 20px;
+.hover-shadow:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
 }
 
-.image-item {
+.brand-grid {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.brand-card {
+    width: 160px;
+    height: 180px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.brand-logo {
+    max-width: 100%;
+    max-height: 80px;
+    object-fit: contain;
     margin-bottom: 10px;
 }
 
-
-button {
-    cursor: pointer;
-}
-
-#add-image-form {
-    margin-top: 20px;
-}
-
-#edit-button {
-    display: block !important;
-    /* Asegúrate de que el botón se muestre */
-}
-
-#image-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
-    padding: 0 20px;
-    margin: 0 auto;
-    max-width: 90%;
-    box-sizing: border-box;
-    justify-content: center;
-}
-
-#image-list:has(.image-item:nth-child(1):nth-last-child(3)) {
-    max-width: calc(3 * 383px + 60px);
-}
-
-#image-list:has(.image-item:nth-child(1):nth-last-child(2)) {
-    max-width: calc(2 * 383px + 60px);
-}
-
-#image-list:has(.image-item:nth-child(1):nth-last-child(1)) {
-    max-width: 383px;
-}
-
-.image-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.image-item img {
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    max-width: 383px;
-    height: 215px;
-}
-
-.border {
-    height: 1.5px;
-    background-color: #ffc106;
-    width: 383px;
-    margin-bottom: -10px;
-    margin-top: 15px;
-}
-
-
-
-#edit-button {
-    background-color: transparent;
+.brand-name {
+    font-weight: 500;
+    font-size: 1rem;
     color: #333;
-    font-size: 14px;
-    font-weight: 600;
-    border: 2px solid #333;
-    border-radius: 6px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 100px;
-}
-
-#edit-button:hover {
-    background-color: #333;
-    color: #fff;
-}
-
-#edit-button:focus {
-    outline: none;
-    box-shadow: 0 0 8px rgba(51, 51, 51, 0.6);
-}
-
-#add-image-form {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 300px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-#add-image-form h3 {
-    color: #333;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
-#new-image-file {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-
-#add-image-button {
-    background-color: #333;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-}
-
-#add-image-button:hover {
-    background-color: #555;
-}
-
-#add-image-button:focus {
-    outline: none;
-    box-shadow: 0 0 8px rgba(51, 51, 51, 0.6);
-}
-
-.delete-button {
-    background-color: transparent;
-    color: #ff0000;
-    font-size: 14px;
-    font-weight: 600;
-    border: 2px solid #ff0000;
-    border-radius: 6px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 10px;
-    position: relative;
-    z-index: 9999;
-    pointer-events: auto;
-}
-
-.delete-button:hover {
-    background-color: #ff0000;
-    color: #fff;
-}
-
-.delete-button:focus {
-    outline: none;
-    box-shadow: 0 0 8px rgba(51, 51, 51, 0.6);
-}
-
-.proveedor-item {
-    pointer-events: auto;
-}
-
-#add-proveedor-form {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 300px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-#add-proveedor-form h3 {
-    color: #333;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
-#new-proveedor-file {
-    width: 90%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-
-#add-proveedor-button {
-    background-color: #333;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-}
-
-#add-proveedor-button:hover {
-    background-color: #555;
-}
-
-#add-proveedor-button:focus {
-    outline: none;
-    box-shadow: 0 0 8px rgba(51, 51, 51, 0.6);
-}
-
-#imagenes.edit-mode img {
-    animation-play-state: paused;
-    /* Pausa la animación en modo edición */
+    margin: 0;
 }
 
 
-/* Modo de edición: mostrar todas las imágenes */
-#imagenes.edit-mode {
-    overflow: visible;
-    /* Permite que las imágenes sean visibles sin recortes */
-    white-space: normal;
-    /* Cambia a una vista de línea múltiple */
-    display: flex;
-    flex-wrap: wrap;
-    /* Ajusta las imágenes en varias filas si es necesario */
-    justify-content: center;
-    /* Centra las imágenes */
-}
-
-#imagenes.edit-mode img {
-    margin: 10px;
-    /* Espacio alrededor de cada imagen para que se vean separadas */
-    animation: none;
-    /* Pausa la animación */
-}
-
-#edit-mode-button {
-    background-color: transparent;
-    color: #333;
-    font-size: 14px;
-    font-weight: 600;
-    border: 2px solid #333;
-    border-radius: 6px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 100px;
-}
-
-#edit-mode-button:hover {
-    background-color: #333;
-    color: #fff;
-}
-
-#edit-mode-button:focus {
-    outline: none;
-    box-shadow: 0 0 8px rgba(51, 51, 51, 0.6);
-}
 
 
 

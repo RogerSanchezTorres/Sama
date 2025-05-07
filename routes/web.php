@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SubSubcategoryController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MinorCategoryController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\MarcaController;
 
 
 
@@ -65,7 +66,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/user/update-password', [UserController::class, 'updatePassword'])->name('user-update-password');
     Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user-delete');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-
 });
 
 //ADMIN
@@ -140,9 +140,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/upload-invoice', [AdminController::class, 'uploadInvoice'])->name('admin.uploadInvoice');
     Route::delete('/admin/delete-file/{id}', [AdminController::class, 'deleteFile'])->name('admin.deleteFile');
     Route::delete('/admin/delete-invoice/{id}', [AdminController::class, 'deleteInvoice'])->name('admin.deleteInvoice');
-    
-    Route::post('/admin/news/sort', [NewsController::class, 'sort'])->name('news.sort');
 
+    Route::post('/admin/news/sort', [NewsController::class, 'sort'])->name('news.sort');
 });
 
 //PRODUCTOS
@@ -161,6 +160,12 @@ Route::get('/products/category/{categorySlug}', [ProductsController::class, 'sho
 Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubcategory');
 Route::get('/products/subsubcategoria/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
 Route::get('/products/minorcategory/{minorCategorySlug}', [ProductsController::class, 'showProductsByMinorCategory'])->name('products.showProductsByMinorCategory');
+
+Route::get('/marcas', [MarcaController::class, 'index'])->name('marcas.index');
+Route::get('/marcas/{marca}', [MarcaController::class, 'show'])->name('marcas.show');
+
+
+
 
 
 

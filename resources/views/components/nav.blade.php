@@ -38,6 +38,11 @@
             </ul>
         </li>
         @endforeach
+        <li class="main-category">
+            <a href="{{ route('marcas.index') }}" class="titulo-desplegable">
+                Marcas
+            </a>
+        </li>
     </ul>
 </div>
 
