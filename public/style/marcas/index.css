@@ -466,6 +466,11 @@ body {
     transform: translateY(-3px);
 }
 
+div h1{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 .brand-grid {
     display: flex;
     flex-wrap: wrap;
@@ -474,8 +479,8 @@ body {
 }
 
 .brand-card {
-    width: 160px;
-    height: 180px;
+    width: 260px;
+    height: 120px;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -491,10 +496,9 @@ body {
 }
 
 .brand-logo {
-    max-width: 100%;
-    max-height: 80px;
-    object-fit: contain;
-    margin-bottom: 10px;
+    width: 200px;
+    max-height: 90px;
+    margin-bottom: 13px;
 }
 
 .brand-name {
@@ -503,6 +507,12 @@ body {
     color: #333;
     margin: 0;
 }
+
+.brand-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 
 

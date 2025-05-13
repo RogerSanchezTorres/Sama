@@ -39,6 +39,10 @@
         <div class="upload-content">
             <a href="{{ route('admin.upload') }}" aria-label="Subir Archivos">Archivos Usuarios</a>
         </div>
+        <div class="brand-images">
+            <a href="{{ route('admin.brand-image-upload') }}" aria-label="Subir Imágenes de Marcas">Marcas</a>
+        </div>
+
 
     </div>
     <div class="logout">
@@ -48,3 +52,57 @@
         </form>
     </div>
 </div>
+
+<style>
+    .menu {
+        display: grid;
+        margin-top: 30px;
+        justify-content: space-around;
+    }
+
+    .rutas {
+        display: flex;
+    }
+
+    .rutas>div {
+        margin-right: 10px;
+    }
+
+    .rutas a {
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #333;
+        background-color: #f0f0f0;
+        transition: background-color 0.3s ease;
+    }
+
+    .rutas a:hover {
+        background-color: #5f5f5f;
+        color: #ffc106;
+    }
+
+    h3 {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .logout button {
+        padding: 7px;
+        border-radius: 5px;
+        border: 1px solid black;
+        cursor: pointer;
+        background-color: rgb(24, 24, 24);
+        color: white;
+        position: relative;
+        top: -155px;
+        right: -90%;
+    }
+
+    .logout button:hover {
+        background-color: rgb(61, 61, 61);
+        color: white;
+    }
+</style>

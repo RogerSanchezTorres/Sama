@@ -163,6 +163,10 @@ Route::get('/products/minorcategory/{minorCategorySlug}', [ProductsController::c
 
 Route::get('/marcas', [MarcaController::class, 'index'])->name('marcas.index');
 Route::get('/marcas/{marca}', [MarcaController::class, 'show'])->name('marcas.show');
+Route::post('/marcas/imagen', [MarcaController::class, 'storeBrandImage'])->name('marcas.storeImage');
+Route::get('/admin/marcas/upload', [MarcaController::class, 'uploadView'])->name('admin.brand-image-upload');
+
+
 
 
 

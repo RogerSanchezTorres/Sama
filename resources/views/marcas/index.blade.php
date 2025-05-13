@@ -22,17 +22,27 @@
     <x-nav />
 
     <div class="container my-5">
-    <h1 class="text-center mb-5" style="font-weight: bold;">Marcas</h1>
+        <h1 class="text-center mb-5" style="font-weight: bold;">Marcas</h1>
 
-    <div class="brand-grid">
-        @foreach($marcas as $marca)
-            <div class="brand-card">
-                <img src="{{ asset('images/marcas/default.png') }}" alt="{{ $marca }}" class="brand-logo">
-                <p class="brand-name">{{ $marca }}</p>
-            </div>
-        @endforeach
+        <div class="brand-grid">
+            @foreach($marcas as $marca)
+            <a href="{{ route('marcas.show', ['marca' => $marca]) }}" class="brand-card-link">
+                <div class="brand-card">
+                    @php
+                    $imagePath = \App\Models\BrandImage::where('marca', $marca)->first();
+                    $imageSrc = $imagePath ? asset('storage/' . $imagePath->image_path) : asset('images/marcas/default.png');
+                    @endphp
+
+                    <img src="{{ $imageSrc }}" alt="{{ $marca }}" class="brand-logo">
+                    <p class="brand-name">{{ $marca }}</p>
+                </div>
+            </a>
+            @endforeach
+
+        </div>
+
+
     </div>
-</div>
 
 
 
@@ -41,5 +51,5 @@
     <x-footer />
 
 </body>
-
+<script src="{{ asset('js/desplegable.js') }}"></script>
 </html>
