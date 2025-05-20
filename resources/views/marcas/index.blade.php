@@ -34,7 +34,6 @@
                     @endphp
 
                     <img src="{{ $imageSrc }}" alt="{{ $marca }}" class="brand-logo">
-                    <p class="brand-name">{{ $marca }}</p>
                 </div>
             </a>
             @endforeach

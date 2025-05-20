@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Image;
 use App\Models\Proveedor;
 use App\Models\News;
+use App\Models\Product;
+use App\Models\FeaturedProduct;
 
 class ImageController extends Controller
 {
@@ -16,7 +18,10 @@ class ImageController extends Controller
         $proveedores = Proveedor::all();
         $news = News::latest()->get();
 
-        return view('index', compact('images', 'proveedores', 'news'));
+        $allProducts = Product::all();
+        $destacados = FeaturedProduct::with('product')->get();
+
+        return view('index', compact('images', 'proveedores', 'news', 'allProducts', 'destacados'));
     }
 
     public function upload(Request $request)

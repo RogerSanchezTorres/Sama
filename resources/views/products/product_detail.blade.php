@@ -60,7 +60,6 @@
         <div class="product-info">
             <h1 class="product-title">{{ $product->nombre_es }}</h1>
             <div class="marca-ref">
-                <p class="marca"><b>Marca:</b> {{$product->marca}}</p><br>
                 <p class="ref"><b>Referencia:</b> {{$product->referencia}}</p>
             </div><br>
             @if ($product->proveedor_logo_path)
@@ -100,7 +99,7 @@
 
             @if ($product->pdf)
             <div class="product-pdf">
-                <a href="{{ asset($product->pdf) }}" target="_blank">Ficha Técnica</a>
+                <a href="{{ asset('storage/' . $product->pdf) }}" target="_blank">Ficha Técnica</a>
             </div>
             @endif
 

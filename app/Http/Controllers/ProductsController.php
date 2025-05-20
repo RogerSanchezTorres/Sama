@@ -75,26 +75,6 @@ class ProductsController extends Controller
         return view('products.show_by_subsubcategory', compact('products', 'subsubcategory', 'relatedCategories'));
     }
 
-
-
-    /*public function showProductsByMinorCategory($minorCategorySlug)
-    {
-        $minorCategory = MinorCategory::where('slug', $minorCategorySlug)->firstOrFail();
-
-        $subsubcategory = $minorCategory->subsubcategory;
-        $subcategory = $subsubcategory->subcategory;
-        $category = $subcategory->category;
-
-        $relatedCategories = $category->mainCategory->categories;
-        
-        $products = $minorCategory->products()->paginate(16);
-
-        dd($minorCategory, $subsubcategory, $subcategory, $category, $relatedCategories);
-
-
-        return view('products.show_by_minorcategory', compact('products', 'minorCategory', 'relatedCategories'));
-    }*/
-
     public function deleteProductImage($id, $index)
     {
         $product = Product::findOrFail($id);

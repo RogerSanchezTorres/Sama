@@ -49,7 +49,7 @@
         <button id="add-image-button">Añadir Imagen</button>
     </div>
 
-
+    <!-- NOTICICAS -->
     @if($news->count() || (auth()->check() && auth()->user()->role_id == 1))
     <div class="news-section">
         @auth
@@ -94,9 +94,7 @@
     @endif
 
 
-
-
-
+    <!-- IMAGENES PROVEEDORES -->
     @if (auth()->check() && auth()->user()->role && auth()->user()->role->role === 'admin')
     <button id="edit-mode-button" style="display: block;">Modo Edición</button>
     @endif
@@ -123,6 +121,58 @@
         <input type="file" id="new-proveedor-image" name="file" accept="image/*">
         <button id="add-proveedor-button">Añadir Imagen</button>
     </div>
+
+
+    <!-- PRODUCTOS DESTACADOS -->
+    @if(auth()->check() && auth()->user()->role_id == 1)
+    <h4>Añadir Producto Destacado</h4>
+    <form action="{{ route('featured-products.store') }}" method="POST">
+        @csrf
+        <select name="product_id" required>
+            <option value="">Selecciona un producto</option>
+            @foreach($allProducts as $product)
+            <option value="{{ $product->id }}">{{ $product->nombre_es }}</option>
+            @endforeach
+        </select>
+        <button type="submit">Añadir</button>
+    </form>
+    @endif
+
+
+    @if($destacados->count())
+    <h3>Productos Destacados</h3>
+    <div class="productos-destacados">
+        @foreach($destacados as $item)
+        @if($item->product)
+        <div class="producto-card">
+            @if($item->product && $item->product->img)
+            <img src="{{ $item->product->img }}" alt="{{ $item->product->nombre_es }}">
+            @endif
+
+
+            <h4>{{ $item->product->nombre_es }}</h4>
+
+            @if($item->product->precio_es)
+            <p>{{ $item->product->precio_es }} €</p>
+            @endif
+
+            @if($item->product->link)
+            <a href="{{ $item->product->link }}" target="_blank">Ver producto</a>
+            @endif
+
+            @if(auth()->check() && auth()->user()->role_id == 1)
+            <form action="{{ route('featured-products.destroy', $item->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Eliminar</button>
+            </form>
+            @endif
+        </div>
+        @endif
+        @endforeach
+    </div>
+    @endif
+
 
 
     <x-footer />

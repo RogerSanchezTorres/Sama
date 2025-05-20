@@ -497,8 +497,8 @@ div h1{
 
 .brand-logo {
     width: 200px;
-    max-height: 90px;
-    margin-bottom: 13px;
+    max-height: 100px;
+    margin-top: 10px;
 }
 
 .brand-name {

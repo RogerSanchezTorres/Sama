@@ -22,6 +22,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\MinorCategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\FeaturedProductController;
 
 
 
@@ -142,6 +143,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/delete-invoice/{id}', [AdminController::class, 'deleteInvoice'])->name('admin.deleteInvoice');
 
     Route::post('/admin/news/sort', [NewsController::class, 'sort'])->name('news.sort');
+
+    Route::post('/featured-products', [FeaturedProductController::class, 'store'])->name('featured-products.store');
+    Route::delete('/featured-products/{id}', [FeaturedProductController::class, 'destroy'])->name('featured-products.destroy');
 });
 
 //PRODUCTOS
