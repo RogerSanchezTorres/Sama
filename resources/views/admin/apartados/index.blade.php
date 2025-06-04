@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/style/admin/delete.css') }}">
+    <link rel="stylesheet" href="{{ asset('/style/admin/apartados.css') }}">
 </head>
 
 <body>
@@ -18,22 +18,34 @@
     <x-nav />
     <x-header-admin />
 
-    <h2>Apartados</h2>
-    <a href="{{ route('apartados.create') }}">Crear nuevo apartado</a>
+    @if(session('success'))
+    <div class="alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 
-    <ul>
+    <h2 class="apartados-title">Apartados</h2>
+    <a href="{{ route('apartados.create') }}" class="btn-create">Crear nuevo apartado</a>
+
+    <ul class="apartados-list">
         @foreach($apartados as $apartado)
-        <li>
-            {{ $apartado->nombre }}
-            <a href="{{ route('apartados.edit', $apartado) }}">Editar</a>
-            <form action="{{ route('apartados.destroy', $apartado) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Eliminar</button>
-            </form>
+        <li class="apartado-item">
+            <span class="apartado-nombre">{{ $apartado->nombre }}</span>
+
+            <div class="apartado-actions">
+                <a href="{{ route('apartados.edit', $apartado->id) }}" class="btn-edit">Editar</a>
+
+                <form action="{{ route('apartados.destroy', $apartado->id) }}" method="POST" class="form-delete" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este apartado?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Eliminar</button>
+                </form>
+            </div>
         </li>
         @endforeach
     </ul>
+
+
 
 
 

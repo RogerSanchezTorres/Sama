@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/style/admin/delete.css') }}">
+    <link rel="stylesheet" href="{{ asset('/style/admin/editApartados.css') }}">
 </head>
 
 <body>
@@ -18,13 +18,22 @@
     <x-nav />
     <x-header-admin />
 
-    <h2>Editar Apartado</h2>
-    <form action="{{ route('apartados.update', $apartado) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <input type="text" name="nombre" value="{{ $apartado->nombre }}" required>
-        <button type="submit">Actualizar</button>
-    </form>
+    <h2 class="edit-title">Editar Apartado</h2>
+
+    <div class="edit-container">
+        <form action="{{ route('apartados.update', $apartado->id) }}" method="POST" class="edit-form">
+            @csrf
+            @method('PUT')
+
+            <label for="nombre">Nombre del apartado</label>
+            <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $apartado->nombre) }}" required>
+
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+
+
+
 
 
 

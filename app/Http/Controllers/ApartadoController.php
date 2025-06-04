@@ -29,24 +29,29 @@ class ApartadoController extends Controller
         return redirect()->route('apartados.index')->with('success', 'Apartado creado correctamente.');
     }
 
-    public function edit(Apartado $apartado)
+    public function edit($id)
     {
+        $apartado = Apartado::findOrFail($id);
         return view('admin.apartados.edit', compact('apartado'));
     }
 
-    public function update(Request $request, Apartado $apartado)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
         ]);
 
-        $apartado->update($request->only('nombre'));
+        $apartado = Apartado::findOrFail($id);
+        $apartado->nombre = $request->input('nombre');
+        $apartado->save();
 
         return redirect()->route('apartados.index')->with('success', 'Apartado actualizado correctamente.');
     }
 
-    public function destroy(Apartado $apartado)
+
+    public function destroy($id)
     {
+        $apartado = Apartado::findOrFail($id);
         $apartado->delete();
 
         return redirect()->route('apartados.index')->with('success', 'Apartado eliminado correctamente.');

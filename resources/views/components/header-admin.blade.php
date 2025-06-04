@@ -60,16 +60,21 @@
 <style>
     .menu {
         display: grid;
-        margin-top: 30px;
         justify-content: space-around;
     }
 
     .rutas {
         display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        max-width: 90vw;
     }
+
 
     .rutas>div {
         margin-right: 10px;
+        margin-top: 10px;
     }
 
     .rutas a {
