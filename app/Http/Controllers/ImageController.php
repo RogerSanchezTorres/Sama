@@ -9,6 +9,7 @@ use App\Models\Proveedor;
 use App\Models\News;
 use App\Models\Product;
 use App\Models\FeaturedProduct;
+use App\Models\Apartado;
 
 class ImageController extends Controller
 {
@@ -21,7 +22,10 @@ class ImageController extends Controller
         $allProducts = Product::all();
         $destacados = FeaturedProduct::with('product')->get();
 
-        return view('index', compact('images', 'proveedores', 'news', 'allProducts', 'destacados'));
+        $apartados = Apartado::all();
+        $destacados = FeaturedProduct::with('product')->get();
+
+        return view('index', compact('images', 'proveedores', 'news', 'allProducts', 'destacados', 'apartados'));
     }
 
     public function upload(Request $request)

@@ -42,6 +42,10 @@
         <div class="brand-images">
             <a href="{{ route('admin.brand-image-upload') }}" aria-label="Subir Imágenes de Marcas">Marcas</a>
         </div>
+        <div class="manage-apartados">
+            <a href="{{ route('apartados.index') }}" aria-label="Gestionar Apartados">Apartados</a>
+        </div>
+
 
 
     </div>

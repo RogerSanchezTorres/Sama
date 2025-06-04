@@ -12,6 +12,9 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <link rel="stylesheet" href="{{ asset('style/index.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 
@@ -128,27 +131,41 @@
     <h4>Añadir Producto Destacado</h4>
     <form action="{{ route('featured-products.store') }}" method="POST">
         @csrf
-        <select name="product_id" required>
-            <option value="">Selecciona un producto</option>
-            @foreach($allProducts as $product)
-            <option value="{{ $product->id }}">{{ $product->nombre_es }}</option>
+        <select name="product_id" id="product-select" class="form-control" required>
+            @foreach($allProducts as $producto)
+            <option value="{{ $producto->id }}">{{ $producto->nombre_es }}</option>
             @endforeach
         </select>
+
+
+        <select name="apartado_id" required>
+            @foreach($apartados as $apartado)
+            <option value="{{ $apartado->id }}">{{ $apartado->nombre }}</option>
+            @endforeach
+        </select>
+
         <button type="submit">Añadir</button>
     </form>
+
     @endif
 
 
+
     @if($destacados->count())
-    <h3>Productos Destacados</h3>
+    @foreach($apartados as $apartado)
+    @php
+    $productos = $destacados->where('apartado_id', $apartado->id);
+    @endphp
+
+    @if($productos->count())
+    <h3>{{ $apartado->nombre }}</h3>
     <div class="productos-destacados">
-        @foreach($destacados as $item)
+        @foreach($productos as $item)
         @if($item->product)
         <div class="producto-card">
-            @if($item->product && $item->product->img)
+            @if($item->product->img)
             <img src="{{ $item->product->img }}" alt="{{ $item->product->nombre_es }}">
             @endif
-
 
             <h4>{{ $item->product->nombre_es }}</h4>
 
@@ -172,6 +189,9 @@
         @endforeach
     </div>
     @endif
+    @endforeach
+    @endif
+
 
 
 
@@ -181,6 +201,7 @@
     <script src="{{ asset('js/edit-proveedores.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     <script src="{{ asset('js/sortable.js') }}"></script>
+    <script src="{{ asset('js/buscador.js') }}"></script>
     <script>
         const updateOrderUrl = "{{ route('images.updateOrder') }}";
     </script>
@@ -268,31 +289,33 @@
             }
         });
 
-        const container = document.getElementById('news-list'); // ID correcto
-        Sortable.create(container, {
-            animation: 150,
-            handle: null, // Puedes poner una clase específica si quieres arrastrar solo desde un icono
-            onEnd: function(evt) {
-                const orden = [];
-                document.querySelectorAll('.news-item').forEach((item, index) => {
-                    orden.push({
-                        id: item.getAttribute('data-id'),
-                        position: index + 1
+        const container = document.getElementById('news-list');
+        if (container) {
+            Sortable.create(container, {
+                animation: 150,
+                handle: null,
+                onEnd: function(evt) {
+                    const orden = [];
+                    document.querySelectorAll('.news-item').forEach((item, index) => {
+                        orden.push({
+                            id: item.getAttribute('data-id'),
+                            position: index + 1
+                        });
                     });
-                });
 
-                fetch("{{ route('news.sort') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    body: JSON.stringify({
-                        orden: orden
-                    })
-                });
-            }
-        });
+                    fetch("{{ route('news.sort') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            orden: orden
+                        })
+                    });
+                }
+            });
+        }
     </script>
 
 </body>

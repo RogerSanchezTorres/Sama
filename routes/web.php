@@ -23,6 +23,7 @@ use App\Http\Controllers\MinorCategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\FeaturedProductController;
+use App\Http\Controllers\ApartadoController;
 
 
 
@@ -146,6 +147,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/featured-products', [FeaturedProductController::class, 'store'])->name('featured-products.store');
     Route::delete('/featured-products/{id}', [FeaturedProductController::class, 'destroy'])->name('featured-products.destroy');
+
+    Route::get('/apartados', [ApartadoController::class, 'index'])->name('apartados.index');
+    Route::get('/apartados/create', [ApartadoController::class, 'create'])->name('apartados.create');
+    Route::post('/apartados', [ApartadoController::class, 'store'])->name('apartados.store');
+    Route::get('/apartados/{id}/edit', [ApartadoController::class, 'edit'])->name('apartados.edit');
+    Route::put('/apartados/{id}', [ApartadoController::class, 'update'])->name('apartados.update');
+    Route::delete('/apartados/{id}', [ApartadoController::class, 'destroy'])->name('apartados.destroy');
 });
 
 //PRODUCTOS

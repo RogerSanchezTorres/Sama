@@ -106,4 +106,9 @@ class Product extends Model
     {
         return $this->belongsTo(Marca::class, 'marca_id');
     }
+
+    public function apartado()
+    {
+        return $this->belongsTo(Apartado::class);
+    }
 }

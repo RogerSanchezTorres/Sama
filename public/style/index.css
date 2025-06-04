@@ -760,9 +760,10 @@ button {
 }
 
 .producto-card img {
-    max-width: 100%;
+    max-width: 80%;
     height: 70%;
     border-radius: 6px;
+    margin-left: 23px;
 }
 
 .producto-card h4 {
@@ -803,6 +804,10 @@ button {
 
 .producto-card button:hover {
     background-color: #c0392b;
+}
+
+h3{
+    text-align: center;
 }
 
 
