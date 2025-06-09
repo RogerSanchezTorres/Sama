@@ -1,4 +1,18 @@
 <div class="menu">
+
+    <div class="top-bar">
+        <div class="icons">
+            <i class="fa fa-search"></i>
+            <i class="fa fa-user"></i>
+        </div>
+        <div class="logout">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" aria-label="Logout">Cerrar Sesión</button>
+            </form>
+        </div>
+    </div>
+
     <div class="rutas">
         <div class="dashboard">
             <a href="{{ route('admin-view-products') }}" aria-label="View Products">Ver Productos</a>
@@ -45,22 +59,45 @@
         <div class="manage-apartados">
             <a href="{{ route('apartados.index') }}" aria-label="Gestionar Apartados">Apartados</a>
         </div>
-
-
-
-    </div>
-    <div class="logout">
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" aria-label="Logout">Cerrar Sesión</button>
-        </form>
     </div>
 </div>
 
 <style>
     .menu {
-        display: grid;
-        justify-content: space-around;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .top-bar {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 10px 30px;
+        gap: 20px;
+    }
+
+    .logout {
+        position: fixed;
+        top: 70px;
+        right: 90px;
+        z-index: 1000;
+    }
+
+    .logout button {
+        padding: 7px 15px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        background-color: rgb(24, 24, 24);
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .logout button:hover {
+        background-color: rgb(61, 61, 61);
     }
 
     .rutas {
@@ -69,8 +106,8 @@
         gap: 10px;
         justify-content: center;
         max-width: 90vw;
+        margin-top: -30px;
     }
-
 
     .rutas>div {
         margin-right: 10px;
@@ -90,28 +127,5 @@
     .rutas a:hover {
         background-color: #5f5f5f;
         color: #ffc106;
-    }
-
-    h3 {
-        text-align: center;
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-
-    .logout button {
-        padding: 7px;
-        border-radius: 5px;
-        border: 1px solid black;
-        cursor: pointer;
-        background-color: rgb(24, 24, 24);
-        color: white;
-        position: relative;
-        top: -155px;
-        right: -90%;
-    }
-
-    .logout button:hover {
-        background-color: rgb(61, 61, 61);
-        color: white;
     }
 </style>
