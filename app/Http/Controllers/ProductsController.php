@@ -58,6 +58,7 @@ class ProductsController extends Controller
         $category = $subcategory->category;
         $relatedCategories = $category->mainCategory->categories;
         $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
+        Paginator::useBootstrapThree(false);
 
         return view('products.show_by_subcategory', compact('products', 'subcategory', 'relatedCategories'));
     }
