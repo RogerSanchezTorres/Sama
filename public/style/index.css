@@ -319,7 +319,7 @@ body {
 }
 
 
-.news-section #store{
+.news-section #store {
     max-width: 600px;
     margin: 20px auto;
     background-color: #ffffff;
@@ -747,7 +747,7 @@ button {
     flex: 1 1 220px;
     max-width: 250px;
     background-color: #fff;
-    border: 1px solid #ddd;
+    border: 2px solid #ffc106;
     border-radius: 12px;
     padding: 16px;
     text-align: center;
@@ -755,6 +755,12 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: inherit;
+    transition: box-shadow 0.3s ease;
+}
+
+.producto-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .producto-card img {
@@ -804,7 +810,7 @@ button {
     background-color: #c0392b;
 }
 
-h3{
+h3 {
     text-align: center;
 }
 

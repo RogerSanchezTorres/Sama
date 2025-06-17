@@ -163,19 +163,17 @@
         @foreach($productos as $item)
         @if($item->product)
         <div class="producto-card">
-            @if($item->product->img)
-            <img src="{{ $item->product->img }}" alt="{{ $item->product->nombre_es }}">
-            @endif
+            <a href="{{ route('products.showDetail', $item->product->id) }}" class="producto-card-link">
+                @if($item->product->img)
+                <img src="{{ $item->product->img }}" alt="{{ $item->product->nombre_es }}">
+                @endif
 
-            <h4>{{ $item->product->nombre_es }}</h4>
+                <h4>{{ $item->product->nombre_es }}</h4>
 
-            @if($item->product->precio_es)
-            <p>{{ $item->product->precio_es }} €</p>
-            @endif
-
-            @if($item->product->link)
-            <a href="{{ $item->product->link }}" target="_blank">Ver producto</a>
-            @endif
+                @if($item->product->precio_es)
+                <p>{{ $item->product->precio_es }} €</p>
+                @endif
+            </a>
 
             @if(auth()->check() && auth()->user()->role_id == 1)
             <form action="{{ route('featured-products.destroy', $item->id) }}" method="POST">
