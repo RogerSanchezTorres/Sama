@@ -112,11 +112,35 @@
 
     <div class="info">
         <ul class="tabs">
-            <li class="tab active" onclick="openTab('comentarios')">Comentarios</li>
-            <li class="tab" onclick="openTab('caracteristicas')">Detalles</li>
+            <li class="tab active" onclick="openTab('caracteristicas')">Detalles</li>
+            <li class="tab" onclick="openTab('comentarios')">Comentarios</li>
         </ul>
+
+        @php
+        // Verifica si $product->detalles_lista es un string, y si es así, decodifícalo.
+        if (is_string($product->detalles_lista)) {
+        $detalles = json_decode($product->detalles_lista, true) ?? [];
+        } else {
+        // Si ya es un array, úsalo directamente.
+        $detalles = $product->detalles_lista ?? [];
+        }
+        @endphp
+
+        <div class="caracteristicas" >
+            <div id="caracteristicas" class="tab-content active">
+                @if (!empty($detalles))
+                <ul>
+                    @foreach ($detalles as $detalle)
+                    <li>{{ $detalle }}</li>
+                    @endforeach
+                </ul>
+                @else
+                <p>No hay detalles disponibles.</p>
+                @endif
+            </div>
+        </div>
         <div class="comentarios">
-            <div id="comentarios" class="tab-content active">
+            <div id="comentarios" class="tab-content">
                 <h4>¿Tienes alguna duda?</h4><br>
                 <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="form-comentarios">
                     @csrf
@@ -146,30 +170,6 @@
                     @endif
                 </div><br>
                 @endforeach
-            </div>
-        </div>
-
-        @php
-        // Verifica si $product->detalles_lista es un string, y si es así, decodifícalo.
-        if (is_string($product->detalles_lista)) {
-        $detalles = json_decode($product->detalles_lista, true) ?? [];
-        } else {
-        // Si ya es un array, úsalo directamente.
-        $detalles = $product->detalles_lista ?? [];
-        }
-        @endphp
-
-        <div class="caracteristicas">
-            <div id="caracteristicas" class="tab-content">
-                @if (!empty($detalles))
-                <ul>
-                    @foreach ($detalles as $detalle)
-                    <li>{{ $detalle }}</li>
-                    @endforeach
-                </ul>
-                @else
-                <p>No hay detalles disponibles.</p>
-                @endif
             </div>
         </div>
 
