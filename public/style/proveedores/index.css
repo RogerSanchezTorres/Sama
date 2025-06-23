@@ -224,6 +224,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    text-align: center;
 }
 
 .proveedor-card {
