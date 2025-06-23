@@ -22,12 +22,12 @@
     <x-nav />
 
     <div class="container">
-        <h1>Todos los Proveedores</h1>
+        <h1>Proveedores</h1>
 
         <div class="proveedores-grid">
             @foreach($proveedores as $proveedor)
             <div class="proveedor-card">
-                <img src="{{ asset($proveedor->path) }}" alt="Logo del proveedor" width="120" loading="lazy">
+                <img src="{{ asset($proveedor->path) }}" alt="Logo del proveedor" width="120" height="50px" loading="lazy">
                 {{-- Puedes añadir más datos si tienes --}}
             </div>
             @endforeach
