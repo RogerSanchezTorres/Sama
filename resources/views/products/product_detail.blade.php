@@ -126,7 +126,7 @@
         }
         @endphp
 
-        <div class="caracteristicas" >
+        <div class="caracteristicas">
             <div id="caracteristicas" class="tab-content active">
                 @if (!empty($detalles))
                 <ul>
@@ -172,10 +172,11 @@
                 @endforeach
             </div>
         </div>
+    </div>
 
 
 
-        <x-footer />
+    <x-footer />
 
 </body>
 

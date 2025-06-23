@@ -814,6 +814,16 @@ h3 {
     text-align: center;
 }
 
+.proveedor-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.proveedor-link:hover {
+    opacity: 0.8;
+    /* efecto visual suave */
+}
+
 
 
 @media only screen and (max-width: 768px) {

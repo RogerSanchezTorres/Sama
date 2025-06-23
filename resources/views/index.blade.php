@@ -105,18 +105,19 @@
     <div id="proveedores">
         <div id="imagenes">
             @foreach ($proveedores as $proveedor)
-            <div class="proveedor-item" data-path="{{ $proveedor->path }}">
-                <img src="{{ asset($proveedor->path) }}" alt="Logo del proveedor" width="120px" height="50px">
-
-                <form action="{{ route('proveedores.deleteProveedor', $proveedor->id) }}" method="POST" class="delete-form" style="display:none;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="delete-button">Eliminar</button>
-                </form>
-            </div>
-
-            @endforeach
+            <a href="{{ route('proveedores.index') }}" class="proveedor-link">
+                <div class="proveedor-item" data-path="{{ $proveedor->path }}">
+                    <img src="{{ asset($proveedor->path) }}" alt="Logo del proveedor" width="120px" height="50px">
+            </a>
+            <form action="{{ route('proveedores.deleteProveedor', $proveedor->id) }}" method="POST" class="delete-form" style="display:none;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="delete-button">Eliminar</button>
+            </form>
         </div>
+
+        @endforeach
+    </div>
     </div>
 
     <div id="add-proveedor-form" style="display:none;">
