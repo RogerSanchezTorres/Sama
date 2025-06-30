@@ -79,9 +79,9 @@
     }
 
     .logout {
-        position: fixed;
-        top: 70px;
-        right: 90px;
+        position: relative;
+        top: -165px;
+        right: 60px;
         z-index: 1000;
     }
 

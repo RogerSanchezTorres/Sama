@@ -1,19 +1,29 @@
-document.getElementById("edit-mode-button").addEventListener("click", function () {
-    let addProveedorForm = document.getElementById("add-proveedor-form");
-    let proveedoresContainer = document.getElementById("proveedores");
+document.addEventListener("DOMContentLoaded", function () {
+    const editButton = document.getElementById("edit-mode-button");
 
-    // Alternar visibilidad del formulario de añadir proveedor
-    addProveedorForm.style.display = addProveedorForm.style.display === "none" ? "block" : "none";
+    if (editButton) {
+        editButton.addEventListener("click", function () {
+            let addProveedorForm = document.getElementById("add-proveedor-form");
+            let proveedoresContainer = document.getElementById("proveedores");
 
-    // Alternar la clase para detener la animación y mostrar todas las imágenes
-    proveedoresContainer.classList.toggle("editing");
+            // Alternar visibilidad del formulario de añadir proveedor
+            if (addProveedorForm) {
+                addProveedorForm.style.display = addProveedorForm.style.display === "none" ? "block" : "none";
+            }
 
-    // Mostrar u ocultar los botones de eliminar
-    document.querySelectorAll(".delete-form").forEach(form => {
-        form.style.display = form.style.display === "none" ? "block" : "none";
-    });
+            // Alternar clase para detener la animación
+            if (proveedoresContainer) {
+                proveedoresContainer.classList.toggle("editing");
+            }
 
+            // Mostrar u ocultar los botones de eliminar
+            document.querySelectorAll(".delete-form").forEach(form => {
+                form.style.display = form.style.display === "none" ? "block" : "none";
+            });
+        });
+    }
 });
+
 
 
 
