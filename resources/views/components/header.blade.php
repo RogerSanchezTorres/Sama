@@ -20,6 +20,10 @@
         text-decoration: none;
     }
 
+    #quienes-somos, #aviso-legal, #contacto {
+        margin-top: 5px;
+    }
+
     #header .enlaces {
         display: flex;
         margin-left: 270px;
