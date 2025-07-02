@@ -166,7 +166,7 @@
         <div class="producto-card">
             <a href="{{ route('products.showDetail', $item->product->id) }}" class="producto-card-link">
                 @if($item->product->img)
-                <img src="{{ Storage::url($item->product->img) }}" alt="{{ $item->product->nombre_es }}">
+                <img src="{{ $item->product->img }}" alt="{{ $item->product->nombre_es }}">
                 @endif
 
                 <h4>{{ $item->product->nombre_es }}</h4>
