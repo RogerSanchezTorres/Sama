@@ -52,6 +52,26 @@ class Product extends Model
         // return explode(',', $this->img);
     }
 
+    // app/Models/Product.php
+
+    public function getImgAttribute($value)
+    {
+        // Si ya es array (accedido desde atributo cast), intenta extraer
+        if (is_array($value)) {
+            return $value[0] ?? null;
+        }
+
+        // Si es string y empieza con [, intenta decodificar como JSON
+        if (is_string($value) && str_starts_with($value, '[')) {
+            $decoded = json_decode($value, true);
+            return is_array($decoded) && isset($decoded[0]) ? $decoded[0] : null;
+        }
+
+        // En caso contrario, devolver tal cual
+        return $value;
+    }
+
+
     public function getDetallesListaAttribute($value)
     {
         return json_decode($value, true) ?? [];

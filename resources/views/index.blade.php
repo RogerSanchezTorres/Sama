@@ -157,6 +157,7 @@
     @php
     $productos = $destacados->where('apartado_id', $apartado->id);
     @endphp
+    
 
     @if($productos->count())
     <h3>{{ $apartado->nombre }}</h3>
@@ -166,7 +167,8 @@
         <div class="producto-card">
             <a href="{{ route('products.showDetail', $item->product->id) }}" class="producto-card-link">
                 @if($item->product->img)
-                <img src="{{ $item->product->img }}" alt="{{ $item->product->nombre_es }}">
+                <img src="{{ $item->product->img ?? '/images/default.png' }}" alt="{{ $item->product->nombre_es }}">
+
                 @endif
 
                 <h4>{{ $item->product->nombre_es }}</h4>
