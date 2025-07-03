@@ -157,7 +157,7 @@
     @php
     $productos = $destacados->where('apartado_id', $apartado->id);
     @endphp
-    
+
 
     @if($productos->count())
     <h3>{{ $apartado->nombre }}</h3>
@@ -167,15 +167,12 @@
         <div class="producto-card">
             <a href="{{ route('products.showDetail', $item->product->id) }}" class="producto-card-link">
                 @if($item->product->img)
-                <img src="{{ $item->product->img ?? '/images/default.png' }}" alt="{{ $item->product->nombre_es }}">
-
+                <div class="imagen-contenedor">
+                    <img src="{{ $item->product->img ?? '/images/default.png' }}" alt="{{ $item->product->nombre_es }}">
+                </div>
                 @endif
 
-                <h4>{{ $item->product->nombre_es }}</h4>
-
-                @if($item->product->precio_es)
-                <p>{{ $item->product->precio_es }} €</p>
-                @endif
+                <h4 class="nombre-producto">{{ $item->product->nombre_es }}</h4>
             </a>
 
             @if(auth()->check() && auth()->user()->role_id == 1)
@@ -189,6 +186,7 @@
         @endif
         @endforeach
     </div>
+
     @endif
     @endforeach
     @endif
