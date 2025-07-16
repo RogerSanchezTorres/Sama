@@ -20,15 +20,19 @@ class NewsController extends Controller
             'title' => 'required',
             'content' => 'required',
             'image' => 'nullable|image|max:2048',
+            'video' => 'nullable|mimes:mp4,webm,ogg|max:51200',
             'link' => 'nullable|url',
         ]);
 
         $imagePath = $request->file('image') ? $request->file('image')->store('news', 'public') : null;
+        $videoPath = $request->file('video') ? $request->file('video')->store('news/videos', 'public') : null;
+
 
         News::create([
             'title' => $request->title,
             'content' => $request->content,
             'image' => $imagePath,
+            'video' => $videoPath,
             'link' => $request->link,
         ]);
 

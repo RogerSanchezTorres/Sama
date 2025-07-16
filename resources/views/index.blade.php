@@ -63,6 +63,7 @@
             <textarea name="content" placeholder="Descripción" required></textarea>
             <input type="file" name="image" accept="image/*">
             <input type="url" name="link" placeholder="Enlace al producto (opcional)">
+            <input type="file" name="video" accept="video/*">
             <button type="submit" id="publicar">Publicar Noticia</button>
         </form>
         @endif
