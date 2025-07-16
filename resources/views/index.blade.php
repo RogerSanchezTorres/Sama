@@ -17,6 +17,18 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
+<script>
+    function toggleMedia(id) {
+        const image = document.getElementById('image-' + id);
+        const video = document.getElementById('video-' + id);
+
+        if (image && video) {
+            const showingImage = image.style.display !== 'none';
+            image.style.display = showingImage ? 'none' : 'block';
+            video.style.display = showingImage ? 'block' : 'none';
+        }
+    }
+</script>
 
 <body>
     <x-header />
@@ -72,15 +84,42 @@
         @if($news->count())
         <div id="news-list">
             @foreach($news as $item)
-            <div class="news-item" data-id="{{ $item->id }}">
-                @if($item->image)
-                <img src="{{ asset('storage/' . $item->image) }}" alt="Imagen Noticia">
-                @endif
+            <div class="news-item" data-id="{{ $item->id }}" style="position: relative;">
+
+                {{-- Contenedor multimedia con flechas --}}
+                <div class="media-toggle" style="position: relative; display: flex; justify-content: center; align-items: center;">
+
+                    {{-- Imagen --}}
+                    @if($item->image)
+                    <img id="image-{{ $item->id }}" src="{{ asset('storage/' . $item->image) }}" alt="Imagen Noticia"
+                        style="max-width: 100%; {{ $item->video ? '' : 'display:block;' }}">
+                    @endif
+
+                    {{-- Video --}}
+                    @if($item->video)
+                    <video id="video-{{ $item->id }}" width="100%" height="auto" controls
+                        style="margin-top: 10px; {{ $item->image ? 'display:none;' : '' }}">
+                        <source src="{{ asset('storage/' . $item->video) }}" type="video/mp4">
+                        Tu navegador no soporta la reproducción de videos.
+                    </video>
+                    @endif
+
+                    {{-- Flechas de navegación (solo si hay ambos) --}}
+                    @if($item->image && $item->video)
+                    <button onclick="toggleMedia({{ $item->id }})"
+                        style="position: absolute; top: -30px; right: -10px; border: none; background:white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; color:black;">
+                        ⇄
+                    </button>
+                    @endif
+                </div>
+
                 <h3>{{ $item->title }}</h3>
                 <p>{{ $item->content }}</p>
+
                 @if($item->link)
                 <a href="{{ $item->link }}" target="_blank">Leer más</a>
                 @endif
+
                 @auth
                 @if(auth()->user()->role_id == 1)
                 <form action="{{ route('news.destroy', $item->id) }}" method="POST">
@@ -94,6 +133,7 @@
             @endforeach
         </div>
         @endif
+
     </div>
     @endif
 
