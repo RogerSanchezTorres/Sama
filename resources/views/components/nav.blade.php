@@ -120,6 +120,27 @@
         margin-top: 5px;
     }
 
+    .subsubcategories-list {
+        display: none;
+        position: fixed;
+        background-color: black;
+        left: 0;
+        min-width: 160px;
+        padding: 10px;
+        width: 72%;
+        margin-left: 251px;
+    }
+
+    .subcategories li:hover>a,
+    .subcategories-list li:hover>a,
+    .subsubcategories-list li:hover>a {
+        font-weight: bold;
+        color: #ffc106;
+        /* Amarillo elegante */
+        transition: all 0.3s ease;
+    }
+
+
     .close-icon {
         display: none;
     }

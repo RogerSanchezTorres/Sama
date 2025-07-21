@@ -92,7 +92,7 @@
                     {{-- Imagen --}}
                     @if($item->image)
                     <img id="image-{{ $item->id }}" src="{{ asset('storage/' . $item->image) }}" alt="Imagen Noticia"
-                        style="max-width: 100%; {{ $item->video ? '' : 'display:block;' }}">
+                        style="max-width: 100%; display: {{ $item->video ? 'none' : 'block' }};">
                     @endif
 
                     {{-- Video --}}
@@ -106,7 +106,7 @@
 
                     {{-- Flechas de navegación (solo si hay ambos) --}}
                     @if($item->image && $item->video)
-                    <button onclick="toggleMedia({{ $item->id }})"
+                    <button onclick="toggleMedia('{{ $item->id }}')"
                         style="position: absolute; top: -30px; right: -10px; border: none; background:white; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; color:black;">
                         ⇄
                     </button>
