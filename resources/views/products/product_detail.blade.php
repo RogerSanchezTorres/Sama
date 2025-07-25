@@ -64,7 +64,6 @@
             </div><br>
             @if ($product->proveedor_logo_path)
             <div class="proveedor-logo">
-                <p class="proveedor"><b>Proveedor:</b> {{$product->proveedor}}</p>
                 <img src="{{ asset($product->proveedor_logo_path) }}" alt="Logo del Proveedor" class="img-fluid" style="max-width: 150px; max-height: 150px;">
             </div><br>
             @endif

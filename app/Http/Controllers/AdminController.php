@@ -298,7 +298,10 @@ class AdminController extends Controller
             }
         }
 
-        $product->img = json_encode($existingImages);
+        if ($request->has('delete_images') || $request->hasFile('img')) {
+            $product->img = json_encode($existingImages);
+        }
+
 
         // Si el usuario ha marcado el checkbox para eliminar el PDF
         if ($request->has('delete_pdf') && $request->delete_pdf == 1) {

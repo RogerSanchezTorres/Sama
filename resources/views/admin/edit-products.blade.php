@@ -152,8 +152,12 @@
                     </div>
 
                     <div class="row">
-                        @if (!empty(json_decode($product->img, true)))
-                        @foreach (json_decode($product->img, true) as $index => $img)
+                        @php
+                        $images = json_decode($product->img, true);
+                        @endphp
+
+                        @if (!empty($images))
+                        @foreach ($images as $index => $img)
                         <div class="col-md-3">
                             <img src="{{ asset($img) }}" class="img-fluid mb-3">
                             <div class="form-check">
