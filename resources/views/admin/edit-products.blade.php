@@ -161,7 +161,7 @@
                         <div class="col-md-3">
                             <img src="{{ asset($img) }}" class="img-fluid mb-3">
                             <div class="form-check">
-                                <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="form-check-input" id="delete_image_{{ $index }}">
+                                <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="form-check-input" id="delete_image_{{ $index }}" multiple>
                                 <label class="form-check-label" for="delete_image_{{ $index }}">Eliminar</label>
                             </div>
                         </div>

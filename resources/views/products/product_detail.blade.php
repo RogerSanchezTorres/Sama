@@ -140,7 +140,7 @@
         </div>
         <div class="comentarios">
             <div id="comentarios" class="tab-content">
-                <h4>¿Tienes alguna duda?</h4><br>
+                <h4>Dejanos tu comentario!</h4><br>
                 <form action="{{ route('comentario.store', ['id' => $product->id]) }}" method="post" id="form-comentarios">
                     @csrf
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('content');
             $table->string('image')->nullable();
             $table->string('link')->nullable(); // Enlace a la página del producto
+            $table->string('video')->nullable();
             $table->timestamps();
         });
     }

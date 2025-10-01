@@ -1,10 +1,6 @@
 <div class="menu">
 
     <div class="top-bar">
-        <div class="icons">
-            <i class="fa fa-search"></i>
-            <i class="fa fa-user"></i>
-        </div>
         <div class="logout">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -106,7 +102,7 @@
         gap: 10px;
         justify-content: center;
         max-width: 90vw;
-        margin-top: -30px;
+        margin-top: -70px;
     }
 
     .rutas>div {

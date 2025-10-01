@@ -36,7 +36,7 @@ class CreateProductsTable extends Migration
             $table->integer('unidades_compra_proveedor')->nullable();
             $table->date('fecha_proxima_entrada_stock')->nullable();
             $table->string('nombre_completo')->nullable();
-            $table->json('img')->nullable();
+            $table->text('img')->nullable();
 
             $table->timestamps();
         });

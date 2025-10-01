@@ -134,27 +134,35 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'referencia' => 'max:255',
             'marca' => 'required|max:255',
-            'img' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'img.*' => 'required|image|mimes:jpeg,png,jpg,gif',
             'pdf' => 'nullable|mimes:pdf|max:10000',
             'main_category_id' => 'required|exists:main_categories,id',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
         ]);
 
-        $imagenNombre = $request->file('img')->store('img', 'public');
-        $pdfNombre = $request->file('pdf') ? $request->file('pdf')->store('pdf', 'public') : null;
+        $imagenes = [];
+        if ($request->hasFile('img')) {
+            foreach ($request->file('img') as $imgFile) {
+                $path = $imgFile->store('public/img');
+                $imagenes[] = Storage::url($path);
+            }
+        }
+
+        $pdfNombre = $request->file('pdf')
+            ? $request->file('pdf')->store('pdf', 'public')
+            : null;
 
         DB::beginTransaction();
-
         try {
             $producto = new Product();
             $producto->nombre_es = $request->input('nombre_es');
             $producto->precio_es = $request->input('precio_es');
             $producto->precio_oferta_es = $request->input('precio_oferta_es');
             $producto->proveedor = $request->input('proveedor');
-            $producto->proveedor = $request->input('referencia');
+            $producto->referencia = $request->input('referencia');
             $producto->marca = $request->input('marca');
-            $producto->img = $imagenNombre;
+            $producto->img = json_encode($imagenes); // 👈 ahora guarda un array JSON
             $producto->pdf = $pdfNombre;
             $producto->main_category_id = $request->input('main_category_id');
             $producto->category_id = $request->input('category_id');
@@ -163,8 +171,8 @@ class AdminController extends Controller
             $producto->save();
 
             DB::commit();
-
-            return redirect()->route('admin-agregar-producto')->with('success', 'Producto agregado correctamente');
+            return redirect()->route('admin-agregar-producto')
+                ->with('success', 'Producto agregado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Error al agregar el producto');
@@ -235,11 +243,12 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'referencia' => 'max:255',
             'marca' => 'nullable|max:255',
-            'img*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'img'   => 'nullable|array',
+            'img.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'pdf' => 'nullable|mimes:pdf|max:10000',
             'delete_pdf' => 'nullable|boolean',
             'main_category_id' => 'required|exists:main_categories,id',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'subsubcategory_id' => 'nullable|exists:sub_subcategories,id',
             'descripcion' => 'nullable|string|max:5000',
@@ -251,30 +260,31 @@ class AdminController extends Controller
             'stock' => 'required|integer|min:0',
         ]);
 
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
-        if (!$product) {
-            return redirect()->back()->with('error', 'El producto no se encontró');
-        }
+        // --- datos básicos ---
+        $product->fill([
+            'nombre_es' => $validated['nombre_es'],
+            'precio_es' => $validated['precio_es'],
+            'precio_oferta_es' => $validated['precio_oferta_es'],
+            'proveedor' => $validated['proveedor'],
+            'referencia' => $validated['referencia'],
+            'marca' => $validated['marca'],
+            'main_category_id' => $validated['main_category_id'],
+            'category_id' => $validated['category_id'],
+            'subcategory_id' => $validated['subcategory_id'],
+            'subsubcategory_id' => $validated['subsubcategory_id'] ?? null,
+            'descripcion' => $validated['descripcion'],
+            'detalles_lista' => isset($validated['detalles_lista'])
+                ? json_encode($validated['detalles_lista'])
+                : json_encode([]),
+            'stock' => $validated['stock'],
+        ]);
 
-        $product->nombre_es = $validated['nombre_es'];
-        $product->precio_es = $validated['precio_es'];
-        $product->precio_oferta_es = $validated['precio_oferta_es'];
-        $product->proveedor = $validated['proveedor'];
-        $product->referencia = $validated['referencia'];
-        $product->marca = $validated['marca'];
-        $product->main_category_id = $validated['main_category_id'];
-        $product->category_id = $validated['category_id'];
-        $product->subcategory_id = $validated['subcategory_id'];
-        $product->subsubcategory_id = $validated['subsubcategory_id'] ?? null;
-        $product->descripcion = $validated['descripcion'];
-        $product->detalles_lista = isset($validated['detalles_lista'])
-            ? json_encode($validated['detalles_lista'])
-            : json_encode([]);
-        $product->stock = $validated['stock'];
-
+        // --- imágenes ---
         $existingImages = json_decode($product->img, true) ?? [];
 
+        // eliminar las marcadas
         if ($request->has('delete_images')) {
             foreach ($request->input('delete_images') as $index) {
                 if (isset($existingImages[$index])) {
@@ -282,64 +292,57 @@ class AdminController extends Controller
                     if (file_exists($imagePath)) {
                         unlink($imagePath);
                     }
-
                     unset($existingImages[$index]);
                 }
             }
-
             $existingImages = array_values($existingImages);
         }
 
+        // añadir las nuevas
         if ($request->hasFile('img')) {
             foreach ($request->file('img') as $imgFile) {
                 $imgPath = $imgFile->store('public/img');
-                $imgUrl = Storage::url($imgPath);
+                $imgUrl  = Storage::url($imgPath);
                 $existingImages[] = $imgUrl;
             }
         }
+        $product->img = json_encode($existingImages);
 
-        if ($request->has('delete_images') || $request->hasFile('img')) {
-            $product->img = json_encode($existingImages);
+
+        // --- PDF ---
+        if ($request->boolean('delete_pdf') && $product->pdf) {
+            Storage::delete($product->pdf);
+            $product->pdf = null;
         }
 
-
-        // Si el usuario ha marcado el checkbox para eliminar el PDF
-        if ($request->has('delete_pdf') && $request->delete_pdf == 1) {
-            if ($product->pdf) {
-                Storage::delete($product->pdf);
-                $product->pdf = null;
-            }
-        }
-
-        // Si se ha subido un nuevo PDF, lo guardamos
         if ($request->hasFile('pdf')) {
-            // Eliminar el PDF anterior si existe
             if ($product->pdf) {
                 Storage::delete($product->pdf);
             }
-
-            // Guardar el nuevo PDF
             $product->pdf = $request->file('pdf')->store('pdfs', 'public');
         }
 
+        // --- Logo proveedor ---
         if ($request->hasFile('proveedor_logo')) {
             if ($product->proveedor_logo_path) {
                 Storage::delete($product->proveedor_logo_path);
             }
-
             $logoPath = $request->file('proveedor_logo')->store('public/proveedores');
             $product->proveedor_logo_path = Storage::url($logoPath);
         }
 
-        if ($request->has('delete_proveedor_logo') && $product->proveedor_logo_path) {
+        if ($request->boolean('delete_proveedor_logo') && $product->proveedor_logo_path) {
             Storage::delete($product->proveedor_logo_path);
             $product->proveedor_logo_path = null;
         }
 
         $product->save();
 
-        return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
+        return redirect()
+            ->route('admin-view-products')
+            ->with('success', 'Producto actualizado exitosamente');
     }
+
     public function deleteProductPdf($id)
     {
         $product = Product::findOrFail($id);
@@ -351,16 +354,6 @@ class AdminController extends Controller
         }
 
         return response()->json(['success' => true]);
-    }
-
-
-
-    public function deleteProducts($product)
-    {
-        $product = Product::findOrFail($product);
-        $product->delete();
-
-        return redirect()->route('admin-view-products')->with('success', 'El producto ha sido eliminado exitosamente.');
     }
 
     public function showUserManagement()
