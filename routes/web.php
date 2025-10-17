@@ -124,6 +124,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
     Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');
 
+    Route::get('/admin/subsubsubcategory/create', [AdminController::class, 'createSubSubSubcategory'])->name('admin.createSubSubSubcategory');
+    Route::post('/admin/subsubsubcategory/store', [AdminController::class, 'storeSubSubSubcategory'])->name('admin.storeSubSubSubcategory');
+
 
     Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');
     Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
@@ -172,6 +175,8 @@ Route::get('/products/category/{categorySlug}', [ProductsController::class, 'sho
 Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubcategory');
 Route::get('/products/subsubcategoria/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
 Route::get('/products/minorcategory/{minorCategorySlug}', [ProductsController::class, 'showProductsByMinorCategory'])->name('products.showProductsByMinorCategory');
+Route::get('/products/subsubsubcategory/{subsubsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubsubcategory'])->name('products.showProductsBySubsubsubcategory');
+
 
 Route::get('/marcas', [MarcaController::class, 'index'])->name('marcas.index');
 Route::get('/marcas/{marca}', [MarcaController::class, 'show'])->name('marcas.show');

@@ -20,36 +20,45 @@
     <div class="product-detail-container">
         <div class="product-image">
             @php
-            // Verificamos si las imágenes están almacenadas como JSON (producto nuevo con múltiples imágenes)
-            $images = json_decode($product->img, true);
-
-            // Si no es JSON, asumimos que es una imagen única (producto antiguo)
-            if (json_last_error() !== JSON_ERROR_NONE) {
-            $images = [$product->img];
-            }
-
-            // Normalizamos las rutas de las imágenes para que todas las barras sean '/'
-            $images = array_map(function($image) {
-            // Reemplazamos las barras invertidas '\' con barras normales '/'
-            return str_replace('\\', '/', $image);
-            }, $images);
+            dd($product->img, json_decode($product->img, true));
             @endphp
 
+            @php
+            // Intentamos decodificar las imágenes
+            $images = [];
+
+            if (!empty($product->img)) {
+            // Si es JSON válido, lo decodificamos
+            $decoded = json_decode($product->img, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            $images = $decoded;
+            } else {
+            // Si no es JSON, asumimos una sola imagen
+            $images = [$product->img];
+            }
+            }
+
+            // Normalizamos las rutas
+            $images = array_filter(array_map(function ($image) {
+            return str_replace('\\', '/', $image);
+            }, $images));
+            @endphp
 
             @if (!empty($images))
-            <!-- Imagen principal -->
-            <div class="gallery-container">
-                <div class="main-image">
-                    <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}" id="currentImage">
+            <div class="gallery-container" style="text-align:center;">
+                <!-- Imagen principal -->
+                <div class="main-image" style="margin-bottom: 15px;">
+                    <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}" id="currentImage" class="img-fluid" style="max-width: 300px; border: 1px solid #ccc; border-radius: 5px;">
                 </div>
 
                 <!-- Miniaturas -->
-                <div class="thumbnail-container">
+                @if(count($images) > 1)
+                <div class="thumbnail-container" style="display: flex; gap: 10px; justify-content: center;">
                     @foreach($images as $image)
-                    <img src="{{ asset($image) }}" alt="{{ $product->nombre_es }}" class="thumbnail" onclick="changeImage('{{ asset($image) }}')">
+                    <img src="{{ asset($image) }}" alt="{{ $product->nombre_es }}" class="thumbnail" onclick="changeImage('{{ asset($image) }}')" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent;" onmouseover="this.style.borderColor='#ccc';" onmouseout="this.style.borderColor='transparent';">
                     @endforeach
-
                 </div>
+                @endif
             </div>
             @else
             <div class="no-image">
@@ -57,6 +66,7 @@
             </div>
             @endif
         </div>
+
         <div class="product-info">
             <h1 class="product-title">{{ $product->nombre_es }}</h1>
             <div class="marca-ref">

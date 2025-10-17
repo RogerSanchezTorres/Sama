@@ -17,6 +17,7 @@ use App\Models\SubSubcategory;
 use App\Models\Proveedor;
 use App\Models\UploadedFile;
 use App\Models\Invoice;
+use App\Models\SubSubSubcategory;
 
 class AdminController extends Controller
 {
@@ -243,7 +244,7 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'referencia' => 'max:255',
             'marca' => 'nullable|max:255',
-            'img'   => 'nullable|array',
+            'img'   => 'nullable',             // el array de archivos
             'img.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'pdf' => 'nullable|mimes:pdf|max:10000',
             'delete_pdf' => 'nullable|boolean',
@@ -262,86 +263,85 @@ class AdminController extends Controller
 
         $product = Product::findOrFail($id);
 
-        // --- datos básicos ---
+        // --- PRIMERO: Actualizamos campos básicos (sin tocar aún imagenes) ---
         $product->fill([
             'nombre_es' => $validated['nombre_es'],
             'precio_es' => $validated['precio_es'],
-            'precio_oferta_es' => $validated['precio_oferta_es'],
-            'proveedor' => $validated['proveedor'],
-            'referencia' => $validated['referencia'],
-            'marca' => $validated['marca'],
+            'precio_oferta_es' => $validated['precio_oferta_es'] ?? null,
+            'proveedor' => $validated['proveedor'] ?? null,
+            'referencia' => $validated['referencia'] ?? null,
+            'marca' => $validated['marca'] ?? null,
             'main_category_id' => $validated['main_category_id'],
-            'category_id' => $validated['category_id'],
-            'subcategory_id' => $validated['subcategory_id'],
+            'category_id' => $validated['category_id'] ?? null,
+            'subcategory_id' => $validated['subcategory_id'] ?? null,
             'subsubcategory_id' => $validated['subsubcategory_id'] ?? null,
-            'descripcion' => $validated['descripcion'],
-            'detalles_lista' => isset($validated['detalles_lista'])
-                ? json_encode($validated['detalles_lista'])
-                : json_encode([]),
+            'descripcion' => $validated['descripcion'] ?? null,
+            'detalles_lista' => isset($validated['detalles_lista']) ? json_encode($validated['detalles_lista']) : json_encode([]),
             'stock' => $validated['stock'],
         ]);
 
-        // --- imágenes ---
-        $existingImages = json_decode($product->img, true) ?? [];
+        // --- IMÁGENES: leer el valor original (en DB) ANTES de modificar ---
+        // Obtén la versión guardada en DB (no el valor que pudiera tener $product en memoria)
+        $storedImgValue = $product->getOriginal('img'); // esto devuelve exactamente lo que hay en BD
+        $existingImages = json_decode($storedImgValue, true);
+        if (!is_array($existingImages)) {
+            $existingImages = [];
+        }
 
-        // eliminar las marcadas
+        // 1) Eliminar imágenes marcadas
         if ($request->has('delete_images')) {
             foreach ($request->input('delete_images') as $index) {
                 if (isset($existingImages[$index])) {
-                    $imagePath = public_path($existingImages[$index]);
-                    if (file_exists($imagePath)) {
-                        unlink($imagePath);
+                    $toUnlink = public_path($existingImages[$index]);
+                    if (file_exists($toUnlink)) {
+                        @unlink($toUnlink);
                     }
                     unset($existingImages[$index]);
                 }
             }
-            $existingImages = array_values($existingImages);
+            $existingImages = array_values($existingImages); // reindexar
         }
 
-        // añadir las nuevas
+        // 2) Añadir nuevas imágenes (sin borrar las antiguas)
         if ($request->hasFile('img')) {
             foreach ($request->file('img') as $imgFile) {
-                $imgPath = $imgFile->store('public/img');
-                $imgUrl  = Storage::url($imgPath);
-                $existingImages[] = $imgUrl;
+                if ($imgFile && $imgFile->isValid()) {
+                    $path = $imgFile->store('img', 'public'); // guarda en storage/app/public/img
+                    $existingImages[] = 'storage/' . $path;   // guardamos la ruta usable por asset()
+                }
             }
         }
-        $product->img = json_encode($existingImages);
 
+        // Guardar array actualizado (incluso si no hay cambios, está bien)
+        $product->img = json_encode($existingImages);
 
         // --- PDF ---
         if ($request->boolean('delete_pdf') && $product->pdf) {
             Storage::delete($product->pdf);
             $product->pdf = null;
         }
-
         if ($request->hasFile('pdf')) {
-            if ($product->pdf) {
-                Storage::delete($product->pdf);
-            }
+            if ($product->pdf) Storage::delete($product->pdf);
             $product->pdf = $request->file('pdf')->store('pdfs', 'public');
         }
 
         // --- Logo proveedor ---
         if ($request->hasFile('proveedor_logo')) {
-            if ($product->proveedor_logo_path) {
-                Storage::delete($product->proveedor_logo_path);
-            }
+            if ($product->proveedor_logo_path) Storage::delete($product->proveedor_logo_path);
             $logoPath = $request->file('proveedor_logo')->store('public/proveedores');
             $product->proveedor_logo_path = Storage::url($logoPath);
         }
-
         if ($request->boolean('delete_proveedor_logo') && $product->proveedor_logo_path) {
             Storage::delete($product->proveedor_logo_path);
             $product->proveedor_logo_path = null;
         }
 
+        // Guardamos todos los cambios de una vez
         $product->save();
 
-        return redirect()
-            ->route('admin-view-products')
-            ->with('success', 'Producto actualizado exitosamente');
+        return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
+
 
     public function deleteProductPdf($id)
     {
@@ -566,5 +566,38 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.upload')->with('success', 'Factura eliminada correctamente.');
+    }
+
+    public function createSubSubSubcategory()
+    {
+        $mainCategories = MainCategory::all();
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        $subsubcategories = SubSubcategory::all();
+
+        return view('admin.create_subsubsubcategory', compact('mainCategories', 'categories', 'subcategories', 'subsubcategories'));
+    }
+
+    public function storeSubSubSubcategory(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:sub_sub_subcategories,slug',
+            'main_category_id' => 'required|exists:main_categories,id',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
+            'sub_subcategory_id' => 'required|exists:sub_subcategories,id',
+        ]);
+
+        SubSubSubcategory::create($request->only([
+            'nombre',
+            'slug',
+            'main_category_id',
+            'category_id',
+            'subcategory_id',
+            'sub_subcategory_id',
+        ]));
+
+        return redirect()->route('admin.createSubSubSubcategory')->with('success', 'SubSubSubcategoría creada correctamente');
     }
 }

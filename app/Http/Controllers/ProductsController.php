@@ -114,4 +114,21 @@ class ProductsController extends Controller
     {
         return view('import-form');
     }
+
+    public function showProductsBySubsubsubcategory($subsubsubcategorySlug)
+    {
+        $subsubsubcategory = \App\Models\SubSubSubcategory::where('slug', $subsubsubcategorySlug)->firstOrFail();
+
+        $subsubcategory = $subsubsubcategory->subsubcategory;
+        $subcategory = $subsubcategory->subcategory;
+        $category = $subcategory->category;
+
+        $relatedCategories = $category->mainCategory->categories;
+
+        // Aquí asumimos que tus productos tienen el campo `subsubsubcategory_id`
+        $products = \App\Models\Product::where('subsubsubcategory_id', $subsubsubcategory->id)->paginate(16);
+        \Illuminate\Pagination\Paginator::useBootstrapThree(false);
+
+        return view('products.show_by_subsubsubcategory', compact('products', 'subsubsubcategory', 'relatedCategories'));
+    }
 }
