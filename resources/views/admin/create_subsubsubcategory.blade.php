@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/style/admin/category.css') }}">
+    <link rel="stylesheet" href="{{ asset('/style/admin/subsubsubcategories.css') }}">
 </head>
 
 <body>
@@ -21,7 +21,6 @@
     <h2>Añadir SubCategoria 3</h2>
 
     <div class="container mt-4">
-        <h2>Crear SubSubSubcategoría</h2>
 
         <div class="form-category">
             <form action="{{ route('admin.storeSubSubSubcategory') }}" method="POST">
@@ -31,42 +30,42 @@
                     <input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
                 </div>
 
-                <div class="form-group mt-3">
+                <div class="form-group">
                     <label for="slug">Slug</label>
                     <input type="text" class="form-control" id="slug" name="slug" value="{{ old('slug') }}" required>
                 </div>
 
-                <div class="form-group mt-3">
+                <div class="form-group">
                     <label for="main_category_id">Categoría principal:</label>
-                    <select name="main_category_id" id="main_category_id" class="form-select" required>
+                    <select name="main_category_id" id="main_category_id" required>
                         <option value="">Selecciona una categoría principal</option>
                         @foreach ($mainCategories as $mainCategory)
                         <option value="{{ $mainCategory->id }}">{{ $mainCategory->nombre }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div><br>
 
-                <div class="form-group mt-3">
+                <div class="form-group">
                     <label for="category_id">Categoría secundaria:</label>
-                    <select name="category_id" id="category_id" class="form-select" required>
+                    <select name="category_id" id="category_id" required>
                         <option value="">Selecciona una categoría secundaria</option>
                         @foreach ($categories as $category)
                         <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}">{{ $category->nombre }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div><br>
 
-                <div class="form-group mt-3">
+                <div class="form-group">
                     <label for="subcategory_id">Subcategoría:</label>
-                    <select name="subcategory_id" id="subcategory_id" class="form-select" required>
+                    <select name="subcategory_id" id="subcategory_id" required>
                         <option value="">Selecciona una subcategoría</option>
                         @foreach ($subcategories as $subcategory)
                         <option value="{{ $subcategory->id }}" data-category-id="{{ $subcategory->category_id }}">{{ $subcategory->nombre }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div><br>
 
-                <div class="form-group mt-3">
+                <div class="form-group">
                     <label for="sub_subcategory_id">SubSubcategoría:</label>
                     <select name="sub_subcategory_id" id="sub_subcategory_id" class="form-select" required>
                         <option value="">Selecciona una subsubcategoría</option>
@@ -74,9 +73,9 @@
                         <option value="{{ $subsubcategory->id }}" data-subcategory-id="{{ $subsubcategory->subcategory_id }}">{{ $subsubcategory->nombre }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div><br>
 
-                <div class="mt-4">
+                <div class="crear">
                     <button type="submit" class="btn btn-primary">Crear SubSubSubcategoría</button>
                 </div>
             </form>
