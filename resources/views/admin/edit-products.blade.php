@@ -132,7 +132,7 @@
                     </div>
 
                     <div class="col-md-6" style="margin-top: 15px;">
-                        <label class="fw-bold mb-1" for="subsubcategory_id">Subsubcategoría</label>
+                        <label class="fw-bold mb-1" for="subsubcategory_id">Subcategoría 2</label>
                         <select id="subsubcategory_id" name="subsubcategory_id" class="form-select">
                             <option value="">Selecciona</option>
                             @foreach($subsubcategories as $subsubcategory)
@@ -145,7 +145,7 @@
                     </div>
 
                     <div class="col-md-6" style="margin-top: 15px;">
-                        <label class="fw-bold mb-1" for="subsubsubcategory_id">Subsubsubcategoría</label>
+                        <label class="fw-bold mb-1" for="subsubsubcategory_id">Subcategoría 3</label>
                         <select id="subsubsubcategory_id" name="sub_sub_subcategory_id" class="form-select">
                             <option value="">Selecciona</option>
                             @foreach($subsubsubcategories as $subsubsubcategory)
