@@ -231,7 +231,8 @@ class AdminController extends Controller
         $subcategories = Subcategory::all();
         $subsubcategories = SubSubCategory::all();
         $proveedores = Proveedor::all();
-        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'proveedores'));
+        $subsubsubcategories = SubSubSubcategory::all();
+        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'proveedores', 'subsubsubcategories'));
     }
 
 
