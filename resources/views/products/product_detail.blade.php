@@ -19,9 +19,6 @@
 
     <div class="product-detail-container">
         <div class="product-image">
-            @php
-            dd($product->img, json_decode($product->img, true));
-            @endphp
 
             @php
             // Intentamos decodificar las imágenes

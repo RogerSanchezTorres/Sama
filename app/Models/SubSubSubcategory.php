@@ -12,9 +12,6 @@ class SubSubSubcategory extends Model
     protected $fillable = [
         'nombre',
         'slug',
-        'main_category_id',
-        'category_id',
-        'subcategory_id',
         'sub_subcategory_id',
     ];
 
@@ -35,6 +32,6 @@ class SubSubSubcategory extends Model
 
     public function subSubcategory()
     {
-        return $this->belongsTo(SubSubcategory::class);
+        return $this->belongsTo(SubSubcategory::class, 'sub_subcategory_id');
     }
 }

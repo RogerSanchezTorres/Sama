@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Subcategory;
 use App\Models\SubSubcategory;
 use App\Models\MinorCategory;
+use App\Models\SubSubSubcategory;
 
 
 class ProductsController extends Controller
@@ -72,9 +73,34 @@ class ProductsController extends Controller
         $relatedCategories = $category->mainCategory->categories; // Categorías relacionadas
 
         $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
+        Paginator::useBootstrapThree(false);
 
         return view('products.show_by_subsubcategory', compact('products', 'subsubcategory', 'relatedCategories'));
     }
+
+    public function showProductsBySubsubsubcategory($subsubsubcategorySlug)
+    {
+        // Buscar la subsubsubcategoría por slug
+        $subsubsubcategory = SubSubSubcategory::where('slug', $subsubsubcategorySlug)->firstOrFail();
+
+        // Obtener jerarquía hacia arriba
+        $subsubcategory = $subsubsubcategory->subSubcategory; // SubSubcategoría padre
+        $subcategory = $subsubcategory->subcategory; // Subcategoría
+        $category = $subcategory->category; // Categoría
+
+        // Categorías relacionadas (las que pertenecen a la misma categoría principal)
+        $relatedCategories = $category->mainCategory->categories;
+
+        // Filtrar productos por la subsubsubcategoría seleccionada
+        $products = Product::where('sub_sub_subcategory_id', $subsubsubcategory->id)->paginate(16);
+
+        // Ajustar estilo del paginador
+        Paginator::useBootstrapThree(false);
+
+        // Retornar la vista correspondiente
+        return view('products.show_by_subsubsubcategory', compact('products', 'subsubsubcategory', 'relatedCategories'));
+    }
+
 
     public function deleteProductImage($id, $index)
     {
@@ -113,22 +139,5 @@ class ProductsController extends Controller
     public function showImportForm()
     {
         return view('import-form');
-    }
-
-    public function showProductsBySubsubsubcategory($subsubsubcategorySlug)
-    {
-        $subsubsubcategory = \App\Models\SubSubSubcategory::where('slug', $subsubsubcategorySlug)->firstOrFail();
-
-        $subsubcategory = $subsubsubcategory->subsubcategory;
-        $subcategory = $subsubcategory->subcategory;
-        $category = $subcategory->category;
-
-        $relatedCategories = $category->mainCategory->categories;
-
-        // Aquí asumimos que tus productos tienen el campo `subsubsubcategory_id`
-        $products = \App\Models\Product::where('subsubsubcategory_id', $subsubsubcategory->id)->paginate(16);
-        \Illuminate\Pagination\Paginator::useBootstrapThree(false);
-
-        return view('products.show_by_subsubsubcategory', compact('products', 'subsubsubcategory', 'relatedCategories'));
     }
 }
