@@ -136,8 +136,8 @@
                         <select id="subsubcategory_id" name="subsubcategory_id" class="form-select">
                             <option value="">Selecciona</option>
                             @foreach($subsubcategories as $subsubcategory)
-                            <option value="{{ $subsubcategory->id }}"
-                                data-subcategory-id="{{ $subsubcategory->subcategory_id }}" {{ $product->subsubcategory_id == $subsubcategory->id ? 'selected' : '' }}> {{ $subsubcategory->nombre }}
+                            <option value="{{ $subsubcategory->id }}" data-subcategory-id="{{ $subsubcategory->subcategory_id }}" {{ $product->subsubcategory_id == $subsubcategory->id ? 'selected' : '' }}>
+                                {{ $subsubcategory->nombre }}
                             </option>
 
                             @endforeach
@@ -145,17 +145,16 @@
                     </div>
 
                     <div class="col-md-6" style="margin-top: 15px;">
-                        <label class="fw-bold mb-1" for="subsubsubcategory_id">Subcategoría 3</label>
-                        <select id="subsubsubcategory_id" name="sub_sub_subcategory_id" class="form-select">
+                        <label class="fw-bold mb-1" for="sub_sub_subcategory_id">Subcategoría 3</label>
+                        <select name="sub_sub_subcategory_id" id="sub_sub_subcategory_id" class="form-select">
                             <option value="">Selecciona</option>
                             @foreach($subsubsubcategories as $subsubsubcategory)
-                            <option value="{{ $subsubsubcategory->id }}"
-                                data-subsubcategory-id="{{ $subsubsubcategory->sub_subcategory_id }}"
-                                {{ $product->sub_sub_subcategory_id == $subsubsubcategory->id ? 'selected' : '' }}>
+                            <option value="{{ $subsubsubcategory->id }}"  {{ $product->sub_sub_subcategory_id == $subsubsubcategory->id ? 'selected' : '' }}>
                                 {{ $subsubsubcategory->nombre }}
                             </option>
                             @endforeach
                         </select>
+
                     </div>
 
 

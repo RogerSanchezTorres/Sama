@@ -245,7 +245,7 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'referencia' => 'max:255',
             'marca' => 'nullable|max:255',
-            'img'   => 'nullable',             // el array de archivos
+            'img'   => 'nullable',
             'img.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'pdf' => 'nullable|mimes:pdf|max:10000',
             'delete_pdf' => 'nullable|boolean',
@@ -253,6 +253,7 @@ class AdminController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'subsubcategory_id' => 'nullable|exists:sub_subcategories,id',
+            'sub_sub_subcategory_id' => 'nullable|exists:sub_sub_subcategories,id', // ✅ añadido correctamente
             'descripcion' => 'nullable|string|max:5000',
             'detalles_lista' => 'nullable|array',
             'detalles_lista.*' => 'nullable|string|max:5000',
@@ -264,7 +265,7 @@ class AdminController extends Controller
 
         $product = Product::findOrFail($id);
 
-        // --- PRIMERO: Actualizamos campos básicos (sin tocar aún imagenes) ---
+        // Guardar los campos de texto, precios, etc.
         $product->fill([
             'nombre_es' => $validated['nombre_es'],
             'precio_es' => $validated['precio_es'],
@@ -276,20 +277,23 @@ class AdminController extends Controller
             'category_id' => $validated['category_id'] ?? null,
             'subcategory_id' => $validated['subcategory_id'] ?? null,
             'subsubcategory_id' => $validated['subsubcategory_id'] ?? null,
+            'sub_sub_subcategory_id' => $validated['sub_sub_subcategory_id'] ?? null,
             'descripcion' => $validated['descripcion'] ?? null,
             'detalles_lista' => isset($validated['detalles_lista']) ? json_encode($validated['detalles_lista']) : json_encode([]),
             'stock' => $validated['stock'],
         ]);
 
-        // --- IMÁGENES: leer el valor original (en DB) ANTES de modificar ---
-        // Obtén la versión guardada en DB (no el valor que pudiera tener $product en memoria)
-        $storedImgValue = $product->getOriginal('img'); // esto devuelve exactamente lo que hay en BD
-        $existingImages = json_decode($storedImgValue, true);
+        // --------------------------
+        // 🔹 IMÁGENES DEL PRODUCTO
+        // --------------------------
+
+        // Leemos las imágenes existentes (como array)
+        $existingImages = json_decode($product->getOriginal('img'), true);
         if (!is_array($existingImages)) {
             $existingImages = [];
         }
 
-        // 1) Eliminar imágenes marcadas
+        // 1️⃣ Eliminar imágenes marcadas
         if ($request->has('delete_images')) {
             foreach ($request->input('delete_images') as $index) {
                 if (isset($existingImages[$index])) {
@@ -300,23 +304,27 @@ class AdminController extends Controller
                     unset($existingImages[$index]);
                 }
             }
-            $existingImages = array_values($existingImages); // reindexar
+            $existingImages = array_values($existingImages);
         }
 
-        // 2) Añadir nuevas imágenes (sin borrar las antiguas)
+        // 2️⃣ Agregar nuevas imágenes sin borrar las anteriores
         if ($request->hasFile('img')) {
             foreach ($request->file('img') as $imgFile) {
                 if ($imgFile && $imgFile->isValid()) {
-                    $path = $imgFile->store('img', 'public'); // guarda en storage/app/public/img
-                    $existingImages[] = 'storage/' . $path;   // guardamos la ruta usable por asset()
+                    $path = $imgFile->store('img', 'public');
+                    $existingImages[] = 'storage/' . $path;
                 }
             }
         }
 
-        // Guardar array actualizado (incluso si no hay cambios, está bien)
-        $product->img = json_encode($existingImages);
+        // ✅ Solo actualizamos el campo si realmente hay imágenes
+        if (!empty($existingImages)) {
+            $product->img = json_encode($existingImages);
+        }
 
-        // --- PDF ---
+        // --------------------------
+        // 🔹 PDF
+        // --------------------------
         if ($request->boolean('delete_pdf') && $product->pdf) {
             Storage::delete($product->pdf);
             $product->pdf = null;
@@ -326,7 +334,9 @@ class AdminController extends Controller
             $product->pdf = $request->file('pdf')->store('pdfs', 'public');
         }
 
-        // --- Logo proveedor ---
+        // --------------------------
+        // 🔹 LOGO DEL PROVEEDOR
+        // --------------------------
         if ($request->hasFile('proveedor_logo')) {
             if ($product->proveedor_logo_path) Storage::delete($product->proveedor_logo_path);
             $logoPath = $request->file('proveedor_logo')->store('public/proveedores');
@@ -337,11 +347,12 @@ class AdminController extends Controller
             $product->proveedor_logo_path = null;
         }
 
-        // Guardamos todos los cambios de una vez
+        // Guardamos todo
         $product->save();
 
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
+
 
 
     public function deleteProductPdf($id)
