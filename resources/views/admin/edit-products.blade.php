@@ -349,34 +349,6 @@
             actualizarSubsubcategorias();
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const subsubcategorySelect = document.getElementById('subsubcategory_id');
-            const subsubsubcategorySelect = document.getElementById('sub_sub_subcategory_id');
-
-            function actualizarSubsubsubcategorias() {
-                const selectedSubsubcategoryId = subsubcategorySelect.value;
-
-                // Iterar sobre las opciones y mostrar solo las que correspondan a la subcategoría seleccionada
-                subsubsubcategorySelect.querySelectorAll('option').forEach(option => {
-                    if (option.value === "" || option.dataset.subsubcategoryId === selectedSubsubcategoryId) {
-                        option.style.display = 'block';
-                    } else {
-                        option.style.display = 'none';
-                    }
-                });
-
-                // Si la opción seleccionada ya no es válida, resetear el select
-                if (!subsubsubcategorySelect.querySelector("option:checked") || subsubsubcategorySelect.querySelector("option:checked").style.display === 'none') {
-                    subsubsubcategorySelect.value = "";
-                }
-            }
-
-            // Ejecutar al cambiar la subcategoría
-            subsubcategorySelect.addEventListener('change', actualizarSubsubsubcategorias);
-
-            // Ejecutar al cargar la página si ya hay una subcategoría seleccionada
-            actualizarSubsubsubcategorias();
-        });
 
         document.getElementById('subsubcategory').addEventListener('change', function() {
             const subSubcategoryId = this.value;
