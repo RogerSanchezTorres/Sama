@@ -9,9 +9,14 @@ class SubSubSubcategory extends Model
 {
     use HasFactory;
 
+    protected $table = 'sub_sub_subcategories';
+
     protected $fillable = [
         'nombre',
         'slug',
+        'main_category_id',
+        'category_id',
+        'subcategory_id',
         'sub_subcategory_id',
     ];
 
@@ -30,7 +35,7 @@ class SubSubSubcategory extends Model
         return $this->belongsTo(Subcategory::class);
     }
 
-    public function subSubcategory()
+    public function subsubcategory()
     {
         return $this->belongsTo(SubSubcategory::class, 'sub_subcategory_id');
     }

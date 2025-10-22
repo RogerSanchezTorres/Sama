@@ -149,7 +149,7 @@
                         <select name="sub_sub_subcategory_id" id="sub_sub_subcategory_id" class="form-select">
                             <option value="">Selecciona</option>
                             @foreach($subsubsubcategories as $subsubsubcategory)
-                            <option value="{{ $subsubsubcategory->id }}"  {{ $product->sub_sub_subcategory_id == $subsubsubcategory->id ? 'selected' : '' }}>
+                            <option value="{{ $subsubsubcategory->id }}" data-subsubcategory-id="{{ $subsubsubcategory->subsubcategory_id }}" {{ $product->sub_sub_subcategory_id == $subsubsubcategory->id ? 'selected' : '' }}>
                                 {{ $subsubsubcategory->nombre }}
                             </option>
                             @endforeach
@@ -349,6 +349,54 @@
             actualizarSubsubcategorias();
         });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const subsubcategorySelect = document.getElementById('subsubcategory_id');
+            const subsubsubcategorySelect = document.getElementById('sub_sub_subcategory_id');
+
+            function actualizarSubsubsubcategorias() {
+                const selectedSubsubcategoryId = subsubcategorySelect.value;
+
+                // Iterar sobre las opciones y mostrar solo las que correspondan a la subcategoría seleccionada
+                subsubsubcategorySelect.querySelectorAll('option').forEach(option => {
+                    if (option.value === "" || option.dataset.subsubcategoryId === selectedSubsubcategoryId) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+
+                // Si la opción seleccionada ya no es válida, resetear el select
+                if (!subsubsubcategorySelect.querySelector("option:checked") || subsubsubcategorySelect.querySelector("option:checked").style.display === 'none') {
+                    subsubsubcategorySelect.value = "";
+                }
+            }
+
+            // Ejecutar al cambiar la subcategoría
+            subsubcategorySelect.addEventListener('change', actualizarSubsubsubcategorias);
+
+            // Ejecutar al cargar la página si ya hay una subcategoría seleccionada
+            actualizarSubsubsubcategorias();
+        });
+
+        document.getElementById('subsubcategory').addEventListener('change', function() {
+            const subSubcategoryId = this.value;
+            const subSubSubcategorySelect = document.getElementById('subsubsubcategory');
+
+            subSubSubcategorySelect.innerHTML = '<option value="">Selecciona</option>';
+
+            if (subSubcategoryId) {
+                fetch(`/get-subsubsubcategories/${subSubcategoryId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(sub => {
+                            const option = document.createElement('option');
+                            option.value = sub.id;
+                            option.textContent = sub.nombre;
+                            subSubSubcategorySelect.appendChild(option);
+                        });
+                    });
+            }
+        });
 
 
 
@@ -391,34 +439,6 @@
                         }
                     });
             });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const subsubcategorySelect = document.getElementById('subsubcategory_id');
-            const subsubsubcategorySelect = document.getElementById('subsubsubcategory_id');
-
-            function actualizarSubsubsubcategorias() {
-                const selectedSubsubcategoryId = subsubcategorySelect.value;
-
-                subsubsubcategorySelect.querySelectorAll('option').forEach(option => {
-                    if (option.value === "" || option.dataset.subsubcategoryId === selectedSubsubcategoryId) {
-                        option.style.display = 'block';
-                    } else {
-                        option.style.display = 'none';
-                    }
-                });
-
-                // Resetear selección si no coincide
-                if (!subsubsubcategorySelect.querySelector("option:checked") || subsubsubcategorySelect.querySelector("option:checked").style.display === 'none') {
-                    subsubsubcategorySelect.value = "";
-                }
-            }
-
-            // Actualizar al cambiar subsubcategoría
-            subsubcategorySelect.addEventListener('change', actualizarSubsubsubcategorias);
-
-            // Ejecutar al cargar si ya hay una seleccionada
-            actualizarSubsubsubcategorias();
         });
     </script>
 
