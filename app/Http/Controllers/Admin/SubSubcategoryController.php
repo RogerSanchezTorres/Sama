@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\SubSubcategory;
 use Illuminate\Http\Request;
+use App\Models\SubSubSubcategory;
 
 class SubSubcategoryController extends Controller
 {
@@ -17,8 +18,9 @@ class SubSubcategoryController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $subsubcategories = SubSubcategory::all();
+        $subsubsubcategories = SubSubSubcategory::all();
 
-        return view('admin.manage_subsubcategories', compact('mainCategories', 'categories', 'subcategories', 'subsubcategories'));
+        return view('admin.manage_subsubcategories', compact('mainCategories', 'categories', 'subcategories', 'subsubcategories', 'subsubsubcategories'));
     }
 
     public function destroy($id)

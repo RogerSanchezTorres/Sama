@@ -25,6 +25,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\FeaturedProductController;
 use App\Http\Controllers\ApartadoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\Admin\SubSubSubcategoryController;
 
 
 
@@ -120,12 +121,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('subcategory/delete/{id}', [SubcategoryController::class, 'destroy'])->name('subcategory.delete');
     Route::get('/subsubcategories', [SubSubcategoryController::class, 'index'])->name('subsubcategories.index');
     Route::get('/subsubcategories/{id}', [SubSubcategoryController::class, 'destroy'])->name('subsubcategories.destroy');
+    Route::get('/admin/subsubsubcategories/delete/{id}', [SubSubSubcategoryController::class, 'destroy'])->name('subsubsubcategories.delete');
 
     Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
     Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');
 
     Route::get('/admin/subsubsubcategory/create', [AdminController::class, 'createSubSubSubcategory'])->name('admin.createSubSubSubcategory');
     Route::post('/admin/subsubsubcategory/store', [AdminController::class, 'storeSubSubSubcategory'])->name('admin.storeSubSubSubcategory');
+    
 
 
     Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');

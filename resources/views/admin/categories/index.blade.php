@@ -33,18 +33,99 @@
         </div>
         @endif
 
-        <div class="flex-container">
+        <style>
+            /* --- Diseño general --- */
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+                gap: 30px;
+                margin-bottom: 50px;
+            }
+
+            .card {
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                background: white;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .card-header {
+                background-color: #f7f7f7;
+                padding: 12px 18px;
+                border-bottom: 1px solid #ddd;
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+
+            .card-body {
+                padding: 0;
+            }
+
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .table thead {
+                background-color: #f1f1f1;
+            }
+
+            .table th,
+            .table td {
+                padding: 10px 15px;
+                border-bottom: 1px solid #eee;
+                text-align: left;
+            }
+
+            .table tr:last-child td {
+                border-bottom: none;
+            }
+
+            .btn-danger {
+                background-color: #dc3545;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                font-size: 0.9rem;
+                transition: background 0.2s;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+            }
+
+            /* --- Responsive para móviles --- */
+            @media (max-width: 600px) {
+                .grid-container {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+
+                h1 {
+                    font-size: 1.5rem;
+                }
+            }
+        </style>
+
+        <div class="grid-container">
+            <!-- Categorías principales -->
             <div class="card">
-                <!-- Main Categories -->
-                <div class="card-header">
-                    <h2 class="h5 mb-0">Categorías Principales</h2>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-hover mb-0">
-                        <thead class="thead-light">
+                <div class="card-header">Categorías Principales</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                 <th class="text-right">Acciones</th>
                             </tr>
                         </thead>
@@ -52,9 +133,8 @@
                             @foreach($maincategories as $maincategory)
                             <tr>
                                 <td>{{ $maincategory->nombre }}</td>
-                                <td></td>
                                 <td class="text-right">
-                                    <a href="{{ route('maincategory.delete', $maincategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría principal?');">Eliminar</a>
+                                    <a href="{{ route('maincategory.delete', $maincategory->id) }}" class="btn btn-danger" onclick="return confirm('¿Eliminar esta categoría principal?')">Eliminar</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -63,14 +143,12 @@
                 </div>
             </div>
 
+            <!-- Categorías -->
             <div class="card">
-                <!-- Categories -->
-                <div class="card-header">
-                    <h2 class="h5 mb-0">Categorías</h2>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-hover mb-0">
-                        <thead class="thead-light">
+                <div class="card-header">Categorías</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Categoría Principal</th>
@@ -83,7 +161,7 @@
                                 <td>{{ $category->nombre }}</td>
                                 <td>{{ $category->mainCategory->nombre }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('category.delete', $category->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">Eliminar</a>
+                                    <a href="{{ route('category.delete', $category->id) }}" class="btn btn-danger" onclick="return confirm('¿Eliminar esta categoría?')">Eliminar</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -92,14 +170,12 @@
                 </div>
             </div>
 
+            <!-- Subcategorías -->
             <div class="card">
-                <!-- Subcategories -->
-                <div class="card-header">
-                    <h2 class="h5 mb-0">Subcategorías</h2>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-hover mb-0">
-                        <thead class="thead-light">
+                <div class="card-header">Subcategorías</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Categoría</th>
@@ -112,7 +188,7 @@
                                 <td>{{ $subcategory->nombre }}</td>
                                 <td>{{ $subcategory->category->nombre }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('subcategory.delete', $subcategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta subcategoría?');">Eliminar</a>
+                                    <a href="{{ route('subcategory.delete', $subcategory->id) }}" class="btn btn-danger" onclick="return confirm('¿Eliminar esta subcategoría?')">Eliminar</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -121,14 +197,12 @@
                 </div>
             </div>
 
+            <!-- SubSubcategorías -->
             <div class="card">
-                <!-- Subsubcategories -->
-                <div class="card-header">
-                    <h2 class="h5 mb-0">SubSubcategorías</h2>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-hover mb-0">
-                        <thead class="thead-light">
+                <div class="card-header">SubSubcategorías</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Subcategoría</th>
@@ -141,7 +215,34 @@
                                 <td>{{ $subsubcategory->nombre }}</td>
                                 <td>{{ $subsubcategory->subcategory->nombre }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('subsubcategories.destroy', $subsubcategory->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta subsubcategoría?');">Eliminar</a>
+                                    <a href="{{ route('subsubcategories.destroy', $subsubcategory->id) }}" class="btn btn-danger" onclick="return confirm('¿Eliminar esta subsubcategoría?')">Eliminar</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SubSubSubcategorías -->
+            <div class="card">
+                <div class="card-header">SubSubSubcategorías</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>SubSubcategoría</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($subsubsubcategories as $subsubsubcategory)
+                            <tr>
+                                <td>{{ $subsubsubcategory->nombre }}</td>
+                                <td>{{ $subsubsubcategory->subsubcategory->nombre ?? 'Sin asignar' }}</td>
+                                <td class="text-right">
+                                    <a href="{{ route('subsubsubcategories.delete', $subsubsubcategory->id) }}" class="btn btn-danger" onclick="return confirm('¿Eliminar esta subsubsubcategoría?')">Eliminar</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -150,11 +251,11 @@
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <x-footer />
-    <script src="{{ asset('js/desplegable.js') }}"></script>
+
+        <x-footer />
+        <script src="{{ asset('js/desplegable.js') }}"></script>
 </body>
 
 </html>

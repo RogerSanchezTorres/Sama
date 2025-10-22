@@ -7,6 +7,7 @@ use App\Models\MainCategory;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\SubSubcategory;
+use App\Models\SubSubSubcategory;
 
 class MainCategoryController extends Controller
 {
@@ -16,8 +17,9 @@ class MainCategoryController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $subsubcategories = SubSubcategory::all();
+        $subsubsubcategories = SubSubSubcategory::all();
 
-        return view('admin.categories.index', compact('maincategories', 'categories', 'subcategories', 'subsubcategories'));
+        return view('admin.categories.index', compact('maincategories', 'categories', 'subcategories', 'subsubcategories', 'subsubsubcategories'));
     }
 
     public function destroy($id)
