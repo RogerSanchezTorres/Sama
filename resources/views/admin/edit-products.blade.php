@@ -152,6 +152,7 @@
                             <option value="{{ $subsubsubcategory->id }}" data-subsubcategory-id="{{ $subsubsubcategory->subsubcategory_id }}" {{ $product->sub_sub_subcategory_id == $subsubsubcategory->id ? 'selected' : '' }}>
                                 {{ $subsubsubcategory->nombre }}
                             </option>
+
                             @endforeach
                         </select>
 
@@ -370,7 +371,42 @@
             }
         });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const subsubcategorySelect = document.getElementById('subsubcategory_id');
+            const subsubsubcategorySelect = document.getElementById('sub_sub_subcategory_id');
 
+            // Si alguno no existe, salimos sin romper nada
+            if (!subsubcategorySelect || !subsubsubcategorySelect) {
+                console.warn('⚠️ No se encontró uno de los selects:', {
+                    subsubcategory_id: !!subsubcategorySelect,
+                    sub_sub_subcategory_id: !!subsubsubcategorySelect
+                });
+                return;
+            }
+
+            function actualizarSubsubsubcategorias() {
+                const selectedSubsubcategoryId = subsubcategorySelect.value;
+
+                subsubsubcategorySelect.querySelectorAll('option').forEach(option => {
+                    if (option.value === "" || option.dataset.subsubcategoryId === selectedSubsubcategoryId) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+
+                const selectedOption = subsubsubcategorySelect.querySelector('option:checked');
+                if (selectedOption && selectedOption.style.display === 'none') {
+                    subsubsubcategorySelect.value = "";
+                }
+            }
+
+            // Actualiza al cambiar la subsubcategoría
+            subsubcategorySelect.addEventListener('change', actualizarSubsubsubcategorias);
+
+            // Ejecuta una vez al cargar
+            actualizarSubsubsubcategorias();
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             const detallesContainer = document.getElementById('detalles-container');
