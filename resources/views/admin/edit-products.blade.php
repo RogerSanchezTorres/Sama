@@ -351,25 +351,6 @@
         });
 
 
-        document.getElementById('subsubcategory').addEventListener('change', function() {
-            const subSubcategoryId = this.value;
-            const subSubSubcategorySelect = document.getElementById('subsubsubcategory');
-
-            subSubSubcategorySelect.innerHTML = '<option value="">Selecciona</option>';
-
-            if (subSubcategoryId) {
-                fetch(`/get-subsubsubcategories/${subSubcategoryId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(sub => {
-                            const option = document.createElement('option');
-                            option.value = sub.id;
-                            option.textContent = sub.nombre;
-                            subSubSubcategorySelect.appendChild(option);
-                        });
-                    });
-            }
-        });
 
         document.addEventListener('DOMContentLoaded', function() {
             const subsubcategorySelect = document.getElementById('subsubcategory_id');
