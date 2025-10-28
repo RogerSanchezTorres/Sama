@@ -7,48 +7,22 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
-use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
-use Maatwebsite\Excel\Concerns\WithValidation;
 
-class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustomCsvSettings, SkipsEmptyRows, WithValidation
+
+
+class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustomCsvSettings
 {
+
     public function getCsvSettings(): array
     {
         return [
-            'delimiter' => ';', // Asegura el delimitador correcto
+            'delimiter' => ';', // Cambia esto al delimitador que uses en el CSV, puede ser ',' o ';'
         ];
     }
-
-    public function map($row): array
-    {
-        // Mapeamos los datos según tus columnas
-        return [
-            'tipo'                       => $row['tipo'] ?? null,
-            'category_id'                => $row['category_id'] ?? null,
-            'main_category_id'           => $row['main_category_id'] ?? null,
-            'id_interno'                 => $row['id_interno'] ?? null,
-            'proveedor'                  => $row['proveedor'] ?? null,
-            'referencia'                 => $row['referencia'] ?? null,
-            'marca'                      => $row['marca'] ?? null,
-            'codigo_barras'              => $row['codigo_barras'] ?? null,
-            'stock'                      => $row['stock'] ?? null,
-            'nombre_es'                  => $row['nombre_es'] ?? null,
-            'precio_es'                  => $row['precio_es'] ?? null,
-            'descripcion'                => $row['descripcion'] ?? null,
-            'precio_oferta_es'           => $row['precio_oferta_es'] ?? null,
-            'precio_flash_es'            => $row['precio_flash_es'] ?? null,
-            'precio_flash_fecha_fin_es'  => $row['precio_flash_fecha_fin_es'] ?? null,
-            'precio_coste'               => $row['precio_coste'] ?? null,
-            'publicado'                  => $row['publicado'] ?? null,
-            'padre'                      => $row['padre'] ?? null,
-            'ubicacion'                  => $row['ubicacion'] ?? null,
-            'nombre_completo'            => $row['nombre_completo'] ?? null,
-        ];
-    }
+    
 
     public function model(array $row)
     {
-        // Si no hay referencia, no hacemos nada
         if (empty($row['referencia'])) {
             return null;
         }
@@ -80,38 +54,56 @@ class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustom
                 'nombre_completo'            => $row['nombre_completo'] ?? $product->nombre_completo,
             ]);
 
-            return null; // No crear uno nuevo
+            return null;
         }
-
-        // 🆕 Si no existe, lo creamos
         return new Product([
-            'tipo'                       => $row['tipo'] ?? null,
-            'category_id'                => $row['category_id'] ?? null,
-            'main_category_id'           => $row['main_category_id'] ?? null,
-            'id_interno'                 => $row['id_interno'] ?? null,
-            'proveedor'                  => $row['proveedor'] ?? null,
-            'referencia'                 => $row['referencia'] ?? null,
-            'marca'                      => $row['marca'] ?? null,
-            'codigo_barras'              => $row['codigo_barras'] ?? null,
-            'stock'                      => $row['stock'] ?? null,
-            'nombre_es'                  => $row['nombre_es'] ?? null,
-            'precio_es'                  => $row['precio_es'] ?? null,
-            'descripcion'                => $row['descripcion'] ?? null,
-            'precio_oferta_es'           => $row['precio_oferta_es'] ?? null,
-            'precio_flash_es'            => $row['precio_flash_es'] ?? null,
-            'precio_flash_fecha_fin_es'  => $row['precio_flash_fecha_fin_es'] ?? null,
-            'precio_coste'               => $row['precio_coste'] ?? null,
-            'publicado'                  => $row['publicado'] ?? null,
-            'padre'                      => $row['padre'] ?? null,
-            'ubicacion'                  => $row['ubicacion'] ?? null,
-            'nombre_completo'            => $row['nombre_completo'] ?? null,
+            'tipo'                     => $row['tipo'] ?? null,
+            'category_id'              => $row['category_id'] ?? null,
+            'main_category_id'         => $row['main_category_id'] ?? null,
+            'id_interno'               => $row['id_interno'] ?? null,
+            'proveedor'                => $row['proveedor'] ?? null,
+            'referencia'               => $row['referencia'] ?? null,
+            'marca'                    => $row['marca'] ?? null,
+            'codigo_barras'            => $row['codigo_barras'] ?? null,
+            'stock'                    => $row['stock'] ?? null,
+            'nombre_es'                => $row['nombre_es'] ?? null,
+            'precio_es'                => $row['precio_es'] ?? null,
+            'descripcion'              => $row['descripcion'] ?? null,
+            'precio_oferta_es'         => $row['precio_oferta_es'] ?? null,
+            'precio_flash_es'          => $row['precio_flash_es'] ?? null,
+            'precio_flash_fecha_fin_es' => $row['precio_flash_fecha_fin_es'] ?? null,
+            'precio_coste'             => $row['precio_coste'] ?? null,
+            'publicado'                => $row['publicado'] ?? null,
+            'padre'                    => $row['padre'] ?? null,
+            'ubicacion'                => $row['ubicacion'] ?? null,
+            'nombre_completo'          => $row['nombre_completo'] ?? null,
         ]);
     }
 
-    public function rules(): array
+    public function map($row): array
     {
         return [
-            '*.referencia' => ['required', 'string'],
+            'tipo'                     => $row['tipo'] ?? null,
+            'category_id'              => $row['category_id'] ?? null,
+            'main_category_id'         => $row['main_category_id'] ?? null,
+            'id_interno'               => $row['id_interno'] ?? null,
+            'proveedor'                => $row['proveedor'] ?? null,
+            'referencia'               => $row['referencia'] ?? null,
+            'marca'                    => $row['marca'] ?? null,
+            'codigo_barras'            => $row['codigo_barras'] ?? null,
+            'stock'                    => $row['stock'] ?? null,
+            'nombre_es'                => $row['nombre_es'] ?? null,
+            'precio_es'                => $row['precio_es'] ?? null,
+            'descripcion'              => $row['descripcion'] ?? null,
+            'precio_oferta_es'         => $row['precio_oferta_es'] ?? null,
+            'precio_flash_es'          => $row['precio_flash_es'] ?? null,
+            'precio_flash_fecha_fin_es' => $row['precio_flash_fecha_fin_es'] ?? null,
+            'precio_coste'             => $row['precio_coste'] ?? null,
+            'publicado'                => $row['publicado'] ?? null,
+            'padre'                    => $row['padre'] ?? null,
+            'ubicacion'                => $row['ubicacion'] ?? null,
+            'nombre_completo'          => $row['nombre_completo'] ?? null,
+            '*.referencia'             =>['required', 'string'],
         ];
     }
 }
