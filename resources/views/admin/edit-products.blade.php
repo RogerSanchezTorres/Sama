@@ -149,12 +149,12 @@
                         <select name="sub_sub_subcategory_id" id="sub_sub_subcategory_id" class="form-select">
                             <option value="">Selecciona</option>
                             @foreach($subsubsubcategories as $subsubsubcategory)
-                            <option value="{{ $subsubsubcategory->id }}" data-subsubcategory-id="{{ $subsubsubcategory->subsubcategory_id }}" {{ $product->sub_sub_subcategory_id == $subsubsubcategory->id ? 'selected' : '' }}>
+                            <option value="{{ $subsubsubcategory->id }}" data-subsubcategory-id="{{ $subsubsubcategory->sub_subcategory_id }}" {{ $product->sub_sub_subcategory_id == $subsubsubcategory->id ? 'selected' : '' }}>
                                 {{ $subsubsubcategory->nombre }}
                             </option>
-
                             @endforeach
                         </select>
+
 
                     </div>
 
@@ -282,32 +282,39 @@
             var mainCategorySelect = document.getElementById('main_category_id');
             var categorySelect = document.getElementById('category_id');
             var subcategorySelect = document.getElementById('subcategory_id');
+            var subsubcategorySelect = document.getElementById('subsubcategory_id');
+            var subsubsubcategorySelect = document.getElementById('sub_sub_subcategory_id');
 
-            var selectedMainCategoryId = mainCategorySelect.value;
-            var selectedCategoryId = categorySelect.value;
-
-            // Filtrar categorías
-            var categoryOptions = categorySelect.options;
-            for (var i = 0; i < categoryOptions.length; i++) {
-                var categoryOption = categoryOptions[i];
-                if (categoryOption.dataset.mainCategoryId == selectedMainCategoryId || selectedMainCategoryId === '') {
-                    categoryOption.style.display = '';
-                } else {
-                    categoryOption.style.display = 'none';
+            function filtrarOpciones(select, atributo, valor) {
+                var options = select.options;
+                for (var i = 0; i < options.length; i++) {
+                    var opt = options[i];
+                    if (opt.value === "" || opt.dataset[atributo] == valor || valor === '') {
+                        opt.style.display = '';
+                    } else {
+                        opt.style.display = 'none';
+                    }
+                }
+                if (!Array.from(select.options).some(o => o.value === select.value && o.style.display !== 'none')) {
+                    select.value = "";
                 }
             }
 
-            // Filtrar subcategorías
-            var subcategoryOptions = subcategorySelect.options;
-            for (var i = 0; i < subcategoryOptions.length; i++) {
-                var subcategoryOption = subcategoryOptions[i];
-                if (subcategoryOption.dataset.categoryId == selectedCategoryId || selectedCategoryId === '') {
-                    subcategoryOption.style.display = '';
-                } else {
-                    subcategoryOption.style.display = 'none';
-                }
+            function actualizarFiltros() {
+                filtrarOpciones(categorySelect, 'mainCategoryId', mainCategorySelect.value);
+                filtrarOpciones(subcategorySelect, 'categoryId', categorySelect.value);
+                filtrarOpciones(subsubcategorySelect, 'subcategoryId', subcategorySelect.value);
+                filtrarOpciones(subsubsubcategorySelect, 'subsubcategoryId', subsubcategorySelect.value);
             }
+
+            mainCategorySelect.addEventListener('change', actualizarFiltros);
+            categorySelect.addEventListener('change', actualizarFiltros);
+            subcategorySelect.addEventListener('change', actualizarFiltros);
+            subsubcategorySelect.addEventListener('change', actualizarFiltros);
+
+            actualizarFiltros();
         });
+
 
         document.getElementById('subcategory_id').addEventListener('change', function() {
             const selectedSubcategory = this.value;
@@ -389,6 +396,35 @@
                         }
                     });
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const subsubcategorySelect = document.getElementById('subsubcategory_id');
+            const subsubsubcategorySelect = document.getElementById('sub_sub_subcategory_id');
+
+            function actualizarSubsubsubcategorias() {
+                const selectedSubsubcategoryId = subsubcategorySelect.value;
+
+                subsubsubcategorySelect.querySelectorAll('option').forEach(option => {
+                    if (option.value === "" || option.dataset.subsubcategoryId === selectedSubsubcategoryId) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+
+                // Resetear selección si ya no es válida
+                const selectedOption = subsubsubcategorySelect.querySelector("option:checked");
+                if (!selectedOption || selectedOption.style.display === 'none') {
+                    subsubsubcategorySelect.value = "";
+                }
+            }
+
+            // Ejecutar al cambiar la subsubcategoría
+            subsubcategorySelect.addEventListener('change', actualizarSubsubsubcategorias);
+
+            // Ejecutar al cargar la página si ya hay una subsubcategoría seleccionada
+            actualizarSubsubsubcategorias();
         });
     </script>
 
