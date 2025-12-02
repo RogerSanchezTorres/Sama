@@ -26,6 +26,7 @@ use App\Http\Controllers\FeaturedProductController;
 use App\Http\Controllers\ApartadoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\Admin\SubSubSubcategoryController;
+use App\Http\Controllers\Admin\SubSubSubSubcategoryController;
 
 
 
@@ -128,7 +129,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/subsubsubcategory/create', [AdminController::class, 'createSubSubSubcategory'])->name('admin.createSubSubSubcategory');
     Route::post('/admin/subsubsubcategory/store', [AdminController::class, 'storeSubSubSubcategory'])->name('admin.storeSubSubSubcategory');
-    
+
+    Route::get('/admin/subsubsubsubcategories/create', [SubSubSubSubcategoryController::class, 'create'])->name('admin.createSubSubSubSubcategory');
+    Route::post('/admin/subsubsubsubcategories/store', [SubSubSubSubcategoryController::class, 'store'])->name('admin.storeSubSubSubSubcategory');
+
+
 
 
     Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');
@@ -179,6 +184,7 @@ Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class
 Route::get('/products/subsubcategoria/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
 Route::get('/products/minorcategory/{minorCategorySlug}', [ProductsController::class, 'showProductsByMinorCategory'])->name('products.showProductsByMinorCategory');
 Route::get('/products/subsubsubcategory/{subsubsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubsubcategory'])->name('products.showProductsBySubsubsubcategory');
+Route::get('/productos/subsubsubsubcategory/{slug}', [ProductsController::class, 'showProductsBySubsubsubsubcategory'])->name('products.showProductsBySubsubsubsubcategory');
 
 
 Route::get('/marcas', [MarcaController::class, 'index'])->name('marcas.index');

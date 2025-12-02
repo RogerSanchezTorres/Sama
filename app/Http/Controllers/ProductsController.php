@@ -101,6 +101,31 @@ class ProductsController extends Controller
         return view('products.show_by_subsubsubcategory', compact('products', 'subsubsubcategory', 'relatedCategories'));
     }
 
+    public function showProductsBySubsubsubsubcategory($subsubsubsubcategorySlug)
+    {
+        // Buscar la subsubsubsubcategoría por slug
+        $subsubsubsubcategory = \App\Models\SubSubSubSubcategory::where('slug', $subsubsubsubcategorySlug)->firstOrFail();
+
+        // Subir jerarquía
+        $subsubsubcategory = $subsubsubsubcategory->subsubsubcategory;       // Subsubsubcategoría padre
+        $subsubcategory    = $subsubsubcategory->subSubcategory;            // Subsubcategoría padre
+        $subcategory       = $subsubcategory->subcategory;                  // Subcategoría
+        $category          = $subcategory->category;                        // Categoría
+
+        // Categorías relacionadas
+        $relatedCategories = $category->mainCategory->categories;
+
+        // Filtrar productos por la nueva subsubsubsubcategoría
+        $products = Product::where('sub_sub_sub_subcategory_id', $subsubsubsubcategory->id)->paginate(16);
+
+        // Ajustar estilo del paginador
+        Paginator::useBootstrapThree(false);
+
+        // Retornar vista
+        return view( 'products.show_by_subsubsubsubcategory', compact('products', 'subsubsubsubcategory', 'relatedCategories'));
+    }
+
+
 
     public function deleteProductImage($id, $index)
     {

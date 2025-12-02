@@ -8,7 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/style/admin/subsubsubcategories.css') }}">
+    <link rel="stylesheet" href="{{ asset('/style/admin/subsubsubsubcategories.css') }}">
 </head>
 
 <body>
@@ -18,13 +18,13 @@
     <x-nav />
     <x-header-admin />
 
-    <h2>Añadir SubCategoria 3</h2>
-
+    <h2>Añadir Subcategoría 4</h2>
     <div class="container mt-4">
 
         <div class="form-category">
-            <form action="{{ route('admin.storeSubSubSubcategory') }}" method="POST">
+            <form action="{{ route('admin.storeSubSubSubSubcategory') }}" method="POST">
                 @csrf
+
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
@@ -75,79 +75,62 @@
                     </select>
                 </div><br>
 
+                <div class="form-group">
+                    <label for="sub_subcategory_id">SubSubSubcategoría:</label>
+                    <select name="sub_sub_subcategory_id" id="sub_sub_subcategory_id" class="form-select" required>
+                        <option value="">Selecciona una subsubsubcategoría</option>
+                        @foreach($subsubsubcategories as $subsubsubcategory)
+                        <option value="{{ $subsubsubcategory->id }}" data-subsubcategory-id="{{ $subsubsubcategory->sub_subcategory_id }}">
+                            {{ $subsubsubcategory->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div><br>
+
                 <div class="crear">
-                    <button type="submit" class="btn btn-primary">Crear Subcategoría 3</button>
+                    <button type="submit" class="btn btn-primary">Crear Subcategoría 4</button>
                 </div>
             </form>
         </div>
+    </div>
 
-        <x-footer />
-        <script src="{{ asset('js/desplegable.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <x-footer />
+    <script src="{{ asset('js/desplegable.js') }}"></script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const main = document.getElementById("main_category_id");
+            const cat = document.getElementById("category_id");
+            const sub = document.getElementById("subcategory_id");
+            const sub2 = document.getElementById("sub_subcategory_id");
+            const sub3 = document.getElementById("sub_sub_subcategory_id");
 
-                const mainSelect = document.getElementById('main_category_id');
-                const categorySelect = document.getElementById('category_id');
-                const subcategorySelect = document.getElementById('subcategory_id');
-                const subsubSelect = document.getElementById('sub_subcategory_id');
-
-                // 🔹 Filtrar categorías cuando cambia la principal
-                mainSelect.addEventListener('change', function() {
-                    const mainId = this.value;
-
-                    Array.from(categorySelect.options).forEach(option => {
-                        if (!option.value) return; // saltar "Seleccionar..."
-                        option.style.display = (option.dataset.mainCategoryId === mainId) ? '' : 'none';
-                    });
-
-                    categorySelect.value = '';
-                    subcategorySelect.value = '';
-                    subsubSelect.value = '';
-
-                    hideAllOptions(subcategorySelect);
-                    hideAllOptions(subsubSelect);
+            function filtrar(select, atributo, valor) {
+                [...select.options].forEach(opt => {
+                    if (opt.value === "" || opt.dataset[atributo] == valor) {
+                        opt.style.display = "";
+                    } else {
+                        opt.style.display = "none";
+                    }
                 });
+                if (select.selectedOptions[0]?.style.display === "none") select.value = "";
+            }
 
-                // 🔹 Filtrar subcategorías cuando cambia la categoría
-                categorySelect.addEventListener('change', function() {
-                    const categoryId = this.value;
+            function actualizar() {
+                filtrar(cat, "mainCategoryId", main.value);
+                filtrar(sub, "categoryId", cat.value);
+                filtrar(sub2, "subcategoryId", sub.value);
+                filtrar(sub3, "subsubcategoryId", sub2.value);
+            }
 
-                    Array.from(subcategorySelect.options).forEach(option => {
-                        if (!option.value) return;
-                        option.style.display = (option.dataset.categoryId === categoryId) ? '' : 'none';
-                    });
+            main.addEventListener("change", actualizar);
+            cat.addEventListener("change", actualizar);
+            sub.addEventListener("change", actualizar);
+            sub2.addEventListener("change", actualizar);
 
-                    subcategorySelect.value = '';
-                    subsubSelect.value = '';
-                    hideAllOptions(subsubSelect);
-                });
-
-                // 🔹 Filtrar subsubcategorías cuando cambia la subcategoría
-                subcategorySelect.addEventListener('change', function() {
-                    const subcategoryId = this.value;
-
-                    Array.from(subsubSelect.options).forEach(option => {
-                        if (!option.value) return;
-                        option.style.display = (option.dataset.subcategoryId === subcategoryId) ? '' : 'none';
-                    });
-
-                    subsubSelect.value = '';
-                });
-
-                // 🔹 Función auxiliar para ocultar todas las opciones
-                function hideAllOptions(select) {
-                    Array.from(select.options).forEach(option => {
-                        if (!option.value) return;
-                        option.style.display = 'none';
-                    });
-                }
-
-            });
-        </script>
+            actualizar();
+        });
+    </script>
 
 </body>
 

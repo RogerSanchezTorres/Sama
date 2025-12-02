@@ -14,7 +14,7 @@
     <x-headersama />
     <x-nav />
 
-    <h2>{{ $subsubsubcategory->nombre }}</h2><br>
+    <h2>{{ $subsubsubsubcategory->nombre }}</h2><br>
 
     <div class="container">
         <div class="productos-y-categorias">
@@ -22,43 +22,61 @@
                 <h3>Categorías</h3>
 
                 <ul class="categorias-list">
-
                     @foreach ($relatedCategories as $relatedCategory)
                     <li>
+                        {{-- CATEGORÍA --}}
                         <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $relatedCategory->slug]) }}"
-                            @if ($subsubsubcategory->subsubcategory->subcategory->category->id === $relatedCategory->id) class="selected" @endif>
+                            @if ($relatedCategory->id === $subsubsubsubcategory->subsubsubcategory->subsubcategory->subcategory->category->id)
+                            class="selected"
+                            @endif>
                             {{ $relatedCategory->nombre }}
                         </a>
-                        @if ($subsubsubcategory->subsubcategory->subcategory->category->id === $relatedCategory->id)
-                        @if ($relatedCategory->subcategories->count() > 0)
+
+                        {{-- SUBCATEGORÍAS --}}
+                        @if ($relatedCategory->id === $subsubsubsubcategory->subsubsubcategory->subsubcategory->subcategory->category->id)
                         <ul class="subcategorias-list">
                             @foreach ($relatedCategory->subcategories as $subcat)
                             <li>
                                 <a href="{{ route('products.showProductsBySubcategory', ['subcategorySlug' => $subcat->slug]) }}"
-                                    @if ($subsubsubcategory->subsubcategory->subcategory->id === $subcat->id) class="selected" @endif>
+                                    @if ($subcat->id === $subsubsubsubcategory->subsubsubcategory->subsubcategory->subcategory->id)
+                                    class="selected"
+                                    @endif>
                                     {{ $subcat->nombre }}
                                 </a>
-                                @if ($subsubsubcategory->subsubcategory->subcategory->id === $subcat->id)
+
+                                {{-- SUBSUBCATEGORÍAS --}}
+                                @if ($subcat->id === $subsubsubsubcategory->subsubsubcategory->subsubcategory->subcategory->id)
                                 <ul class="subsubcategorias-list">
                                     @foreach ($subcat->subsubcategories as $subsubcat)
                                     <li>
                                         <a href="{{ route('products.showProductsBySubsubcategory', ['subsubcategorySlug' => $subsubcat->slug]) }}"
-                                            @if ($subsubsubcategory->subsubcategory->id === $subsubcat->id) class="selected" @endif>
+                                            @if ($subsubcat->id === $subsubsubsubcategory->subsubsubcategory->subsubcategory->id)
+                                            class="selected"
+                                            @endif>
                                             {{ $subsubcat->nombre }}
                                         </a>
-                                        @if ($subsubsubcategory->subsubcategory->id === $subsubcat->id)
+
+                                        {{-- SUBSUBSUBCATEGORÍAS --}}
+                                        @if ($subsubcat->id === $subsubsubsubcategory->subsubsubcategory->subsubcategory->id)
                                         <ul class="subsubsubcategorias-list">
                                             @foreach ($subsubcat->subsubsubcategories as $subsubsubcat)
                                             <li>
                                                 <a href="{{ route('products.showProductsBySubsubsubcategory', ['subsubsubcategorySlug' => $subsubsubcat->slug]) }}"
-                                                    @if ($subsubsubcategory->id === $subsubsubcat->id) class="selected" @endif>
+                                                    @if ($subsubsubcat->id === $subsubsubsubcategory->subsubsubcategory->id)
+                                                    class="selected"
+                                                    @endif>
                                                     {{ $subsubsubcat->nombre }}
                                                 </a>
-                                                @if ($subsubsubcategory->id === $subsubsubcat->id)
+
+                                                {{-- SUBSUBSUBSUBCATEGORÍAS --}}
+                                                @if ($subsubsubcat->id === $subsubsubsubcategory->subsubsubcategory->id)
                                                 <ul class="subsubsubsubcategorias-list">
                                                     @foreach ($subsubsubcat->subsubsubsubcategories as $subsubsubsubcat)
                                                     <li>
-                                                        <a href="{{ route('products.showProductsBySubsubsubsubcategory', ['slug' => $subsubsubsubcat->slug]) }}">
+                                                        <a href="{{ route('products.showProductsBySubsubsubsubcategory', ['slug' => $subsubsubsubcat->slug]) }}"
+                                                            @if ($subsubsubsubcat->id === $subsubsubsubcategory->id)
+                                                            class="selected"
+                                                            @endif>
                                                             {{ $subsubsubsubcat->nombre }}
                                                         </a>
                                                     </li>
@@ -77,10 +95,10 @@
                             @endforeach
                         </ul>
                         @endif
-                        @endif
                     </li>
                     @endforeach
                 </ul>
+
             </div>
         </div>
 

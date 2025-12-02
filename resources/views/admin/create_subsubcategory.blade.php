@@ -62,7 +62,7 @@
             </div><br>
 
             <div class="crear">
-                <button type="submit" class="btn btn-primary">Crear Subsubcategoría</button>
+                <button type="submit" class="btn btn-primary">Crear Subcategoría 2</button>
             </div>
         </form>
     </div>

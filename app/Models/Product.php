@@ -16,6 +16,7 @@ class Product extends Model
         'subsubcategory_id',
         'minor_category_id',
         'sub_sub_subcategory_id',
+        'sub_sub_sub_subcategory_id',
         'id_interno',
         'proveedor',
         'referencia',
@@ -136,5 +137,10 @@ class Product extends Model
     public function subsubsubcategory()
     {
         return $this->belongsTo(SubSubSubcategory::class);
+    }
+
+    public function subsubsubsubcategory()
+    {
+        return $this->belongsTo(SubSubSubSubcategory::class, 'subsubsubsubcategory_id');
     }
 }

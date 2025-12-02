@@ -46,6 +46,10 @@
         <div class="add-category">
             <a href="{{ route('admin.createSubSubSubcategory') }}" aria-label="Añadir Subcategoria 3">Añadir Subcategoría 3</a>
         </div>
+        <div class="add-category">
+            <a href="{{ route('admin.createSubSubSubSubcategory') }}" aria-label="Añadir Subcategoria 4">Añadir Subcategoría 4</a>
+        </div>
+
 
         <div class="delete-category">
             <a href="{{ route('admin.categories.index') }}" aria-label="Add Category">Borrar Categoría</a>

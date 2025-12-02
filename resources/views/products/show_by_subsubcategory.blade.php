@@ -22,6 +22,7 @@
         <div class="productos-y-categorias">
             <div class="categorias">
                 <h3>Categorías</h3>
+
                 <ul class="categorias-list">
                     @foreach ($relatedCategories as $relatedCategory)
                     <li>
@@ -46,6 +47,17 @@
                                             @if ($subsubcategory->id === $subsubcat->id) class="selected" @endif>
                                             {{ $subsubcat->nombre }}
                                         </a>
+                                        @if ($subsubcategory->id === $subsubcat->id && $subsubcat->subsubsubcategories->count() > 0)
+                                        <ul class="subsubsubcategorias-list">
+                                            @foreach ($subsubcat->subsubsubcategories as $subsubsubcat)
+                                            <li>
+                                                <a href="{{ route('products.showProductsBySubsubsubcategory', ['subsubsubcategorySlug' => $subsubsubcat->slug]) }}">
+                                                    {{ $subsubsubcat->nombre }}
+                                                </a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                        @endif
                                     </li>
                                     @endforeach
                                 </ul>
@@ -60,6 +72,7 @@
                 </ul>
             </div>
         </div>
+
 
         <div class="productos">
             <div class="productos-list">

@@ -387,39 +387,29 @@ h2 {
     justify-content: center;
 }
 
+/* Contenedor principal */
 .productos-y-categorias {
     display: flex;
 }
 
-h3{
-    margin-left: 140px;
+/* Título Categorías */
+.categorias h3 {
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 
-.productos{
-    width: 1600px;
+/* Área de productos */
+.productos {
+    width: 1400px;
+    margin-left: -100px;
 }
 
-.categorias ul li a{
-    width: 88%;
-    margin-left: 110px;
-}
+/* ----- LISTAS BASE ----- */
 
-.categorias-list li {
-    width: 200px;
-    margin-left: 30px;
-}
-
-.subcategorias-list{
+.categorias-list,
+.categorias-list ul {
     list-style: none;
-}
-
-.subcategorias-list a{
-    margin-top: 5px;
-    border: 1px solid black;
-}
-
-.categorias-list {
-    list-style: none;
+    /* Sin puntos */
     padding: 0;
     margin: 0;
 }
@@ -428,8 +418,11 @@ h3{
     margin-bottom: 5px;
 }
 
+/* ----- ENLACES BASE ----- */
+
 .categorias-list a {
     display: block;
+    width: 200px;
     text-decoration: none;
     padding: 8px 12px;
     border-radius: 5px;
@@ -437,7 +430,9 @@ h3{
     font-size: 14px;
     color: #333;
     background-color: #f0f0f0;
-    transition: background-color 0.3s ease;
+    transition: 0.2s ease;
+    margin-left: 10px;
+    /* Mantengo tu diseño */
 }
 
 .categorias-list a:hover {
@@ -445,9 +440,57 @@ h3{
     color: #555;
 }
 
-.categorias h3{
-    margin-bottom: 10px;
+/* ----- INDENTACIÓN POR NIVELES ----- */
+
+/* Subcategorías */
+.categorias-list ul li a {
+    margin-left: 30px;
+    /* +20px respecto al nivel anterior */
 }
+
+/* Subsubcategorías */
+.categorias-list ul ul li a {
+    margin-left: 50px;
+}
+
+/* Subsubsubcategorías */
+.categorias-list ul ul ul li a {
+    margin-left: 70px;
+}
+
+/* Subsubsubsubcategorías */
+.categorias-list ul ul ul ul li a {
+    margin-left: 90px;
+}
+
+/* Bordes y estilo extra para subniveles */
+.categorias-list ul li a {
+    background-color: #f8f8f8;
+    border-left: 3px solid #ccc;
+}
+
+.categorias-list ul ul li a {
+    background-color: #fafafa;
+    border-left: 3px solid #bbb;
+}
+
+.categorias-list ul ul ul li a {
+    background-color: #fefefe;
+    border-left: 3px solid #aaa;
+}
+
+.categorias-list ul ul ul ul li a {
+    background-color: #ffffff;
+    border-left: 3px solid #999;
+}
+
+/* Seleccionado */
+.categorias-list a.selected {
+    background-color: #ffd95e;
+    font-weight: bold;
+}
+
+
 
 @media only screen and (max-width: 768px) {
 

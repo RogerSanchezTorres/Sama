@@ -23,30 +23,61 @@
         <div class="productos-y-categorias">
             <div class="categorias">
                 <h3>Categorías</h3>
+
                 <ul class="categorias-list">
+
                     @foreach ($relatedCategories as $relatedCategory)
                     <li>
-                        <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $relatedCategory->slug]) }}" @if ($subcategory->category->id === $relatedCategory->id) class="selected" @endif>
+
+                        <!-- NIVEL 1: CATEGORÍA -->
+                        <a href="{{ route('products.showProductsByCategory', ['categorySlug' => $relatedCategory->slug]) }}"
+                            @if ($subcategory->category->id === $relatedCategory->id) class="selected" @endif>
                             {{ $relatedCategory->nombre }}
                         </a>
-                        @if ($subcategory->category->id === $relatedCategory->id)
-                        @if ($relatedCategory->subcategories->count() > 0)
+
+                        <!-- Si la categoría activa coincide, mostramos subcategorías -->
+                        @if ($subcategory->category->id === $relatedCategory->id && $relatedCategory->subcategories->count() > 0)
                         <ul class="subcategorias-list">
+
                             @foreach ($relatedCategory->subcategories as $subcat)
                             <li>
-                                <a href="{{ route('products.showProductsBySubcategory', ['subcategorySlug' => $subcat->slug]) }}" @if ($subcategory->id === $subcat->id) class="selected" @endif>
+
+                                <!-- NIVEL 2: SUBCATEGORÍA -->
+                                <a href="{{ route('products.showProductsBySubcategory', ['subcategorySlug' => $subcat->slug]) }}"
+                                    @if ($subcategory->id === $subcat->id) class="selected" @endif>
                                     {{ $subcat->nombre }}
                                 </a>
+
+                                <!-- NIVEL 3: SUBSUBCATEGORÍAS SOLO SI ESTA SUBCATEGORIA ES LA ACTUAL -->
+                                @if ($subcategory->id === $subcat->id && $subcat->subsubcategories->count() > 0)
+                                <ul class="subsubcategorias-list">
+
+                                    @foreach ($subcat->subsubcategories as $subsubcat)
+                                    <li>
+
+                                        <a href="{{ route('products.showProductsBySubsubcategory', ['subsubcategorySlug' => $subsubcat->slug]) }}">
+                                            {{ $subsubcat->nombre }}
+                                        </a>
+
+                                    </li>
+                                    @endforeach
+
+                                </ul>
+                                @endif
+
                             </li>
                             @endforeach
+
                         </ul>
                         @endif
-                        @endif
+
                     </li>
                     @endforeach
+
                 </ul>
             </div>
         </div>
+
 
         <div class="productos">
             <div class="productos-list">

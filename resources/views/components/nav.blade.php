@@ -33,6 +33,15 @@
                                             <a href="{{ route('products.showProductsBySubsubsubcategory', ['subsubsubcategorySlug' => $subsubsubcategory->slug]) }}">
                                                 {{ $subsubsubcategory->nombre }}
                                             </a>
+                                            <ul class="subsubsubsubcategories-list">
+                                                @foreach($subsubsubcategory->subsubsubsubcategories as $subsubsubsubcategory)
+                                                <li>
+                                                    <a href="{{ route('products.showProductsBySubsubsubsubcategory', ['slug' => $subsubsubsubcategory->slug]) }}">
+                                                        {{ $subsubsubsubcategory->nombre }}
+                                                    </a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -170,6 +179,24 @@
         color: #ffc106;
         transition: all 0.3s ease;
     }
+
+    .subsubsubsubcategories-list {
+        display: none;
+        position: fixed;
+        background-color: black;
+        left: 0;
+        min-width: 160px;
+        padding: 10px;
+        width: 72%;
+        margin-left: 251px;
+    }
+
+    .subsubsubsubcategories-list li:hover>a {
+        font-weight: bold;
+        color: #ffc106;
+        transition: all 0.3s ease;
+    }
+
 
 
     @media only screen and (max-width: 800px) {
