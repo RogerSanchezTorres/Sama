@@ -18,6 +18,7 @@ use App\Models\Proveedor;
 use App\Models\UploadedFile;
 use App\Models\Invoice;
 use App\Models\SubSubSubcategory;
+use App\Models\SubSubSubSubcategory;
 
 class AdminController extends Controller
 {
@@ -232,7 +233,9 @@ class AdminController extends Controller
         $subsubcategories = SubSubCategory::all();
         $proveedores = Proveedor::all();
         $subsubsubcategories = SubSubSubcategory::all();
-        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'proveedores', 'subsubsubcategories'));
+        $subsubsubsubcategories = SubSubSubSubcategory::all();
+
+        return view('admin.edit-products', compact('product', 'mainCategories', 'categories', 'subcategories', 'subsubcategories', 'proveedores', 'subsubsubcategories', 'subsubsubsubcategories'));
     }
 
 
@@ -253,7 +256,8 @@ class AdminController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'subsubcategory_id' => 'nullable|exists:sub_subcategories,id',
-            'sub_sub_subcategory_id' => 'nullable|exists:sub_sub_subcategories,id', // ✅ añadido correctamente
+            'sub_sub_subcategory_id' => 'nullable|exists:sub_sub_subcategories,id',
+            'sub_sub_sub_subcategory_id' => 'nullable|exists:sub_sub_sub_subcategories,id',
             'descripcion' => 'nullable|string|max:5000',
             'detalles_lista' => 'nullable|array',
             'detalles_lista.*' => 'nullable|string|max:5000',
@@ -265,7 +269,7 @@ class AdminController extends Controller
 
         $product = Product::findOrFail($id);
 
-        // Guardar los campos de texto, precios, etc.
+        // Guardar los campos principales
         $product->fill([
             'nombre_es' => $validated['nombre_es'],
             'precio_es' => $validated['precio_es'],
@@ -278,22 +282,24 @@ class AdminController extends Controller
             'subcategory_id' => $validated['subcategory_id'] ?? null,
             'subsubcategory_id' => $validated['subsubcategory_id'] ?? null,
             'sub_sub_subcategory_id' => $validated['sub_sub_subcategory_id'] ?? null,
+            'sub_sub_sub_subcategory_id' => $validated['sub_sub_sub_subcategory_id'] ?? null, // ⭐ GUARDADO NIVEL 5
+
             'descripcion' => $validated['descripcion'] ?? null,
-            'detalles_lista' => isset($validated['detalles_lista']) ? json_encode($validated['detalles_lista']) : json_encode([]),
+            'detalles_lista' => isset($validated['detalles_lista'])
+                ? json_encode($validated['detalles_lista'])
+                : json_encode([]),
             'stock' => $validated['stock'],
         ]);
 
         // --------------------------
         // 🔹 IMÁGENES DEL PRODUCTO
         // --------------------------
-
-        // Leemos las imágenes existentes (como array)
         $existingImages = json_decode($product->getOriginal('img'), true);
         if (!is_array($existingImages)) {
             $existingImages = [];
         }
 
-        // 1️⃣ Eliminar imágenes marcadas
+        // Eliminar imágenes
         if ($request->has('delete_images')) {
             foreach ($request->input('delete_images') as $index) {
                 if (isset($existingImages[$index])) {
@@ -307,7 +313,7 @@ class AdminController extends Controller
             $existingImages = array_values($existingImages);
         }
 
-        // 2️⃣ Agregar nuevas imágenes sin borrar las anteriores
+        // Agregar imágenes
         if ($request->hasFile('img')) {
             foreach ($request->file('img') as $imgFile) {
                 if ($imgFile && $imgFile->isValid()) {
@@ -317,7 +323,6 @@ class AdminController extends Controller
             }
         }
 
-        // ✅ Solo actualizamos el campo si realmente hay imágenes
         if (!empty($existingImages)) {
             $product->img = json_encode($existingImages);
         }
@@ -329,19 +334,21 @@ class AdminController extends Controller
             Storage::delete($product->pdf);
             $product->pdf = null;
         }
+
         if ($request->hasFile('pdf')) {
             if ($product->pdf) Storage::delete($product->pdf);
             $product->pdf = $request->file('pdf')->store('pdfs', 'public');
         }
 
         // --------------------------
-        // 🔹 LOGO DEL PROVEEDOR
+        // 🔹 LOGO PROVEEDOR
         // --------------------------
         if ($request->hasFile('proveedor_logo')) {
             if ($product->proveedor_logo_path) Storage::delete($product->proveedor_logo_path);
             $logoPath = $request->file('proveedor_logo')->store('public/proveedores');
             $product->proveedor_logo_path = Storage::url($logoPath);
         }
+
         if ($request->boolean('delete_proveedor_logo') && $product->proveedor_logo_path) {
             Storage::delete($product->proveedor_logo_path);
             $product->proveedor_logo_path = null;
@@ -352,6 +359,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
+
 
 
 

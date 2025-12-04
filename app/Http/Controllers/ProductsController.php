@@ -12,6 +12,7 @@ use App\Models\Subcategory;
 use App\Models\SubSubcategory;
 use App\Models\MinorCategory;
 use App\Models\SubSubSubcategory;
+use App\Models\SubSubSubSubcategory;
 
 
 class ProductsController extends Controller
@@ -104,7 +105,7 @@ class ProductsController extends Controller
     public function showProductsBySubsubsubsubcategory($subsubsubsubcategorySlug)
     {
         // Buscar la subsubsubsubcategoría por slug
-        $subsubsubsubcategory = \App\Models\SubSubSubSubcategory::where('slug', $subsubsubsubcategorySlug)->firstOrFail();
+        $subsubsubsubcategory = SubSubSubSubcategory::where('slug', $subsubsubsubcategorySlug)->firstOrFail();
 
         // Subir jerarquía
         $subsubsubcategory = $subsubsubsubcategory->subsubsubcategory;       // Subsubsubcategoría padre

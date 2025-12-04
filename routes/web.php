@@ -184,7 +184,7 @@ Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class
 Route::get('/products/subsubcategoria/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
 Route::get('/products/minorcategory/{minorCategorySlug}', [ProductsController::class, 'showProductsByMinorCategory'])->name('products.showProductsByMinorCategory');
 Route::get('/products/subsubsubcategory/{subsubsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubsubcategory'])->name('products.showProductsBySubsubsubcategory');
-Route::get('/productos/subsubsubsubcategory/{slug}', [ProductsController::class, 'showProductsBySubsubsubsubcategory'])->name('products.showProductsBySubsubsubsubcategory');
+Route::get('/products/subsubsubsubcategory/{slug}', [ProductsController::class, 'showProductsBySubsubsubsubcategory'])->name('products.showProductsBySubsubsubsubcategory');
 
 
 Route::get('/marcas', [MarcaController::class, 'index'])->name('marcas.index');

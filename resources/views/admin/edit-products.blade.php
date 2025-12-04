@@ -154,8 +154,20 @@
                             </option>
                             @endforeach
                         </select>
+                    </div>
 
-
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <label class="fw-bold mb-1" for="sub_sub_sub_subcategory_id">Subcategoría 4</label>
+                        <select name="sub_sub_sub_subcategory_id" id="sub_sub_sub_subcategory_id" class="form-select">
+                            <option value="">Selecciona</option>
+                            @foreach($subsubsubsubcategories as $subsubsubsubcategory)
+                            <option value="{{ $subsubsubsubcategory->id }}"
+                                data-subsubsubcategory-id="{{ $subsubsubsubcategory->sub_sub_subcategory_id }}"
+                                {{ $product->sub_sub_sub_subcategory_id == $subsubsubsubcategory->id ? 'selected' : '' }}>
+                                {{ $subsubsubsubcategory->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
 
 
@@ -305,6 +317,8 @@
                 filtrarOpciones(subcategorySelect, 'categoryId', categorySelect.value);
                 filtrarOpciones(subsubcategorySelect, 'subcategoryId', subcategorySelect.value);
                 filtrarOpciones(subsubsubcategorySelect, 'subsubcategoryId', subsubcategorySelect.value);
+                filtrarOpciones(document.getElementById('sub_sub_sub_subcategory_id'), 'subsubsubcategoryId', subsubsubcategorySelect.value);
+
             }
 
             mainCategorySelect.addEventListener('change', actualizarFiltros);
@@ -425,6 +439,35 @@
 
             // Ejecutar al cargar la página si ya hay una subsubcategoría seleccionada
             actualizarSubsubsubcategorias();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const subsubsubcategorySelect = document.getElementById('sub_sub_subcategory_id');
+            const subsubsubsubcategorySelect = document.getElementById('sub_sub_sub_subcategory_id');
+
+            function actualizarSubsubsubsubcategorias() {
+                const selectedSubsubsubcategoryId = subsubsubcategorySelect.value;
+
+                subsubsubsubcategorySelect.querySelectorAll('option').forEach(option => {
+                    if (option.value === "" || option.dataset.subsubsubcategoryId === selectedSubsubsubcategoryId) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+
+                // Resetear si la opción seleccionada ya no es válida
+                const selectedOption = subsubsubsubcategorySelect.querySelector("option:checked");
+                if (!selectedOption || selectedOption.style.display === 'none') {
+                    subsubsubsubcategorySelect.value = "";
+                }
+            }
+
+            // Ejecutar al cambiar categoría 3
+            subsubsubcategorySelect.addEventListener('change', actualizarSubsubsubsubcategorias);
+
+            // Ejecutar al cargar la página
+            actualizarSubsubsubsubcategorias();
         });
     </script>
 

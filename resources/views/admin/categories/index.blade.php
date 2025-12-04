@@ -250,6 +250,38 @@
                     </table>
                 </div>
             </div>
+
+            <!-- SubSubSubSubcategorías -->
+            <div class="card">
+                <div class="card-header">SubSubSubSubcategorías</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>SubSubSubcategoría</th>
+                                <th class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($subsubsubsubcategories as $subsubsubsubcategory)
+                            <tr>
+                                <td>{{ $subsubsubsubcategory->nombre }}</td>
+                                <td>{{ $subsubsubsubcategory->subsubsubcategory->nombre ?? 'Sin asignar' }}</td>
+                                <td class="text-right">
+                                    <a href="{{ route('subsubsubsubcategories.delete', $subsubsubsubcategory->id) }}"
+                                        class="btn btn-danger"
+                                        onclick="return confirm('¿Eliminar esta subsubsubsubcategoría?')">
+                                        Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
 
 
