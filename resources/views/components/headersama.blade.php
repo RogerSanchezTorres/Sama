@@ -29,9 +29,22 @@
         <div id="usuario">
             <a href="{{ route('user-dashboard') }}"> <img src="{{ asset('img/usuario.svg') }}" alt="usuario"> </a>
         </div>
+        @php
+        $cartCount = auth()->check()
+        ? \App\Models\Cart::where('user_id', auth()->id())->sum('quantity')
+        : 0;
+        @endphp
+
         <div id="carrito">
-            <a href="{{ route('cart.show') }}"> <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra"> </a>
+            <a href="{{ route('cart.show') }}" class="cart-icon">
+                <img src="{{ asset('img/carrito-compra.png') }}" alt="Carrito">
+                <span id="cart-count"
+                    style="position: absolute; top: 75px; right: 375px; background: #ffc106; color: black; padding: 2px 6px; border-radius: 50%; font-size: 11px; font-weight: bold;">
+                    {{ $cartCount }}
+                </span>
+            </a>
         </div>
+
         @endif
         @else
         <div id="usuario">

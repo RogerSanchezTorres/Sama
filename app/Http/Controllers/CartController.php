@@ -10,6 +10,15 @@ class CartController extends Controller
 {
     public function addProduct(Request $request, $productId)
     {
+        // Si no hay usuario logueado → no permitir
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'requires_login' => true,
+                'message' => 'Debes iniciar sesión para añadir productos al carrito.'
+            ]);
+        }
+
         $product = Product::find($productId);
 
         if (!$product) {
@@ -17,7 +26,9 @@ class CartController extends Controller
         }
 
         $user_id = auth()->id();
-        $cartItem = Cart::where('user_id', $user_id)->where('product_id', $product->id)->first();
+        $cartItem = Cart::where('user_id', $user_id)
+            ->where('product_id', $product->id)
+            ->first();
 
         if ($cartItem) {
             $cartItem->increment('quantity');
@@ -29,9 +40,12 @@ class CartController extends Controller
             ]);
         }
 
+        $cartCount = Cart::where('user_id', $user_id)->sum('quantity');
+
         return response()->json([
             'success' => true,
             'message' => 'Producto agregado al carrito',
+            'cart_count' => $cartCount,
             'product' => [
                 'nombre' => $product->nombre_es,
                 'precio' => $product->precio_es,
@@ -39,23 +53,41 @@ class CartController extends Controller
         ]);
     }
 
+
+
     public function showCart()
     {
         $user_id = auth()->id();
-        $cart = Cart::where('user_id', $user_id)->with('product')->get();
-        if ($role_id = 2) {
-            $cartTotal = $cart->sum(function ($item) {
-                return $item->quantity * $item->product->precio_oferta_es;
-            });
-        } else {
-            $cartTotal = $cart->sum(function ($item) {
-                return $item->quantity * $item->product->precio_es;
-            });
-        }
 
+        $cart = Cart::where('user_id', $user_id)->with('product')->get();
+        
+        $cart = $cart->filter(fn($item) => $item->product !== null);
+
+        Cart::where('user_id', $user_id)
+            ->whereDoesntHave('product')
+            ->delete();
+
+
+
+        $role = auth()->user()->role ?? null;
+        $roleName = $role ? $role->role : null;
+
+        $cartTotal = $cart->sum(function ($item) use ($roleName) {
+            $product = $item->product;
+            if (!$product) return 0;
+
+            if ($roleName === 'profesional' && !is_null($product->precio_oferta_es)) {
+                $price = $product->precio_oferta_es;
+            } else {
+                $price = $product->precio_es ?? 0;
+            }
+
+            return $item->quantity * $price;
+        });
 
         return view('products.cart', compact('cart', 'cartTotal'));
     }
+
 
     public function remove($productId)
     {
@@ -73,7 +105,6 @@ class CartController extends Controller
 
         return redirect()->route('cart.show')->with('error', 'Error al eliminar el producto del carrito');
     }
-
 
     public function updateQuantity(Request $request)
     {
