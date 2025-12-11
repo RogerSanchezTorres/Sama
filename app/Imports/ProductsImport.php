@@ -19,7 +19,18 @@ class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustom
             'delimiter' => ';', // Cambia esto al delimitador que uses en el CSV, puede ser ',' o ';'
         ];
     }
-    
+
+    private function normalizePrice($value)
+    {
+        if ($value === null || $value === '') return null;
+
+        // Reemplazar coma por punto
+        $value = str_replace(',', '.', $value);
+
+        // Convertir a número válido con dos decimales
+        return number_format((float)$value, 2, '.', '');
+    }
+
 
     public function model(array $row)
     {
@@ -42,12 +53,12 @@ class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustom
                 'codigo_barras'              => $row['codigo_barras'] ?? $product->codigo_barras,
                 'stock'                      => $row['stock'] ?? $product->stock,
                 'nombre_es'                  => $row['nombre_es'] ?? $product->nombre_es,
-                'precio_es'                  => $row['precio_es'] ?? $product->precio_es,
+                'precio_es'                  => $this->normalizePrice($row['precio_es']) ?? $product->precio_es,
                 'descripcion'                => $row['descripcion'] ?? $product->descripcion,
-                'precio_oferta_es'           => $row['precio_oferta_es'] ?? $product->precio_oferta_es,
-                'precio_flash_es'            => $row['precio_flash_es'] ?? $product->precio_flash_es,
-                'precio_flash_fecha_fin_es'  => $row['precio_flash_fecha_fin_es'] ?? $product->precio_flash_fecha_fin_es,
-                'precio_coste'               => $row['precio_coste'] ?? $product->precio_coste,
+                'precio_oferta_es'           => $this->normalizePrice($row['precio_oferta_es']) ?? $product->precio_oferta_es,
+                'precio_flash_es'            => $this->normalizePrice($row['precio_flash_es']) ?? $product->precio_flash_es,
+                'precio_flash_fecha_fin_es'  => $this->normalizePrice($row['precio_flash_fecha_fin_es']) ?? $product->precio_flash_fecha_fin_es,
+                'precio_coste'               => $this->normalizePrice($row['precio_coste']) ?? $product->precio_coste,
                 'publicado'                  => $row['publicado'] ?? $product->publicado,
                 'padre'                      => $row['padre'] ?? $product->padre,
                 'ubicacion'                  => $row['ubicacion'] ?? $product->ubicacion,
@@ -67,7 +78,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustom
             'codigo_barras'            => $row['codigo_barras'] ?? null,
             'stock'                    => $row['stock'] ?? null,
             'nombre_es'                => $row['nombre_es'] ?? null,
-            'precio_es'                => $row['precio_es'] ?? null,
+            'precio_es' => $this->normalizePrice($row['precio_es']),
             'descripcion'              => $row['descripcion'] ?? null,
             'precio_oferta_es'         => $row['precio_oferta_es'] ?? null,
             'precio_flash_es'          => $row['precio_flash_es'] ?? null,
@@ -103,7 +114,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustom
             'padre'                    => $row['padre'] ?? null,
             'ubicacion'                => $row['ubicacion'] ?? null,
             'nombre_completo'          => $row['nombre_completo'] ?? null,
-            '*.referencia'             =>['required', 'string'],
+            '*.referencia'             => ['required', 'string'],
         ];
     }
 }
