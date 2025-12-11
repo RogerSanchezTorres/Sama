@@ -360,6 +360,29 @@ class AdminController extends Controller
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
     }
 
+    public function deleteProduct($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Producto no encontrado.');
+        }
+
+        // Elimina PDF si existe
+        if ($product->pdf && file_exists(public_path('storage/' . $product->pdf))) {
+            unlink(public_path('storage/' . $product->pdf));
+        }
+
+        // Elimina imagen si existe
+        if ($product->img && file_exists(public_path('storage/' . $product->img))) {
+            unlink(public_path('storage/' . $product->img));
+        }
+
+        // Elimina de la BD
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Producto eliminado correctamente.');
+    }
 
 
 
