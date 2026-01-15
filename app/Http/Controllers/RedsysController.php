@@ -11,6 +11,10 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmed;
+
 
 class RedsysController extends Controller
 {
@@ -54,6 +58,7 @@ class RedsysController extends Controller
             Redsys::setTitular($user->name);
             Redsys::setProductDescription($description);
             Redsys::setEnviroment($enviroment);
+            Redsys::setMerchantData($user->id);
 
             $signature = Redsys::generateMerchantSignature($key);
             Redsys::setMerchantSignature($signature);
@@ -65,84 +70,79 @@ class RedsysController extends Controller
         return view('payment.redsys', compact('form', 'total', 'user', 'description'));
     }
 
-    public function ok(Request $request)
-    {
-        return redirect()->route('redsys.response');
-    }
-
     public function responseMethod(Request $request)
     {
         return view('redsys.response');
     }
 
-    public function ko(Request $request)
+    public function notify(Request $request)
     {
-        return response()->json(['success' => false, 'message' => $request->all()]);
-    }
+        $merchantParams = $request->input('Ds_MerchantParameters');
+        $signature = $request->input('Ds_Signature');
 
-    public function handleResponse(Request $request)
-    {
-        if ($request->isMethod('post')) {
-            $merchantParams = $request->input('Ds_MerchantParameters');
-            $dsSignature = $request->input('Ds_Signature');
-            $responseCode = $request->input('Ds_Response');
-
-            if ($dsSignature && $merchantParams && $responseCode) {
-                Log::info('Datos de Redsys recibidos correctamente, procediendo con la validación.');
-    
-                if ($this->validateRedsysSignature($dsSignature, $merchantParams)) {
-                    Log::info('Firma de Redsys validada correctamente.');
-    
-                    if ((int)$responseCode <= 99) {
-                        DB::beginTransaction();
-                        try {
-                            $params = json_decode(base64_decode($merchantParams), true);
-    
-                            $order = new Order();
-                            $order->user_id = Auth::id();
-                            $order->user_name = Auth::user()->name;
-                            $order->total = $params['Ds_Amount'] / 100;
-                            $order->status = 'paid';
-                            $order->save();
-    
-                            $cart = Cart::where('user_id', Auth::id())->with('product')->get();
-                            foreach ($cart as $item) {
-                                $orderProduct = new OrderProduct();
-                                $orderProduct->order_id = $order->id;
-                                $orderProduct->product_id = $item->product_id;
-                                $orderProduct->quantity = $item->quantity;
-                                $orderProduct->price = $item->product->precio_es;
-                                $orderProduct->save();
-                            }
-    
-                            Cart::where('user_id', Auth::id())->delete();
-    
-                            DB::commit();
-    
-                            return redirect()->route('order.confirmation')->with('success', 'Pago realizado exitosamente');
-                        } catch (\Exception $e) {
-                            DB::rollBack();
-                            Log::error('Error al procesar el pago: ' . $e->getMessage());
-                            return redirect()->route('payment.failure')->with('error', 'Error al procesar el pago: ' . $e->getMessage());
-                        }
-                    } else {
-                        Log::error('Pago no exitoso, código de respuesta: ' . $responseCode);
-                        return redirect()->route('payment.failure')->with('error', 'Pago no exitoso');
-                    }
-                } else {
-                    Log::error('Firma no válida');
-                    abort(403, 'Firma no válida');
-                }
-            } else {
-                Log::error('Datos incompletos recibidos de Redsys');
-                abort(403, 'Datos incompletos');
-            }
-        } else {
-            Log::error('Método incorrecto: se esperaba POST');
+        if (!$merchantParams || !$signature) {
+            Log::error('Redsys notify: datos incompletos');
+            return response('KO', 400);
         }
+
+        if (!$this->validateRedsysSignature($signature, $merchantParams)) {
+            Log::error('Redsys notify: firma inválida');
+            return response('KO', 403);
+        }
+
+        $params = json_decode(base64_decode($merchantParams), true);
+        $responseCode = (int) $params['Ds_Response'];
+
+        if ($responseCode > 99) {
+            Log::warning('Redsys pago rechazado', $params);
+            return response('OK', 200);
+        }
+
+        DB::transaction(function () use ($params) {
+
+            $userId = $params['Ds_MerchantData'];
+            $user = User::findOrFail($userId);
+
+            $order = Order::create([
+                'user_id' => $userId,
+                'user_name' => $user->name,
+                'total' => $params['Ds_Amount'] / 100,
+                'status' => 'paid',
+                'ds_order' => $params['Ds_Order'],
+                'ds_response' => $params['Ds_Response'],
+                'ds_merchant_code' => $params['Ds_MerchantCode'],
+            ]);
+
+            $cart = Cart::where('user_id', $userId)->with('product')->get();
+
+            foreach ($cart as $item) {
+                OrderProduct::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->product->precio_es,
+                ]);
+            }
+
+            // Vaciar carrito
+            Cart::where('user_id', $userId)->delete();
+
+            // Enviar email de confirmación
+            Mail::to(User::find($userId)->email)->send(new OrderConfirmed($order));
+        });
+
+        return response('OK', 200);
     }
 
+    public function ok()
+    {
+        return view('order.confirmation');
+    }
 
+    public function ko()
+    {
+        return view('payment.failure');
+    }
 
 
     private function validateRedsysSignature($dsSignature, $merchantParams)

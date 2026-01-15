@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'cart/add/*',
+        'redsys/notify',
     ];
     
 }

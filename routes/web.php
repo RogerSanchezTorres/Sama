@@ -220,12 +220,13 @@ Route::get('/order/confirmation', [OrderController::class, 'confirmation'])->nam
 
 Route::get('/payment/failure', [OrderController::class, 'failure'])->name('payment.failure');*/
 
-Route::get('redsys/pay', [RedsysController::class, 'index'])->name('redsys');
-Route::middleware(['convert.get.to.post'])->group(function () {
-    Route::match(['get', 'post'], 'redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
-    Route::match(['get', 'post'], 'redsys/response', [RedsysController::class, 'handleResponse'])->name('redsys.response');
-    Route::match(['get', 'post'], 'redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
-});
+Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys.pay');
+
+Route::post('/redsys/notify', [RedsysController::class, 'notify'])->name('redsys.notify');
+
+Route::get('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+Route::get('/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
+
 
 
 Route::get('order/confirmation', function () {
