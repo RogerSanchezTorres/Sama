@@ -149,13 +149,11 @@ class RedsysController extends Controller
     {
         $key = base64_decode(config('redsys.key'));
         $decodedMerchantParams = base64_decode($merchantParams);
-        $key = base64_decode(strtr($key, '-_', '+/'));
-        $generatedSignature = hash_hmac('sha256', $decodedMerchantParams, $key, true);
-        $encodedSignature = base64_encode($generatedSignature);
 
-        Log::info('Firma recibida: ' . $dsSignature);
-        Log::info('Firma esperada: ' . $encodedSignature);
+        $expectedSignature = base64_encode(
+            hash_hmac('sha256', $decodedMerchantParams, $key, true)
+        );
 
-        return $dsSignature === $encodedSignature;
+        return hash_equals($expectedSignature, $dsSignature);
     }
 }
