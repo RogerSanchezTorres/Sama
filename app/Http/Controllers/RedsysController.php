@@ -147,11 +147,29 @@ class RedsysController extends Controller
 
     private function validateRedsysSignature($dsSignature, $merchantParams)
     {
-        $key = base64_decode(config('services.redsys.key'));
-        $decodedMerchantParams = base64_decode($merchantParams);
+        $decodedParams = base64_decode($merchantParams);
+        $params = json_decode($decodedParams, true);
 
+        if (!isset($params['Ds_Order'])) {
+            Log::error('Redsys notify: Ds_Order no presente');
+            return false;
+        }
+
+        $order = $params['Ds_Order'];
+        $secretKey = base64_decode(config('services.redsys.key'));
+
+        // 1️⃣ Derivar clave usando 3DES + Ds_Order
+        $derivedKey = openssl_encrypt(
+            $order,
+            'DES-EDE3-CBC',
+            $secretKey,
+            OPENSSL_RAW_DATA,
+            "\0\0\0\0\0\0\0\0"
+        );
+
+        // 2️⃣ Generar firma esperada
         $expectedSignature = base64_encode(
-            hash_hmac('sha256', $decodedMerchantParams, $key, true)
+            hash_hmac('sha256', $decodedParams, $derivedKey, true)
         );
 
         return hash_equals($expectedSignature, $dsSignature);
