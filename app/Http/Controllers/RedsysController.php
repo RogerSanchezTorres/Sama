@@ -147,7 +147,7 @@ class RedsysController extends Controller
 
     private function validateRedsysSignature($dsSignature, $merchantParams)
     {
-        $key = base64_decode(config('redsys.key'));
+        $key = base64_decode(config('services.redsys.key'));
         $decodedMerchantParams = base64_decode($merchantParams);
 
         $expectedSignature = base64_encode(
