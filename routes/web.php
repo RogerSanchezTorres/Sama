@@ -123,6 +123,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/subsubcategories', [SubSubcategoryController::class, 'index'])->name('subsubcategories.index');
     Route::get('/subsubcategories/{id}', [SubSubcategoryController::class, 'destroy'])->name('subsubcategories.destroy');
     Route::get('/admin/subsubsubcategories/delete/{id}', [SubSubSubcategoryController::class, 'destroy'])->name('subsubsubcategories.delete');
+    Route::get('/admin/subsubsubsubcategories/delete/{id}', [SubSubSubSubcategoryController::class, 'destroy'])->name('subsubsubsubcategories.delete');
 
     Route::get('admin/create-subsubcategory', [AdminController::class, 'createSubSubcategory'])->name('admin.createSubSubcategory');
     Route::post('admin/store-subsubcategory', [AdminController::class, 'storeSubSubcategory'])->name('admin.storeSubSubcategory');

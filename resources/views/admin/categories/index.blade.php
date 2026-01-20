@@ -269,11 +269,7 @@
                                 <td>{{ $subsubsubsubcategory->nombre }}</td>
                                 <td>{{ $subsubsubsubcategory->subsubsubcategory->nombre ?? 'Sin asignar' }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('subsubsubsubcategories.delete', $subsubsubsubcategory->id) }}"
-                                        class="btn btn-danger"
-                                        onclick="return confirm('¿Eliminar esta subsubsubsubcategoría?')">
-                                        Eliminar
-                                    </a>
+                                    <a href="{{ route('subsubsubsubcategories.delete', $subsubsubsubcategory->id) }}" class="btn btn-danger" onclick="return confirm ('¿Eliminar esta subsubsubsubcategoría?')"> Eliminar </a>
                                 </td>
                             </tr>
                             @endforeach
