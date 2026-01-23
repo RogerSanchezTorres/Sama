@@ -223,7 +223,7 @@ Route::get('/payment/failure', [OrderController::class, 'failure'])->name('payme
 
 Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys.pay');
 
-Route::post('/redsys/notify', [RedsysController::class, 'notify'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+Route::post('/redsys/notify', [RedsysController::class, 'notify'])->name('redsys.notify');
 
 Route::get('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
 Route::get('/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');

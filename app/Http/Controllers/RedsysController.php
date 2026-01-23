@@ -43,8 +43,10 @@ class RedsysController extends Controller
             }
             $description = rtrim($description, ', ');
 
+            $order = str_pad((string) time(), 12, '0', STR_PAD_LEFT);
+
             Redsys::setAmount($total);
-            Redsys::setOrder(time());
+            Redsys::setOrder($order);
             Redsys::setMerchantcode($code);
             Redsys::setCurrency('978');
             Redsys::setTransactiontype('0');
@@ -147,27 +149,29 @@ class RedsysController extends Controller
 
     private function validateRedsysSignature($dsSignature, $merchantParams)
     {
+        // Normalizar firma URL-safe
+        $dsSignature = str_replace(['-', '_'], ['+', '/'], $dsSignature);
+
         $decodedParams = base64_decode($merchantParams);
         $params = json_decode($decodedParams, true);
 
         if (!isset($params['Ds_Order'])) {
-            Log::error('Redsys notify: Ds_Order no presente');
             return false;
         }
 
         $order = $params['Ds_Order'];
-        $secretKey = base64_decode(config('services.redsys.key'));
 
-        // 1️⃣ Derivar clave usando 3DES + Ds_Order
+        // 🔑 AQUÍ SÍ SE DECODIFICA
+        $key = base64_decode(config('redsys.key'));
+
         $derivedKey = openssl_encrypt(
             $order,
             'DES-EDE3-CBC',
-            $secretKey,
+            $key,
             OPENSSL_RAW_DATA,
             "\0\0\0\0\0\0\0\0"
         );
 
-        // 2️⃣ Generar firma esperada
         $expectedSignature = base64_encode(
             hash_hmac('sha256', $decodedParams, $derivedKey, true)
         );
