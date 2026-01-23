@@ -161,13 +161,13 @@ class RedsysController extends Controller
 
         $order = $params['Ds_Order'];
 
-        // 🔑 AQUÍ SÍ SE DECODIFICA
-        $key = base64_decode(config('redsys.key'));
+        // ❗ NO decodificar la clave
+        $key = config('redsys.key');
 
         $derivedKey = openssl_encrypt(
             $order,
             'DES-EDE3-CBC',
-            $key,
+            base64_decode($key),
             OPENSSL_RAW_DATA,
             "\0\0\0\0\0\0\0\0"
         );
