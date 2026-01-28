@@ -270,18 +270,12 @@ class AdminController extends Controller
 
         $product = Product::findOrFail($id);
 
-        $precio = round((float) $validated['precio_es'], 2);
-
-        $precioOferta = isset($validated['precio_oferta_es'])
-            ? round((float) $validated['precio_oferta_es'], 2)
-            : null;
-
 
         // Guardar los campos principales
         $product->fill([
             'nombre_es' => $validated['nombre_es'],
-            'precio_es' => $precio,
-            'precio_oferta_es' => $precioOferta,
+            'precio_es' => $validated['precio_es'] = round((float)$validated['precio_es'], 2),
+            'precio_oferta_es' => isset($validated['precio_oferta_es']) ? round((float)$validated['precio_oferta_es'], 2) : null,
             'proveedor' => $validated['proveedor'] ?? null,
             'referencia' => $validated['referencia'] ?? null,
             'marca' => $validated['marca'] ?? null,

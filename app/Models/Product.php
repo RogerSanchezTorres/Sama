@@ -43,6 +43,10 @@ class Product extends Model
 
     protected $casts = [
         'detalles_lista' => 'array',
+        'precio_es' => 'decimal:2',
+        'precio_oferta_es' => 'decimal:2',
+        'precio_flash_es' => 'decimal:2',
+        'precio_coste' => 'decimal:2',
     ];
 
     public function getImagesAttribute()
