@@ -166,6 +166,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/apartados/{id}/edit', [ApartadoController::class, 'edit'])->name('apartados.edit');
     Route::put('/apartados/{id}', [ApartadoController::class, 'update'])->name('apartados.update');
     Route::delete('/apartados/{id}', [ApartadoController::class, 'destroy'])->name('apartados.destroy');
+
+
+    Route::get('/admin/shop', [AdminController::class, 'shopSettings'])->name('admin.shop');
+    Route::post('/admin/shop/toggle', [AdminController::class, 'toggleShop'])->name('admin.shop.toggle');
 });
 
 //PRODUCTOS
@@ -175,11 +179,15 @@ Route::get('/productos/categoria/{categoryId}', [ProductsController::class, 'sho
 Route::get('/productos/main_category/{mainCategoryId}', [ProductsController::class, 'showByMainCategory'])->name('products.showByMainCategory');
 Route::post('/producto/{id}/comentario', [ComentarioController::class, 'store'])->name('comentario.store')->middleware('auth');
 Route::put('/comentario/{id}', [ComentarioController::class, 'update'])->name('comentario.update');
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
-Route::post('/cart/add/{productId}', [CartController::class, 'addProduct'])->name('cart.add');
-Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
-Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+
+Route::middleware(['auth', 'store.enabled'])->group(function () {
+    Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+    Route::post('/cart/add/{productId}', [CartController::class, 'addProduct'])->name('cart.add');
+    Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+    Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+});
+
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
 Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubcategory');
 Route::get('/products/subsubcategoria/{subsubcategorySlug}', [ProductsController::class, 'showProductsBySubsubcategory'])->name('products.showProductsBySubsubcategory');
@@ -197,31 +205,13 @@ Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveed
 
 
 
-
-
-
-
-
-
-
-
-
-
 //METODOS DE PAGO
-/*Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys');
-Route::middleware(['convert.get.to.post'])->group(function () {
-    Route::match(['get', 'post'], 'redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
+
+
+Route::middleware(['auth', 'store.enabled'])->group(function () {
+    Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys.pay');
 });
-Route::post('/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
-Route::post('/redsys/notification', [RedsysController::class, 'handleResponse'])->name('redsys.notification');
-Route::get('/redsys/response', [RedsysController::class, 'responseMethod'])->name('redsys.response');
 
-
-Route::get('/order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
-
-Route::get('/payment/failure', [OrderController::class, 'failure'])->name('payment.failure');*/
-
-Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys.pay');
 
 Route::post('/redsys/notify', [RedsysController::class, 'notify'])->name('redsys.notify');
 
@@ -267,6 +257,6 @@ Route::get('/buscar-productos', [ProductoController::class, 'buscar'])->name('pr
 
 
 //COMPRAR
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'store.enabled'])->group(function () {
     Route::get('/comprar', [CompraController::class, 'index'])->name('comprar.index');
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\Setting;
 
 class CartController extends Controller
 {
@@ -84,8 +85,9 @@ class CartController extends Controller
 
             return $item->quantity * $price;
         });
+        $shopEnabled = Setting::shopEnabled();
 
-        return view('products.cart', compact('cart', 'cartTotal'));
+        return view('products.cart', compact('cart', 'cartTotal', 'shopEnabled'));
     }
 
 

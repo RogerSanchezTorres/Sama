@@ -17,6 +17,9 @@
     <x-header />
     <x-headersama />
     <x-nav />
+
+    @php($shopEnabled = \App\Models\Setting::enabled()) @endphp
+
     <h2>PRODUCTOS</h2><br>
 
     <div class="container">
@@ -65,11 +68,15 @@
                                 @if (auth()->check() && auth()->user()->role)
                                 @if (auth()->user()->role->role === 'profesional')
                                 <div class="product-price">
-                                    <p>{{ $product->precio_oferta_es }}€</p>
+                                    @if($shopEnabled)
+                                    <span class="price">{{ $product->precio_oferta_es }} €</span>
+                                    @endif
                                 </div>
                                 @else
                                 <div class="product-price">
-                                    <p>{{ $product->precio_es }}€</p>
+                                    @if($shopEnabled)
+                                    <span class="price">{{ $product->precio_es }} €</span>
+                                    @endif
                                 </div>
                                 @endif
                                 @endif

@@ -13,6 +13,7 @@ use App\Models\SubSubcategory;
 use App\Models\MinorCategory;
 use App\Models\SubSubSubcategory;
 use App\Models\SubSubSubSubcategory;
+use App\Models\Setting;
 
 
 class ProductsController extends Controller
@@ -22,8 +23,9 @@ class ProductsController extends Controller
         $products = Product::all();
         $mainCategories = MainCategory::all();
         $categories = Category::all();
+        $shopEnabled = Setting::shopEnabled();
 
-        return view('products.index', compact('products', 'mainCategories', 'categories'));
+        return view('products.index', compact('products', 'mainCategories', 'categories', 'shopEnabled'));
     }
 
     public function showByMainCategory($mainCategoryId)
@@ -32,8 +34,9 @@ class ProductsController extends Controller
         $products = $mainCategory->products()->paginate(16);
         Paginator::useBootstrapThree(false);
         $categories = $mainCategory->categories;
+        $shopEnabled = Setting::shopEnabled();
 
-        return view('products.show_by_main_category', compact('products', 'mainCategory', 'categories'));
+        return view('products.show_by_main_category', compact('products', 'mainCategory', 'categories', 'shopEnabled'));
     }
 
 
@@ -50,8 +53,9 @@ class ProductsController extends Controller
 
         $products = Product::where('category_id', $category->id)->paginate(16);
         Paginator::useBootstrapThree(false);
+        $shopEnabled = Setting::shopEnabled();
 
-        return view('products.show_by_category', compact('products', 'category', 'relatedCategories'));
+        return view('products.show_by_category', compact('products', 'category', 'relatedCategories', 'shopEnabled'));
     }
 
     public function showProductsBySubcategory($subcategorySlug)
@@ -61,8 +65,9 @@ class ProductsController extends Controller
         $relatedCategories = $category->mainCategory->categories;
         $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
         Paginator::useBootstrapThree(false);
+        $shopEnabled = Setting::shopEnabled();
 
-        return view('products.show_by_subcategory', compact('products', 'subcategory', 'relatedCategories'));
+        return view('products.show_by_subcategory', compact('products', 'subcategory', 'relatedCategories', 'shopEnabled'));
     }
 
     public function showProductsBySubsubcategory($subsubcategorySlug)
@@ -75,8 +80,9 @@ class ProductsController extends Controller
 
         $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
         Paginator::useBootstrapThree(false);
+        $shopEnabled = Setting::shopEnabled();
 
-        return view('products.show_by_subsubcategory', compact('products', 'subsubcategory', 'relatedCategories'));
+        return view('products.show_by_subsubcategory', compact('products', 'subsubcategory', 'relatedCategories', 'shopEnabled'));
     }
 
     public function showProductsBySubsubsubcategory($subsubsubcategorySlug)
@@ -97,9 +103,10 @@ class ProductsController extends Controller
 
         // Ajustar estilo del paginador
         Paginator::useBootstrapThree(false);
+        $shopEnabled = Setting::shopEnabled();
 
         // Retornar la vista correspondiente
-        return view('products.show_by_subsubsubcategory', compact('products', 'subsubsubcategory', 'relatedCategories'));
+        return view('products.show_by_subsubsubcategory', compact('products', 'subsubsubcategory', 'relatedCategories', 'shopEnabled'));
     }
 
     public function showProductsBySubsubsubsubcategory($subsubsubsubcategorySlug)
@@ -121,9 +128,10 @@ class ProductsController extends Controller
 
         // Ajustar estilo del paginador
         Paginator::useBootstrapThree(false);
+        $shopEnabled = Setting::shopEnabled();
 
         // Retornar vista
-        return view( 'products.show_by_subsubsubsubcategory', compact('products', 'subsubsubsubcategory', 'relatedCategories'));
+        return view( 'products.show_by_subsubsubsubcategory', compact('products', 'subsubsubsubcategory', 'relatedCategories', 'shopEnabled') );
     }
 
 
@@ -158,8 +166,9 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
         $comentarios = $product->comentarios;
+        $shopEnabled = Setting::shopEnabled();
 
-        return view('products.product_detail', compact('product', 'comentarios'));
+        return view('products.product_detail', compact('product', 'comentarios', 'shopEnabled'));
     }
 
     public function showImportForm()

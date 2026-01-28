@@ -22,14 +22,20 @@ class ProductsImport implements ToModel, WithHeadingRow, WithMapping, WithCustom
 
     private function normalizePrice($value)
     {
-        if ($value === null || $value === '') return null;
+        if ($value === null || $value === '') {
+            return null;
+        }
 
         // Reemplazar coma por punto
         $value = str_replace(',', '.', $value);
 
-        // Convertir a número válido con dos decimales
-        return number_format((float)$value, 2, '.', '');
+        // Redondear a máximo 2 decimales
+        $number = round((float) $value, 2);
+
+        // Eliminar ceros finales innecesarios
+        return rtrim(rtrim((string)$number, '0'), '.');
     }
+
 
 
     public function model(array $row)

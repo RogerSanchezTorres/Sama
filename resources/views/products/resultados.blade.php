@@ -18,6 +18,8 @@
     <x-headersama />
     <x-nav />
 
+    @php($shopEnabled = \App\Models\Setting::enabled()) @endphp
+
 
     @if ($resultados->isEmpty())
     <p>No se encontraron resultados para la búsqueda.</p>
@@ -47,7 +49,17 @@
                     @endif
                 </div>
                 <h2 class="producto-nombre">{{ $resultado->nombre_es }}</h2>
-                <p class="producto-precio">Precio: {{ $resultado->precio_es }}€</p>
+                @if (auth()->check() && auth()->user()->role)
+                @if (auth()->user()->role->role === 'profesional')
+                @if($shopEnabled)
+                <span class="price">{{ $resultado->precio_oferta_es }} €</span>
+                @endif
+                @else
+                @if($shopEnabled)
+                <span class="price">{{ $resultado->precio_es }} €</span>
+                @endif
+                @endif
+                @endif
             </div>
         </a>
         @endforeach

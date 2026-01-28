@@ -19,6 +19,7 @@ use App\Models\UploadedFile;
 use App\Models\Invoice;
 use App\Models\SubSubSubcategory;
 use App\Models\SubSubSubSubcategory;
+use App\Models\Setting;
 
 class AdminController extends Controller
 {
@@ -269,11 +270,18 @@ class AdminController extends Controller
 
         $product = Product::findOrFail($id);
 
+        $precio = round((float) $validated['precio_es'], 2);
+
+        $precioOferta = isset($validated['precio_oferta_es'])
+            ? round((float) $validated['precio_oferta_es'], 2)
+            : null;
+
+
         // Guardar los campos principales
         $product->fill([
             'nombre_es' => $validated['nombre_es'],
-            'precio_es' => $validated['precio_es'],
-            'precio_oferta_es' => $validated['precio_oferta_es'] ?? null,
+            'precio_es' => $precio,
+            'precio_oferta_es' => $precioOferta,
             'proveedor' => $validated['proveedor'] ?? null,
             'referencia' => $validated['referencia'] ?? null,
             'marca' => $validated['marca'] ?? null,
@@ -642,5 +650,25 @@ class AdminController extends Controller
         ]));
 
         return redirect()->route('admin.createSubSubSubcategory')->with('success', 'SubSubSubcategoría creada correctamente');
+    }
+
+    public function shopSettings()
+    {
+        return view('admin.shop-settings', [
+            'enabled' => Setting::shopEnabled()
+        ]);
+    }
+
+
+    public function toggleShop()
+    {
+        $enabled = Setting::shopEnabled();
+
+        Setting::updateOrCreate(
+            ['key' => 'shop_enabled'],
+            ['value' => $enabled ? 0 : 1]
+        );
+
+        return back()->with('success', 'Estado de la tienda actualizado');
     }
 }

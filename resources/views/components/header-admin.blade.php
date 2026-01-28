@@ -10,6 +10,9 @@
     </div>
 
     <div class="rutas">
+        <div class="admin-dashboard">
+            <a href="{{ route('admin.shop') }}" aria-label="Admin dashboard">Tienda</a>
+        </div>
         <div class="dashboard">
             <a href="{{ route('admin-view-products') }}" aria-label="View Products">Ver Productos</a>
         </div>

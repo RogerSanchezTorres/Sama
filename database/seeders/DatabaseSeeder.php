@@ -63,7 +63,10 @@ class DatabaseSeeder extends Seeder
 
 
 
-        $this->call(ProductsTableSeeder::class);
+        $this->call([
+            ProductsTableSeeder::class,
+            SettingsSeeder::class,
+        ]);
 
 
         MainCategory::create([
@@ -222,7 +225,7 @@ class DatabaseSeeder extends Seeder
             'main_category_id' => 6
         ]);
 
-        
+
         Category::create([
             'nombre' => 'Impermeabilización',
             'slug' => 'impermeabilizacion',

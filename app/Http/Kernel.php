@@ -69,9 +69,10 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
-        'admin' => \App\Http\Middleware\IsAdmin::class,
         'convert.get.to.post' => \App\Http\Middleware\ConvertGetToPost::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'store.enabled' => \App\Http\Middleware\ShopEnabled::class,
+
     ];
 
 }

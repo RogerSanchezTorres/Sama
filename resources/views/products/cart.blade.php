@@ -18,7 +18,8 @@
     <x-header />
     <x-headersama />
     <x-nav />
-
+    @php($shopEnabled = \App\Models\Setting::enabled()) @endphp
+    @if($shopEnabled)
     <h1>Carrito de Compra</h1>
     <div class="cart-container">
 
@@ -27,41 +28,44 @@
             @foreach ($cart as $item)
             <div class="cart-item" data-product-id="{{ $item->product->id ?? '' }}">
                 <div class=" item-image">
-                <img src="{{ asset($item->product->img) }}" alt="{{ $item->product->nombre_es }}">
+                    <img src="{{ asset($item->product->img) }}" alt="{{ $item->product->nombre_es }}">
+                </div>
+                <div class="item-details">
+                    <h3 class="item-name">{{ $item->product->nombre_es }}</h3>
+                    @if(auth()->check() && auth()->user()->role->role === 'profesional')
+                    <p class="item-unit-price">{{ $item->quantity * $item->product->precio_oferta_es }}€</p>
+                    @else
+                    <p class="item-unit-price">{{ $item->quantity * $item->product->precio_es }}€</p>
+                    @endif
+                </div>
+                <div class="item-quantity">
+                    <form id="updateQuantityForm" action="{{ route('cart.update') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="cart[{{ $item->product_id }}][quantity]" value="{{ $item->quantity }}">
+                        <label for="quantity_{{ $item->product_id }}">Cantidad:</label>
+                        <input type="number" name="cart[{{ $item->product_id }}][quantity]" id="quantity_{{ $item->product_id }}" value="{{ $item->quantity }}" min="1" class="quantity-input">
+                    </form>
+                </div>
+                <div class="item-actions">
+                    <a href="{{ route('cart.remove', ['productId' => $item->product_id]) }}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                </div>
             </div>
-            <div class="item-details">
-                <h3 class="item-name">{{ $item->product->nombre_es }}</h3>
-                @if(auth()->check() && auth()->user()->role->role === 'profesional')
-                <p class="item-unit-price">{{ $item->quantity * $item->product->precio_oferta_es }}€</p>
-                @else
-                <p class="item-unit-price">{{ $item->quantity * $item->product->precio_es }}€</p>
-                @endif
-            </div>
-            <div class="item-quantity">
-                <form id="updateQuantityForm" action="{{ route('cart.update') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="cart[{{ $item->product_id }}][quantity]" value="{{ $item->quantity }}">
-                    <label for="quantity_{{ $item->product_id }}">Cantidad:</label>
-                    <input type="number" name="cart[{{ $item->product_id }}][quantity]" id="quantity_{{ $item->product_id }}" value="{{ $item->quantity }}" min="1" class="quantity-input">
-                </form>
-            </div>
-            <div class="item-actions">
-                <a href="{{ route('cart.remove', ['productId' => $item->product_id]) }}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
-            </div>
+            @endforeach
         </div>
-        @endforeach
-    </div>
 
-    <div class="cart-summary">
-        <p class="total">Total: <span id="cart-total">{{ $cartTotal }}</span>€</p>
-        <div class="actions">
-            <a href="{{ url('/redsys/pay') }}">Pagar con Tarjeta</a>
+        <div class="cart-summary">
+            <p class="total">Total: <span id="cart-total">{{ $cartTotal }}</span>€</p>
+            <div class="actions">
+                <a href="{{ url('/redsys/pay') }}">Pagar con Tarjeta</a>
+            </div>
         </div>
+        @else
+        <p class="empty">El carrito está vacío.</p>
+        @endif
     </div>
     @else
-    <p class="empty">El carrito está vacío.</p>
+    <h2>La tienda está en modo catalogo actualmente. Vuelva más tarde.</h2>
     @endif
-    </div>
 
     <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>
