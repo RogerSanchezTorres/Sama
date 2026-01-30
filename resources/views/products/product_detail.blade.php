@@ -96,9 +96,12 @@
             <div class="stock">
                 <span class="text-red-500">Agotado</span>
             </div>
-            @else
+
+            @elseif($shopEnabled)
+
             @if (auth()->check())
-            <button class="comprar-btn" data-product-id="{{ $product->id }}"><img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra" id="carrito-compra">
+            <button class="comprar-btn" data-product-id="{{ $product->id }}">
+                <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra">
                 <p>Añadir al carrito</p>
             </button>
             @else
@@ -107,7 +110,20 @@
                 <a href="{{ route('login') }}">Iniciar sesión</a>
             </div>
             @endif
+
+            @else
+            {{-- MODO CATÁLOGO --}}
+            <div class="catalogo-info">
+                <span class="catalogo-badge">Modo catálogo</span>
+                <p class="catalogo-text">
+                    Actualmente la página está en modo catálogo.
+                    <br>
+                    <strong>Contacta con nosotros</strong> para más información o presupuesto.
+                </p>
+            </div>
+
             @endif
+
 
             @if ($product->pdf)
             <div class="product-pdf">
