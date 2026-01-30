@@ -104,12 +104,7 @@
                 <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra">
                 <p>Añadir al carrito</p>
             </button>
-            @else
-            <div id="sesion">
-                <p class="login"><b>Por favor, inicie sesión para comprar.</b></p>
-                <a href="{{ route('login') }}">Iniciar sesión</a>
-            </div>
-            @endif
+
 
             @else
             {{-- MODO CATÁLOGO --}}
@@ -121,9 +116,14 @@
                     <strong>Contacta con nosotros</strong> para más información o presupuesto.
                 </p>
             </div>
-
             @endif
-
+            
+            @else
+            <div id="sesion">
+                <p class="login"><b>Por favor, inicie sesión para comprar.</b></p>
+                <a href="{{ route('login') }}">Iniciar sesión</a>
+            </div>
+            @endif
 
             @if ($product->pdf)
             <div class="product-pdf">
