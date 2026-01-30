@@ -64,8 +64,34 @@
         @endif
     </div>
     @else
-    <h2>La tienda está en modo catalogo actualmente. Vuelva más tarde.</h2>
+    <div class="catalogo-cart-container">
+        <div class="catalogo-cart-box">
+
+            <div class="catalogo-header">
+                <span class="catalogo-badge">CATÁLOGO</span>
+            </div>
+
+            <h2>La tienda está temporalmente desactivada</h2>
+
+            <p class="catalogo-text">
+                Actualmente la web está únicamente como
+                <strong>catálogo de productos</strong>.
+            </p>
+
+            <p class="catalogo-text">
+                Para pedidos o información comercial,
+                <strong>contacta con nosotros</strong>.
+            </p>
+
+            <a href="{{ route('index') }}" class="catalogo-btn">
+                Volver al Inicio
+            </a>
+
+        </div>
+    </div>
     @endif
+
+
 
     <x-footer />
     <script src="{{ asset('js/desplegable.js') }}"></script>

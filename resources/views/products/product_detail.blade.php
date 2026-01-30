@@ -92,38 +92,61 @@
             @endif
             @endif
 
+            {{-- STOCK --}}
             @if ($product->stock == 0)
             <div class="stock">
                 <span class="text-red-500">Agotado</span>
             </div>
 
-            @elseif($shopEnabled)
+            @else
 
-            @if (auth()->check())
+            {{-- USUARIO NO LOGUEADO --}}
+            @guest
+            <div class="catalogo-info">
+                <span class="catalogo-badge">
+                    {{ $shopEnabled ? 'Acceso requerido' : 'Modo catálogo' }}
+                </span>
+
+                <p class="catalogo-text">
+                    @if($shopEnabled)
+                    Inicia sesión para ver precios y comprar este producto.
+                    @else
+                    Este producto no está disponible para compra online.
+                    @endif
+                </p>
+
+                <a href="{{ route('login') }}" class="login-btn">
+                    Iniciar sesión
+                </a>
+            </div>
+
+            {{-- USUARIO LOGUEADO --}}
+            @else
+
+            {{-- TIENDA ACTIVA --}}
+            @if ($shopEnabled)
             <button class="comprar-btn" data-product-id="{{ $product->id }}">
-                <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito de la compra">
+                <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito">
                 <p>Añadir al carrito</p>
             </button>
 
-
-            @else
             {{-- MODO CATÁLOGO --}}
+            @else
             <div class="catalogo-info">
                 <span class="catalogo-badge">Modo catálogo</span>
                 <p class="catalogo-text">
-                    Actualmente la página está en modo catálogo.
+                    Este producto no está disponible para compra online.
                     <br>
-                    <strong>Contacta con nosotros</strong> para más información o presupuesto.
+                    <strong>Contacta con nosotros</strong> para más información.
                 </p>
             </div>
             @endif
-            
-            @else
-            <div id="sesion">
-                <p class="login"><b>Por favor, inicie sesión para comprar.</b></p>
-                <a href="{{ route('login') }}">Iniciar sesión</a>
-            </div>
+
+            @endguest
+
             @endif
+
+
 
             @if ($product->pdf)
             <div class="product-pdf">

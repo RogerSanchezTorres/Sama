@@ -180,13 +180,20 @@ Route::get('/productos/main_category/{mainCategoryId}', [ProductsController::cla
 Route::post('/producto/{id}/comentario', [ComentarioController::class, 'store'])->name('comentario.store')->middleware('auth');
 Route::put('/comentario/{id}', [ComentarioController::class, 'update'])->name('comentario.update');
 
-Route::middleware(['auth', 'store.enabled'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+
+    // 👉 El carrito SIEMPRE accesible
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
-    Route::post('/cart/add/{productId}', [CartController::class, 'addProduct'])->name('cart.add');
-    Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
-    Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+    // 👉 Acciones SOLO si la tienda está activa
+    Route::middleware(['store.enabled'])->group(function () {
+        Route::post('/cart/add/{productId}', [CartController::class, 'addProduct'])->name('cart.add');
+        Route::get('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+        Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    });
 });
+
 
 Route::get('/products/category/{categorySlug}', [ProductsController::class, 'showProductsByCategory'])->name('products.showProductsByCategory');
 Route::get('/products/subcategory/{subcategorySlug}', [ProductsController::class, 'showProductsBySubcategory'])->name('products.showProductsBySubcategory');
