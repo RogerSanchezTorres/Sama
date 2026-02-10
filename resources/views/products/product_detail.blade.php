@@ -126,7 +126,6 @@
             {{-- TIENDA ACTIVA --}}
             @if ($shopEnabled)
             <button class="comprar-btn" data-product-id="{{ $product->id }}">
-                <img src="{{ asset('img/carrito-compra.png') }}" alt="carrito">
                 <p>Añadir al carrito</p>
             </button>
 
