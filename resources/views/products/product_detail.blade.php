@@ -92,13 +92,7 @@
             @endif
             @endif
 
-            {{-- STOCK --}}
-            @if ($product->stock == 0)
-            <div class="stock">
-                <span class="text-red-500">Agotado</span>
-            </div>
 
-            @else
 
             {{-- USUARIO NO LOGUEADO --}}
             @guest
@@ -122,7 +116,13 @@
 
             {{-- USUARIO LOGUEADO --}}
             @else
+            {{-- STOCK --}}
+            @if ($product->stock == 0)
+            <div class="stock">
+                <span class="text-red-500">Agotado</span>
+            </div>
 
+            @else
             {{-- TIENDA ACTIVA --}}
             @if ($shopEnabled)
             <button class="comprar-btn" data-product-id="{{ $product->id }}">

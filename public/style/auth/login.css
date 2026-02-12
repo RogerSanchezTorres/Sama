@@ -217,13 +217,14 @@ body {
 }
 
 .input-box .btnpassword{
-    position: absolute;
+    position: relative;
     font-size: 1.3em;
     right: 8px;
-    bottom: 5px;
+    bottom: 20px;
     background-color: transparent;
     border: none;
     cursor: pointer;
+    left: 300px;
 }
 
 .forgot{
