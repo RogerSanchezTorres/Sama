@@ -216,7 +216,7 @@ Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveed
 
 
 Route::middleware(['auth', 'store.enabled'])->group(function () {
-    Route::get('/redsys/pay', [RedsysController::class, 'index'])->name('redsys.pay');
+    Route::post('/redsys/pay', [RedsysController::class, 'index'])->name('redsys.pay');
 });
 
 

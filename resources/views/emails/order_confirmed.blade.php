@@ -25,8 +25,28 @@
 
         <hr>
 
-        <p><strong>Número de pedido:</strong> #{{ $order->id }}</p>
-        <p><strong>Total:</strong> {{ number_format($order->total, 2) }} €</p>
+        <table width="100%" cellpadding="8" cellspacing="0" border="1" style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($order->products as $product)
+                <tr>
+                    <td>{{ $product->nombre_es }}</td>
+                    <td>{{ $product->pivot->quantity }}</td>
+                    <td>{{ number_format($product->pivot->price, 2) }} €</td>
+                    <td>
+                        {{ number_format($product->pivot->price * $product->pivot->quantity, 2) }} €
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
         <hr>
 

@@ -31,6 +31,8 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    'company_address' => env('COMPANY_EMAIL'),
+
 ];
 
 

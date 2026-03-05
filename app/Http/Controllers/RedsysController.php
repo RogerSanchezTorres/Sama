@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderConfirmed;
+use App\Mail\OrderAdminNotification;
 
 
 class RedsysController extends Controller
@@ -140,6 +141,7 @@ class RedsysController extends Controller
             // 📧 ENVÍO DE EMAIL FUERA DE LA TRANSACCIÓN
             try {
                 Mail::to($user->email)->send(new OrderConfirmed($order));
+                Mail::to(config('mail.company_address'))->send(new OrderAdminNotification($order));
             } catch (\Throwable $mailError) {
                 Log::error('Error enviando email de pedido', [
                     'order_id' => $order->id,
