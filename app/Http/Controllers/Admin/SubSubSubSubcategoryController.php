@@ -43,14 +43,13 @@ class SubSubSubSubcategoryController extends Controller
 
     public function destroy($id)
     {
-        $subsubsubsubcategory = SubSubSubSubcategory::find($id);
-
-        if (!$subsubsubsubcategory) {
-            return redirect()->back()->with('error', 'La subsubsubsubcategoría no existe.');
-        }
+        $subsubsubsubcategory = SubSubSubSubcategory::findOrFail($id);
 
         $subsubsubsubcategory->delete();
 
-        return redirect()->back()->with('success', 'Subsubsubsubcategoría eliminada correctamente.');
+        return redirect()->back()->with(
+            'success',
+            'Subsubsubsubcategoría eliminada correctamente.'
+        );
     }
 }

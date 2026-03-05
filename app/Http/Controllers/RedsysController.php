@@ -89,7 +89,9 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            if (!$this->validateRedsysSignature($signature, $merchantParams)) {
+            $params = Redsys::getMerchantParameters($request->input('Ds_MerchantParameters'));
+
+            if (!Redsys::check($request->input('Ds_Signature'))) {
                 Log::error('Redsys notify: firma inválida');
                 return response('OK', 200);
             }
@@ -170,37 +172,5 @@ class RedsysController extends Controller
     {
         return view('payment.failure');
     }
-
-
-    private function validateRedsysSignature($dsSignature, $merchantParams)
-    {
-        // Normalizar firma URL-safe
-        $dsSignature = str_replace(['-', '_'], ['+', '/'], $dsSignature);
-
-        $decodedParams = base64_decode($merchantParams);
-        $params = json_decode($decodedParams, true);
-
-        if (!isset($params['Ds_Order'])) {
-            return false;
-        }
-
-        $order = $params['Ds_Order'];
-
-        // ❗ NO decodificar la clave
-        $key = config('redsys.key');
-
-        $derivedKey = openssl_encrypt(
-            $order,
-            'DES-EDE3-CBC',
-            base64_decode($key),
-            OPENSSL_RAW_DATA,
-            "\0\0\0\0\0\0\0\0"
-        );
-
-        $expectedSignature = base64_encode(
-            hash_hmac('sha256', $decodedParams, $derivedKey, true)
-        );
-
-        return hash_equals($expectedSignature, $dsSignature);
-    }
+    
 }
