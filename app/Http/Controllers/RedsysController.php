@@ -80,7 +80,9 @@ class RedsysController extends Controller
 
     public function notify(Request $request)
     {
+        Log::info('Redsys notify recibido', $request->all());
         try {
+
             $merchantParams = $request->input('Ds_MerchantParameters');
             $signature = $request->input('Ds_Signature');
 
@@ -89,14 +91,16 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
+            // Redsys ya decodifica aquí
             $params = Redsys::getMerchantParameters($merchantParams);
 
-            if (!Redsys::check($merchantParams, $signature)) {
+            if (!Redsys::check($signature)) {
                 Log::error('Redsys notify: firma inválida');
                 return response('OK', 200);
             }
 
             $responseCode = (int) $params['Ds_Response'];
+
             if ($responseCode > 99) {
                 Log::warning('Redsys pago rechazado', $params);
                 return response('OK', 200);
@@ -107,10 +111,10 @@ class RedsysController extends Controller
             $userId = $params['Ds_MerchantData'];
             $user = User::findOrFail($userId);
 
-            // Evitar pedidos duplicados
             $order = Order::where('ds_order', $params['Ds_Order'])->first();
 
             if (!$order) {
+
                 $order = Order::create([
                     'user_id' => $userId,
                     'user_name' => $user->name,
@@ -124,6 +128,7 @@ class RedsysController extends Controller
                 $cart = Cart::where('user_id', $userId)->with('product')->get();
 
                 foreach ($cart as $item) {
+
                     OrderProduct::create([
                         'order_id' => $order->id,
                         'product_id' => $item->product_id,
@@ -132,32 +137,32 @@ class RedsysController extends Controller
                     ]);
                 }
 
-                // Vaciar carrito (ESTO YA NO SE PIERDE)
                 Cart::where('user_id', $userId)->delete();
             }
 
             DB::commit();
 
-            // 📧 ENVÍO DE EMAIL FUERA DE LA TRANSACCIÓN
             try {
+
                 Mail::to($user->email)->send(new OrderConfirmed($order));
                 Mail::to(config('mail.company_address'))->send(new OrderAdminNotification($order));
             } catch (\Throwable $mailError) {
+
                 Log::error('Error enviando email de pedido', [
                     'order_id' => $order->id,
                     'error' => $mailError->getMessage(),
                 ]);
             }
         } catch (\Throwable $e) {
+
             DB::rollBack();
+
             Log::error('Error crítico en notify Redsys', [
                 'error' => $e->getMessage(),
             ]);
         }
 
-        // 🔴 ESTO ES LO MÁS IMPORTANTE
-        return response('OK', 200)
-            ->header('Content-Type', 'text/plain');
+        return response('OK', 200)->header('Content-Type', 'text/plain');
     }
 
 
