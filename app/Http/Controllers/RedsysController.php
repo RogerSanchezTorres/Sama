@@ -89,16 +89,16 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            $params = Redsys::getMerchantParameters($request->input('Ds_MerchantParameters'));
+            $params = Redsys::getMerchantParameters($merchantParams);
 
-            if (!Redsys::check($request->input('Ds_Signature'))) {
+            if (!Redsys::check($merchantParams, $signature)) {
                 Log::error('Redsys notify: firma inválida');
                 return response('OK', 200);
             }
 
             $params = json_decode(base64_decode($merchantParams), true);
-            $responseCode = (int) $params['Ds_Response'];
 
+            $responseCode = (int) $params['Ds_Response'];
             if ($responseCode > 99) {
                 Log::warning('Redsys pago rechazado', $params);
                 return response('OK', 200);
@@ -172,5 +172,4 @@ class RedsysController extends Controller
     {
         return view('payment.failure');
     }
-    
 }
