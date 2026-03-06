@@ -96,8 +96,6 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            $params = json_decode(base64_decode($merchantParams), true);
-
             $responseCode = (int) $params['Ds_Response'];
             if ($responseCode > 99) {
                 Log::warning('Redsys pago rechazado', $params);
