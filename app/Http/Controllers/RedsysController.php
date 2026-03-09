@@ -91,13 +91,15 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            // Redsys ya decodifica aquí
-            $params = Redsys::getMerchantParameters($merchantParams);
-
-            if (!Redsys::check($signature)) {
+            if (!Redsys::check($merchantParams, $signature)) {
                 Log::error('Redsys notify: firma inválida');
                 return response('OK', 200);
             }
+
+            // Redsys ya decodifica aquí
+            $params = Redsys::getMerchantParameters($merchantParams);
+
+
 
             $responseCode = (int) $params['Ds_Response'];
 
@@ -155,7 +157,9 @@ class RedsysController extends Controller
             }
         } catch (\Throwable $e) {
 
-            DB::rollBack();
+            if (DB::transactionLevel() > 0) {
+                DB::rollBack();
+            }
 
             Log::error('Error crítico en notify Redsys', [
                 'error' => $e->getMessage(),
