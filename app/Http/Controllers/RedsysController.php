@@ -44,7 +44,7 @@ class RedsysController extends Controller
             }
             $description = rtrim($description, ', ');
 
-            $order = str_pad((string) time(), 12, '0', STR_PAD_LEFT);
+            $order = str_pad((string) (time() . rand(100,999)), 12, '0', STR_PAD_LEFT);
 
             Redsys::setAmount($total);
             Redsys::setOrder($order);
@@ -90,7 +90,7 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            $params = json_decode(Redsys::getMerchantParameters($merchantParams), true);
+            $params = Redsys::getMerchantParameters($merchantParams);
 
             if (!Redsys::check($signature)) {
                 Log::error('Redsys notify: firma inválida');
