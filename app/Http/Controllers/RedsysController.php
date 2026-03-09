@@ -94,7 +94,7 @@ class RedsysController extends Controller
 
             $params = Redsys::getMerchantParameters($merchantParams);
 
-            if (!Redsys::check($signature)) {
+            if (!Redsys::check($merchantParams, $signature)) {
                 Log::error('Redsys notify: firma inválida');
                 return response('OK', 200);
             }
