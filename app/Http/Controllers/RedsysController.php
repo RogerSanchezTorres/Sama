@@ -80,15 +80,21 @@ class RedsysController extends Controller
 
     public function notify(Request $request)
     {
-        Log::info('Redsys notify recibido', $request->all());
         try {
+
+            Log::info('Redsys notify recibido', $request->all());
 
             $merchantParams = $request->input('Ds_MerchantParameters');
             $signature = $request->input('Ds_Signature');
 
+            if (!$merchantParams || !$signature) {
+                Log::error('Redsys notify: datos incompletos');
+                return response('OK', 200);
+            }
+
             $params = Redsys::getMerchantParameters($merchantParams);
 
-            if (!Redsys::check($merchantParams, $signature)) {
+            if (!Redsys::check($signature)) {
                 Log::error('Redsys notify: firma inválida');
                 return response('OK', 200);
             }
@@ -122,7 +128,6 @@ class RedsysController extends Controller
                 $cart = Cart::where('user_id', $userId)->with('product')->get();
 
                 foreach ($cart as $item) {
-
                     OrderProduct::create([
                         'order_id' => $order->id,
                         'product_id' => $item->product_id,
@@ -135,26 +140,12 @@ class RedsysController extends Controller
             }
 
             DB::commit();
-
-            try {
-
-                Mail::to($user->email)->send(new OrderConfirmed($order));
-                Mail::to(config('mail.company_address'))->send(new OrderAdminNotification($order));
-            } catch (\Throwable $mailError) {
-
-                Log::error('Error enviando email de pedido', [
-                    'order_id' => $order->id,
-                    'error' => $mailError->getMessage(),
-                ]);
-            }
         } catch (\Throwable $e) {
 
-            if (DB::transactionLevel() > 0) {
-                DB::rollBack();
-            }
+            DB::rollBack();
 
             Log::error('Error crítico en notify Redsys', [
-                'error' => $e->getMessage(),
+                'error' => $e->getMessage()
             ]);
         }
 
