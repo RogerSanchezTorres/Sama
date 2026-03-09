@@ -44,7 +44,7 @@ class RedsysController extends Controller
             }
             $description = rtrim($description, ', ');
 
-            $order = str_pad((string) (time() . rand(100,999)), 12, '0', STR_PAD_LEFT);
+            $order = str_pad((string) time(), 12, '0', STR_PAD_LEFT);
 
             Redsys::setAmount($total);
             Redsys::setOrder($order);
