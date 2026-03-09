@@ -86,20 +86,12 @@ class RedsysController extends Controller
             $merchantParams = $request->input('Ds_MerchantParameters');
             $signature = $request->input('Ds_Signature');
 
-            if (!$merchantParams || !$signature) {
-                Log::error('Redsys notify: datos incompletos');
-                return response('OK', 200);
-            }
+            $params = Redsys::getMerchantParameters($merchantParams);
 
             if (!Redsys::check($merchantParams, $signature)) {
                 Log::error('Redsys notify: firma inválida');
                 return response('OK', 200);
             }
-
-            // Redsys ya decodifica aquí
-            $params = Redsys::getMerchantParameters($merchantParams);
-
-
 
             $responseCode = (int) $params['Ds_Response'];
 
