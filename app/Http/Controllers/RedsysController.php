@@ -95,11 +95,7 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            $params = Redsys::getMerchantParameters($merchantParams);
-
-            if (is_string($params)) {
-                $params = json_decode($params, true);
-            }
+            $params = Redsys::decodeMerchantParameters($merchantParams);
 
             Log::info('Datos Redsys recibidos', $params);
 
