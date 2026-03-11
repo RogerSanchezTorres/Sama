@@ -85,69 +85,71 @@ class RedsysController extends Controller
             $merchantParams = $request->input('Ds_MerchantParameters');
             $signature = $request->input('Ds_Signature');
 
-            if (!$merchantParams || !$signature) {
-                Log::error('Redsys notify: datos incompletos');
+            if (!Redsys::check($merchantParams, $signature)) {
+                Log::error('Firma Redsys inválida');
                 return response('OK', 200);
             }
 
             $params = Redsys::getMerchantParameters($merchantParams);
 
-            if (!Redsys::check($signature)) {
-                Log::error('Redsys notify: firma inválida');
-                return response('OK', 200);
-            }
+            $response = (int)$params['Ds_Response'];
 
-            $responseCode = (int) $params['Ds_Response'];
-
-            if ($responseCode > 99) {
-                Log::warning('Redsys pago rechazado', $params);
+            if ($response > 99) {
+                Log::warning('Pago rechazado');
                 return response('OK', 200);
             }
 
             DB::beginTransaction();
 
-            $userId = $params['Ds_MerchantData'];
-            $user = User::findOrFail($userId);
+            $orderId = $params['Ds_MerchantData'];
 
-            $order = Order::where('ds_order', $params['Ds_Order'])->first();
+            $order = Order::lockForUpdate()->find($orderId);
 
             if (!$order) {
+                Log::error('Pedido no encontrado');
+                return response('OK', 200);
+            }
 
-                $order = Order::create([
-                    'user_id' => $userId,
-                    'user_name' => $user->name,
-                    'total' => $params['Ds_Amount'] / 100,
-                    'status' => 'paid',
-                    'ds_order' => $params['Ds_Order'],
-                    'ds_response' => $params['Ds_Response'],
-                    'ds_merchant_code' => $params['Ds_MerchantCode'],
+            // evitar duplicados
+            if ($order->status == 'paid') {
+                DB::commit();
+                return response('OK', 200);
+            }
+
+            $order->update([
+                'status' => 'paid',
+                'ds_response' => $params['Ds_Response'],
+                'authorization_code' => $params['Ds_AuthorisationCode']
+            ]);
+
+            $cart = Cart::where('user_id', $order->user_id)->with('product')->get();
+
+            foreach ($cart as $item) {
+
+                OrderProduct::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->product->precio_es
                 ]);
 
-                $cart = Cart::where('user_id', $userId)->with('product')->get();
-
-                foreach ($cart as $item) {
-                    OrderProduct::create([
-                        'order_id' => $order->id,
-                        'product_id' => $item->product_id,
-                        'quantity' => $item->quantity,
-                        'price' => $item->product->precio_es,
-                    ]);
-                }
-
-                Cart::where('user_id', $userId)->delete();
+                // actualizar stock
+                $item->product->decrement('stock', $item->quantity);
             }
+
+            Cart::where('user_id', $order->user_id)->delete();
 
             DB::commit();
         } catch (\Throwable $e) {
 
             DB::rollBack();
 
-            Log::error('Error crítico en notify Redsys', [
+            Log::error('Error notify Redsys', [
                 'error' => $e->getMessage()
             ]);
         }
 
-        return response('OK', 200)->header('Content-Type', 'text/plain');
+        return response('OK', 200);
     }
 
 
