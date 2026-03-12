@@ -98,11 +98,6 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            if (!Redsys::check($merchantParams, $signature)) {
-                Log::error('Firma Redsys inválida');
-                return response('OK', 200);
-            }
-
             $params = Redsys::getMerchantParameters($merchantParams);
 
             if (!is_array($params)) {
@@ -110,6 +105,11 @@ class RedsysController extends Controller
                     'type' => gettype($params),
                     'value' => $params
                 ]);
+                return response('OK', 200);
+            }
+
+            if (!Redsys::check($params, $signature)) {
+                Log::error('Firma Redsys inválida', $params);
                 return response('OK', 200);
             }
 
@@ -127,15 +127,16 @@ class RedsysController extends Controller
             $orderId = $params['Ds_MerchantData'];
 
             $order = Order::lockForUpdate()->find($orderId);
+
+            if (!$order) {
+                Log::error('Pedido no encontrado');
+                return response('OK', 200);
+            }
+
             $amount = $params['Ds_Amount'] / 100;
 
             if ($amount != $order->total) {
                 Log::error('Importe manipulado', $params);
-                return response('OK', 200);
-            }
-
-            if (!$order) {
-                Log::error('Pedido no encontrado');
                 return response('OK', 200);
             }
 
