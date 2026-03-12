@@ -105,13 +105,10 @@ class RedsysController extends Controller
 
             $params = Redsys::getMerchantParameters($merchantParams);
 
-            if (is_string($params)) {
-                $params = json_decode($params, true);
-            }
-
             if (!is_array($params)) {
-                Log::error('Error decodificando parámetros Redsys', [
-                    'raw' => $merchantParams
+                Log::error('Parametros Redsys incorrectos', [
+                    'type' => gettype($params),
+                    'value' => $params
                 ]);
                 return response('OK', 200);
             }
@@ -130,6 +127,12 @@ class RedsysController extends Controller
             $orderId = $params['Ds_MerchantData'];
 
             $order = Order::lockForUpdate()->find($orderId);
+            $amount = $params['Ds_Amount'] / 100;
+
+            if ($amount != $order->total) {
+                Log::error('Importe manipulado', $params);
+                return response('OK', 200);
+            }
 
             if (!$order) {
                 Log::error('Pedido no encontrado');
@@ -152,6 +155,10 @@ class RedsysController extends Controller
 
             foreach ($cart as $item) {
 
+                if (!$item->product) {
+                    continue;
+                }
+
                 OrderProduct::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
@@ -159,7 +166,6 @@ class RedsysController extends Controller
                     'price' => $item->product->precio_es
                 ]);
 
-                // actualizar stock
                 $item->product->decrement('stock', $item->quantity);
             }
 
@@ -171,7 +177,10 @@ class RedsysController extends Controller
             DB::rollBack();
 
             Log::error('Error notify Redsys', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
             ]);
         }
 
