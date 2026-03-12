@@ -104,7 +104,6 @@ class RedsysController extends Controller
             }
 
             $params = Redsys::decodeMerchantParameters($merchantParams);
-            $params = json_decode($params, true);
 
             if (!is_array($params)) {
                 Log::error('Error decodificando parámetros Redsys', [
@@ -116,6 +115,11 @@ class RedsysController extends Controller
             Log::info('Datos Redsys recibidos', $params);
 
             $response = (int) $params['Ds_Response'];
+
+            if ($response > 99) {
+                Log::warning('Pago rechazado', $params);
+                return response('OK', 200);
+            }
 
             DB::beginTransaction();
 
