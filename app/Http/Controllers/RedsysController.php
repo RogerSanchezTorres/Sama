@@ -51,7 +51,7 @@ class RedsysController extends Controller
                 'total' => $total
             ]);
 
-            $order = str_pad((string) time(), 12, '0', STR_PAD_LEFT);
+            $order = str_pad($orderDb->id . time(), 12, '0', STR_PAD_LEFT);
 
             Redsys::setAmount($total);
             Redsys::setOrder($order);
@@ -103,7 +103,11 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            $params = Redsys::decodeMerchantParameters($merchantParams);
+            $params = Redsys::getMerchantParameters($merchantParams);
+
+            if (is_string($params)) {
+                $params = json_decode($params, true);
+            }
 
             if (!is_array($params)) {
                 Log::error('Error decodificando parámetros Redsys', [
