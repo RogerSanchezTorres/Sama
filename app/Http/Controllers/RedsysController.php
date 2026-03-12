@@ -44,6 +44,12 @@ class RedsysController extends Controller
             }
             $description = rtrim($description, ', ');
 
+            $orderDb = Order::create([
+                'user_id' => $user->id,
+                'status' => 'pending',
+                'total' => $total
+            ]);
+
             $order = str_pad((string) time(), 12, '0', STR_PAD_LEFT);
 
             Redsys::setAmount($total);
@@ -61,7 +67,8 @@ class RedsysController extends Controller
             Redsys::setTitular($user->name);
             Redsys::setProductDescription($description);
             Redsys::setEnviroment($enviroment);
-            Redsys::setMerchantData($user->id);
+
+            Redsys::setMerchantData($orderDb->id);
 
             $signature = Redsys::generateMerchantSignature($key);
             Redsys::setMerchantSignature($signature);
