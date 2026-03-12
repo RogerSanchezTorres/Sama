@@ -46,6 +46,7 @@ class RedsysController extends Controller
 
             $orderDb = Order::create([
                 'user_id' => $user->id,
+                'user_name' => $user->name,
                 'status' => 'pending',
                 'total' => $total
             ]);
