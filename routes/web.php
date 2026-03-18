@@ -220,7 +220,7 @@ Route::middleware(['auth', 'store.enabled'])->group(function () {
 });
 
 
-Route::post('/redsys/notify', [RedsysController::class, 'notify'])->name('redsys.notify');
+
 
 Route::get('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
 Route::get('/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
