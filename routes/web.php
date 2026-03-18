@@ -221,12 +221,6 @@ Route::middleware(['auth', 'store.enabled'])->group(function () {
 
 
 
-
-Route::get('/redsys/ok', [RedsysController::class, 'ok'])->name('redsys.ok');
-Route::get('/redsys/ko', [RedsysController::class, 'ko'])->name('redsys.ko');
-
-
-
 Route::get('order/confirmation', function () {
     return view('order.confirmation');
 })->name('order.confirmation');
