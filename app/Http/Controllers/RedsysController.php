@@ -90,26 +90,18 @@ class RedsysController extends Controller
     {
         try {
 
-            $merchantParams = $request->input('Ds_MerchantParameters');
-            $signature = $request->input('Ds_Signature');
-
-            if (!$merchantParams || !$signature) {
-                Log::error('Redsys notify: datos incompletos');
+            if (!Redsys::check()) {
+                Log::error('Firma Redsys inválida');
                 return response('OK', 200);
             }
 
-            $params = Redsys::getMerchantParameters($merchantParams);
+            $params = Redsys::getMerchantParameters();
 
             if (!is_array($params)) {
                 Log::error('Parametros Redsys incorrectos', [
                     'type' => gettype($params),
                     'value' => $params
                 ]);
-                return response('OK', 200);
-            }
-
-            if (!Redsys::check($params, $signature)) {
-                Log::error('Firma Redsys inválida', $params);
                 return response('OK', 200);
             }
 
@@ -140,7 +132,6 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            // evitar duplicados
             if ($order->status == 'paid') {
                 DB::commit();
                 return response('OK', 200);
