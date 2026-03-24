@@ -98,19 +98,17 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
+            // DECODIFICAR
             $params = Redsys::getMerchantParameters($merchantParams);
 
             if (!is_array($params)) {
-                Log::error('Parametros Redsys incorrectos', [
-                    'type' => gettype($params),
-                    'value' => $params
-                ]);
+                Log::error('Parametros Redsys incorrectos', $params);
                 return response('OK', 200);
             }
 
-            // 🔥 IMPORTANTE: pasar parámetros
+            // VALIDAR FIRMA (AQUÍ ESTABA TU ERROR)
             if (!Redsys::check($merchantParams, $signature)) {
-                Log::error('Firma Redsys inválida', $params);
+                Log::error('Firma Redsys inválida');
                 return response('OK', 200);
             }
 
@@ -156,9 +154,7 @@ class RedsysController extends Controller
 
             foreach ($cart as $item) {
 
-                if (!$item->product) {
-                    continue;
-                }
+                if (!$item->product) continue;
 
                 OrderProduct::create([
                     'order_id' => $order->id,
