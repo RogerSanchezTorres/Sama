@@ -88,29 +88,35 @@ class RedsysController extends Controller
 
     public function notify(Request $request)
     {
-
         try {
-            
+
             Log::info('REQUEST REDSYS', $request->all());
-            $merchantParams = $_POST['Ds_MerchantParameters'] ?? null;
-            $signature = $_POST['Ds_Signature'] ?? null;
-Log::info('merchantParams RAW', [$merchantParams]);
-            Log::info('signature RAW', [$signature]);
-            if (!$merchantParams || !$signature) {
-                Log::error('Redsys notify: datos incompletos');
-                return response('OK', 200);
+
+            // 🔥 FIX: convertir array a string
+            $merchantParams = $request->input('Ds_MerchantParameters');
+            if (is_array($merchantParams)) {
+                $merchantParams = $merchantParams[0];
+            }
+
+            $signature = $request->input('Ds_Signature');
+            if (is_array($signature)) {
+                $signature = $signature[0];
             }
 
             $tpv = new \Sermepa\Tpv\Tpv();
 
+            // 🔥 MÉTODO REAL QUE SÍ EXISTE
             $params = $tpv->getMerchantParameters($merchantParams);
 
-            if (is_string($params)) {
-                $params = json_decode($params, true);
+            // 🔥 VALIDAR FIRMA
+            $signatureOk = $tpv->check($merchantParams, $signature);
+
+            if (!$signatureOk) {
+                Log::error('Firma Redsys inválida');
+                return response('OK', 200);
             }
 
-            $signatureOk = $tpv->check($merchantParams, $signature);
-            Log::info('Datos Redsys recibidos', $params);
+            Log::info('Datos Redsys decodificados', $params);
 
             $response = (int) $params['Ds_Response'];
 
@@ -174,7 +180,7 @@ Log::info('merchantParams RAW', [$merchantParams]);
             Log::error('Error notify Redsys', [
                 'error' => $e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile()
+                'file' => $e->getFile(),
             ]);
         }
 
