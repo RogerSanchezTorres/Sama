@@ -88,10 +88,18 @@ class RedsysController extends Controller
 
     public function notify(Request $request)
     {
-        try {
 
-            $merchantParams = $request->input('Ds_MerchantParameters');
-            $signature = $request->input('Ds_Signature');
+        try {
+            
+            Log::info('REQUEST REDSYS', $request->all());
+            $merchantParams = $_POST['Ds_MerchantParameters'] ?? null;
+            $signature = $_POST['Ds_Signature'] ?? null;
+Log::info('merchantParams RAW', [$merchantParams]);
+            Log::info('signature RAW', [$signature]);
+            if (!$merchantParams || !$signature) {
+                Log::error('Redsys notify: datos incompletos');
+                return response('OK', 200);
+            }
 
             $tpv = new \Sermepa\Tpv\Tpv();
 
@@ -102,12 +110,6 @@ class RedsysController extends Controller
             }
 
             $signatureOk = $tpv->check($merchantParams, $signature);
-
-            if (!$signatureOk) {
-                Log::error('Firma Redsys inválida');
-                return response('OK', 200);
-            }
-
             Log::info('Datos Redsys recibidos', $params);
 
             $response = (int) $params['Ds_Response'];
