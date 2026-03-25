@@ -98,15 +98,18 @@ class RedsysController extends Controller
                 return response('OK', 200);
             }
 
-            Redsys::setMerchantParameters($merchantParams);
-            Redsys::setMerchantSignatureRecibida($signature);
+            $tpv = new \Sermepa\Tpv\Tpv();
 
-            if (!Redsys::check()) {
+            // 🔥 MÉTODO CORRECTO
+            $params = $tpv->getMerchantParameters($merchantParams);
+
+            // 🔥 VALIDAR FIRMA
+            $signatureOk = $tpv->check($merchantParams, $signature, config('redsys.key'));
+
+            if (!$signatureOk) {
                 Log::error('Firma Redsys inválida');
                 return response('OK', 200);
             }
-
-            $params = Redsys::getMerchantParameters();
 
             Log::info('Datos Redsys recibidos', $params);
 
@@ -143,7 +146,7 @@ class RedsysController extends Controller
             $order->update([
                 'status' => 'paid',
                 'ds_response' => $params['Ds_Response'],
-                'authorization_code' => $params['Ds_AuthorisationCode']
+                'authorization_code' => $params['Ds_AuthorisationCode'] ?? null
             ]);
 
             $cart = Cart::where('user_id', $order->user_id)->with('product')->get();
@@ -172,8 +175,7 @@ class RedsysController extends Controller
             Log::error('Error notify Redsys', [
                 'error' => $e->getMessage(),
                 'line' => $e->getLine(),
-                'file' => $e->getFile(),
-                'trace' => $e->getTraceAsString()
+                'file' => $e->getFile()
             ]);
         }
 
