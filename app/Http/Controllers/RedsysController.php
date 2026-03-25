@@ -93,18 +93,15 @@ class RedsysController extends Controller
             $merchantParams = $request->input('Ds_MerchantParameters');
             $signature = $request->input('Ds_Signature');
 
-            if (!$merchantParams || !$signature) {
-                Log::error('Redsys notify: datos incompletos');
-                return response('OK', 200);
-            }
-
             $tpv = new \Sermepa\Tpv\Tpv();
 
-            // 🔥 MÉTODO CORRECTO
             $params = $tpv->getMerchantParameters($merchantParams);
 
-            // 🔥 VALIDAR FIRMA
-            $signatureOk = $tpv->check($merchantParams, $signature, config('redsys.key'));
+            if (is_string($params)) {
+                $params = json_decode($params, true);
+            }
+
+            $signatureOk = $tpv->check($merchantParams, $signature);
 
             if (!$signatureOk) {
                 Log::error('Firma Redsys inválida');
