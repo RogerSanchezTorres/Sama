@@ -145,18 +145,6 @@ class RedsysController extends Controller
                 'authorization_code' => $params['Ds_AuthorisationCode']
             ]);
 
-            // 🔔 EMAIL A ADMIN
-            Mail::to(config('mail.from.address')) // o un email fijo tipo empresa@gmail.com
-                ->send(new OrderAdminNotification($order));
-
-            // 🔔 EMAIL AL USUARIO
-            $user = User::find($order->user_id);
-
-            if ($user && $user->email) {
-                Mail::to($user->email)
-                    ->send(new OrderConfirmed($order));
-            }
-
             $cart = Cart::where('user_id', $order->user_id)->with('product')->get();
 
             foreach ($cart as $item) {
@@ -176,6 +164,26 @@ class RedsysController extends Controller
             Cart::where('user_id', $order->user_id)->delete();
 
             DB::commit();
+            // 🔔 EMAILS (FUERA de la transacción)
+            try {
+
+                $order->load('products');
+
+                Mail::to(config('mail.from.address'))
+                    ->send(new OrderAdminNotification($order));
+
+                $user = User::find($order->user_id);
+
+                if ($user && $user->email) {
+                    Mail::to($user->email)
+                        ->send(new OrderConfirmed($order));
+                }
+            } catch (\Throwable $e) {
+
+                Log::error('Error enviando emails', [
+                    'error' => $e->getMessage()
+                ]);
+            }
         } catch (\Throwable $e) {
 
             DB::rollBack();
