@@ -167,7 +167,7 @@ class RedsysController extends Controller
             // 🔔 EMAILS (FUERA de la transacción)
             try {
 
-                $order->load('products');
+                $order->load('orderProducts.product');
 
                 Mail::to(config('mail.from.address'))
                     ->send(new OrderAdminNotification($order));
