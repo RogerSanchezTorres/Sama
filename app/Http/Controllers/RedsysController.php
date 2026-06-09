@@ -133,13 +133,12 @@ class RedsysController extends Controller
                 Log::error('Importe manipulado', $params);
                 return response('OK', 200);
             }
-            Log::info('ANTES DEL COMMIT');
+
             if ($order->status == 'paid') {
                 DB::commit();
                 return response('OK', 200);
             }
-            Log::info('DESPUES DEL COMMIT');
-            Log::info('ANTES DE GUARDAR PEDIDO');
+
             $order->update([
                 'status' => 'paid',
                 'ds_response' => $params['Ds_Response'],
@@ -147,7 +146,7 @@ class RedsysController extends Controller
             ]);
 
             $cart = Cart::where('user_id', $order->user_id)->with('product')->get();
-            Log::info('ANTES DEL FOREACH DEL CARRITO');
+
             foreach ($cart as $item) {
 
                 if (!$item->product) continue;
@@ -161,7 +160,7 @@ class RedsysController extends Controller
 
                 $item->product->decrement('stock', $item->quantity);
             }
-            Log::info('ANTES DE BORRAR CARRITO');
+
             Cart::where('user_id', $order->user_id)->delete();
 
             DB::commit();
