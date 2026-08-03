@@ -78,7 +78,7 @@ class ProductsController extends Controller
 
         $relatedCategories = $category->mainCategory->categories; // Categorías relacionadas
 
-        $products = Product::where('subcategory_id', $subcategory->id)->paginate(16);
+        $products = Product::where('subsubcategory_id', $subsubcategory->id)->paginate(16);
         Paginator::useBootstrapThree(false);
         $shopEnabled = Setting::shopEnabled();
 
