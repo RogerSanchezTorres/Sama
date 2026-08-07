@@ -701,12 +701,12 @@ class AdminController extends Controller
 
         Setting::updateOrCreate(
             ['key' => 'banner_start'],
-            ['value' => $request->banner_start]
+            ['value' => $request->banner_start ?: '']
         );
 
         Setting::updateOrCreate(
             ['key' => 'banner_end'],
-            ['value' => $request->banner_end]
+            ['value' => $request->banner_end ?: '']
         );
 
         if ($autoToggle) {
