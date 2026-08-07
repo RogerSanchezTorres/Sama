@@ -8,6 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/style/admin/subsubcategories.css') }}">
 </head>
 
@@ -43,7 +44,7 @@
 
             <div class="form-group">
                 <label for="category_id" class="form-label">Categoría secundaria:</label>
-                <select name="category_id" id="category_id" required>
+                <select name="category_id" id="category_id"  required>
                     <option value="">Selecciona una subcategoría</option>
                     @foreach ($categories as $category)
                     <option value="{{ $category->id }}" data-main-category-id="{{ $category->main_category_id }}">{{ $category->nombre }}</option>

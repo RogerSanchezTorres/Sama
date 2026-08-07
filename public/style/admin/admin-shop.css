@@ -357,3 +357,129 @@ form {
         margin-bottom: 10px;
     }
 }
+
+/* ===========================
+   CONFIGURACIÓN DEL BANNER
+=========================== */
+
+.card h3{
+    color:#ffc106;
+    margin-bottom:20px;
+}
+
+.banner-title{
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+    opacity:.9;
+}
+
+.banner-text{
+    font-size:16px;
+    font-weight:600;
+    line-height:1.6;
+    white-space:pre-line;
+}
+
+.banner-form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.banner-form label{
+    display:block;
+    color:#ddd;
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+#bannerTitle{
+    width:100%;
+    background:#2d2d2d;
+    color:white;
+    border:1px solid #444;
+    border-radius:8px;
+    padding:10px;
+    font-size:15px;
+    transition:.3s;
+    margin-top:-18px;
+}
+
+.banner-form textarea{
+    width:100%;
+    min-height:120px;
+    background:#2d2d2d;
+    color:white;
+    border:1px solid #444;
+    border-radius:8px;
+    padding:12px;
+    font-size:15px;
+    resize:vertical;
+    transition:.3s;
+}
+
+.banner-form textarea:focus{
+    border-color:#ffc106;
+    outline:none;
+}
+
+.banner-form select,
+.banner-form input[type="date"]{
+    background:#2d2d2d;
+    color:white;
+    border:1px solid #444;
+    border-radius:8px;
+    padding:10px;
+    width:220px;
+}
+
+.banner-form select:focus,
+.banner-form input[type="date"]:focus{
+    border-color:#ffc106;
+    outline:none;
+}
+
+.banner-form input[type="checkbox"]{
+    transform:scale(1.15);
+    margin-right:8px;
+}
+
+.banner-row{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.banner-preview{
+    margin-top:25px;
+    padding:18px;
+    border-radius:8px;
+    text-align:center;
+    font-size:17px;
+    font-weight:bold;
+    white-space: pre-line;
+}
+
+.banner-preview.warning{
+    background:#ffc106;
+    color:#111;
+}
+
+.banner-preview.danger{
+    background:#dc3545;
+    color:white;
+}
+
+.banner-preview.success{
+    background:#28a745;
+    color:white;
+}
+
+.banner-preview.info{
+    background:#0dcaf0;
+    color:#111;
+}

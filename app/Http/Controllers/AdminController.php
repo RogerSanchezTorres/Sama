@@ -649,7 +649,13 @@ class AdminController extends Controller
     public function shopSettings()
     {
         return view('admin.shop-settings', [
-            'enabled' => Setting::shopEnabled()
+            'enabled' => Setting::shopEnabled(),
+
+            'bannerEnabled' => Setting::bannerEnabled(),
+            'bannerText'    => Setting::bannerText(),
+            'bannerColor'   => Setting::bannerColor(),
+            'bannerStart'   => Setting::bannerStart(),
+            'bannerEnd'     => Setting::bannerEnd(),
         ]);
     }
 
@@ -664,5 +670,48 @@ class AdminController extends Controller
         );
 
         return back()->with('success', 'Estado de la tienda actualizado');
+    }
+
+    public function updateBanner(Request $request)
+    {
+
+        $autoToggle = $request->has('banner_enabled')
+            && !$request->filled('banner_title')
+            && !$request->filled('banner_text');
+
+        Setting::updateOrCreate(
+            ['key' => 'banner_enabled'],
+            ['value' => (int) $request->banner_enabled]
+        );
+
+        Setting::updateOrCreate(
+            ['key' => 'banner_title'],
+            ['value' => $request->banner_title ?: '']
+        );
+
+        Setting::updateOrCreate(
+            ['key' => 'banner_text'],
+            ['value' => $request->banner_text ?: '']
+        );
+
+        Setting::updateOrCreate(
+            ['key' => 'banner_color'],
+            ['value' => $request->banner_color]
+        );
+
+        Setting::updateOrCreate(
+            ['key' => 'banner_start'],
+            ['value' => $request->banner_start]
+        );
+
+        Setting::updateOrCreate(
+            ['key' => 'banner_end'],
+            ['value' => $request->banner_end]
+        );
+
+        if ($autoToggle) {
+            return back();
+        }
+        return back()->with('success', 'Banner actualizado.');
     }
 }

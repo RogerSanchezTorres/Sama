@@ -170,6 +170,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/shop', [AdminController::class, 'shopSettings'])->name('admin.shop');
     Route::post('/admin/shop/toggle', [AdminController::class, 'toggleShop'])->name('admin.shop.toggle');
+    Route::post('/admin/shop/banner', [AdminController::class, 'updateBanner'])->name('admin.shop.banner');
 });
 
 //PRODUCTOS
