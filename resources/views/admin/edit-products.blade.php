@@ -8,9 +8,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/style/admin/edit-products.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/style/admin/edit-products.css') }}">
 
 </head>
 
@@ -171,30 +171,98 @@
                     </div>
 
 
-                    {{-- Imágenes --}}
-                    <div class="row mb-3">
-                        <div class="col-md-6" style="margin-top: 15px;">
-                            <label class="fw-bold mb-1">Imagen del Producto</label>
-                            <input type="file" name="img[]" class="form-control" multiple>
-                        </div>
-                    </div>
+                    {{-- GALERÍA DE IMÁGENES DEL PRODUCTO --}}
+                    @php
+                    $images = json_decode($product->img, true);
 
-                    <div class="row">
-                        @php
-                        $images = json_decode($product->img, true);
-                        @endphp
+                    // Compatibilidad con productos que tengan una sola imagen antigua
+                    if (!is_array($images)) {
+                    $images = !empty($product->img)
+                    ? [$product->img]
+                    : [];
+                    }
+                    @endphp
 
-                        @if (!empty($images))
-                        @foreach ($images as $index => $img)
-                        <div class="col-md-3">
-                            <img src="{{ asset($img) }}" class="img-fluid mb-3">
-                            <div class="form-check">
-                                <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="form-check-input" id="delete_image_{{ $index }}" multiple>
-                                <label class="form-check-label" for="delete_image_{{ $index }}">Eliminar</label>
+                    <div class="product-images-admin mb-4">
+
+                        <div class="product-images-heading">
+                            <div>
+                                <h4>Imágenes del producto</h4>
+                                <p>Gestiona las imágenes que aparecen en la ficha del producto.</p>
                             </div>
+
+                            <span class="images-count">
+                                {{ count($images) }} {{ count($images) === 1 ? 'imagen' : 'imágenes' }}
+                            </span>
                         </div>
-                        @endforeach
+
+                        {{-- IMÁGENES ACTUALES --}}
+                        @if(count($images) > 0)
+
+                        <div class="product-images-grid">
+
+                            @foreach($images as $index => $img)
+                            <div class="product-image-card">
+
+                                <div class="product-image-frame">
+                                    <img
+                                        src="{{ asset($img) }}"
+                                        alt="Imagen {{ $index + 1 }} de {{ $product->nombre_es }}"
+                                        loading="lazy">
+                                </div>
+
+                                <div class="product-image-footer">
+                                    <span class="image-name">
+                                        Imagen {{ $index + 1 }}
+                                    </span>
+
+                                    <label class="delete-image-option">
+                                        <input
+                                            type="checkbox"
+                                            name="delete_images[]"
+                                            value="{{ $index }}"
+                                            id="delete_image_{{ $index }}">
+                                        <span>Eliminar</span>
+                                    </label>
+                                </div>
+
+                            </div>
+                            @endforeach
+
+                        </div>
+
+                        @else
+
+                        <div class="no-product-images">
+                            <i class="fas fa-images"></i>
+                            <p>Este producto todavía no tiene imágenes.</p>
+                        </div>
+
                         @endif
+
+                        {{-- AÑADIR IMÁGENES NUEVAS --}}
+                        <div class="add-product-images">
+
+                            <label for="productImages" class="form-label fw-bold">
+                                Añadir imágenes nuevas
+                            </label>
+
+                            <input
+                                type="file"
+                                id="productImages"
+                                name="img[]"
+                                class="form-control"
+                                accept="image/jpeg,image/png,image/gif,image/webp"
+                                multiple>
+
+                            <small class="text-muted">
+                                Puedes seleccionar varias imágenes. Las miniaturas aparecerán aquí antes de guardar.
+                            </small>
+
+                            <div id="newImagesPreview" class="product-images-grid mt-3"></div>
+
+                        </div>
+
                     </div>
 
                     {{-- Descripción --}}

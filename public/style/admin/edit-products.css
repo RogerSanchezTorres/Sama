@@ -49,7 +49,6 @@ body {
     width: 25px;
 }
 
-
 #footer {
     background-color: black;
     position: relative;
@@ -143,7 +142,6 @@ body {
     margin-left: 10px;
 }
 
-
 .footer-empresa {
     display: flex;
     justify-content: center;
@@ -185,111 +183,6 @@ body {
     color: white;
 }
 
-
-/*h3{
-    margin-left: 380px;
-    margin-top: 30px;
-}
-
-#edit-products{
-    width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 30px;
-    margin-bottom: 50px;
-}
-
-label{
-    margin-left: 60px;
-}
-
-input{
-    margin-top: 20px;
-    border-radius: 5px;
-    border: 1px solid black;
-    padding: 3px;
-}
-
-#nombre{
-    width: 200px;
-}
-
-#marca{
-    margin-top: 35px;
-    margin-right: 44px;
-}
-
-#referencia{
-    margin-right: -33px;
-}
-
-
-#main_category_id{
-    border-radius: 5px;
-    border: 1px solid black;
-    padding: 3px;
-    margin-right: -17px;
-}
-
-
-#category_id{
-    border-radius: 5px;
-    border: 1px solid black;
-    padding: 3px;
-}
-
-#subcategory_id{
-    border-radius: 5px;
-    border: 1px solid black;
-    padding: 3px;
-}
-
-#img{
-    width: 307px;
-}
-
-#pdf-text{
-    margin-left: 10px;
-}
-
-#pdf{
-    width: 307px;
-}
-
-.description{
-    margin-left: 1px;
-}
-
-#descripcion{
-    border-radius: 5px;
-    border: 1px solid black;
-    padding: 3px;
-    width: 700px;
-}
-
-
-.btnSave {
-    text-align: center;
-    margin-top: 35px;
-}
-
-.btnSave button {
-    background-color: #ffc106;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btnSave button:hover {
-    background-color: #e9af01;
-}*/
-
-
-
 #abrirBuscador {
     background: none;
     border: none;
@@ -330,4 +223,223 @@ input{
     right: 10px;
     font-size: 24px;
     cursor: pointer;
+}
+
+/* ==========================================
+   GALERÍA DE IMÁGENES DEL PRODUCTO
+   Estilo integrado con Bootstrap
+========================================== */
+
+.product-images-admin {
+    margin-top: 20px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Cabecera de la sección */
+
+.product-images-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #e9ecef;
+    border-left: 3px solid #ffc106;
+    padding-left: 12px;
+}
+
+.product-images-heading h4 {
+    margin: 0 0 5px;
+    color: #212529;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.product-images-heading p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Contador de imágenes */
+
+.images-count {
+    flex-shrink: 0;
+    padding: 5px 10px;
+    background: #fff3cd;
+    border: 1px solid #ffe69c;
+    border-radius: 20px;
+    color: #664d03;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Cuadrícula de imágenes */
+
+.product-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+/* Tarjeta individual */
+
+.product-image-card {
+    min-width: 0;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 7px;
+    transition: border-color .2s ease;
+}
+
+.product-image-card:hover {
+    border-color: #ffc106;
+}
+
+/* Área de la miniatura */
+
+.product-image-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 145px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #fff;
+}
+
+.product-image-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Pie de la tarjeta */
+
+.product-image-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    padding: 10px;
+    border-top: 1px solid #e9ecef;
+    background: #fafafa;
+}
+
+.image-name {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    color: #495057;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Opción de eliminar */
+
+.delete-image-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+    margin: 0;
+    color: #dc3545;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.delete-image-option input {
+    margin: 0;
+    accent-color: #dc3545;
+}
+
+/* Añadir imágenes nuevas */
+
+.add-product-images {
+    padding-top: 18px;
+    border-top: 1px solid #dee2e6;
+}
+
+.add-product-images .form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #212529;
+    font-size: 14px;
+}
+
+.add-product-images .form-control {
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.add-product-images small {
+    display: block;
+    margin-top: 6px;
+    color: #6c757d;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Estado sin imágenes */
+
+.no-product-images {
+    padding: 25px 15px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    color: #6c757d;
+    text-align: center;
+}
+
+.no-product-images i {
+    display: block;
+    margin-bottom: 10px;
+    color: #adb5bd;
+    font-size: 27px;
+}
+
+.no-product-images p {
+    margin: 0;
+    font-size: 13px;
+}
+
+/* Adaptación para móviles */
+
+@media (max-width: 600px) {
+    .product-images-admin {
+        padding: 14px;
+    }
+
+    .product-images-heading {
+        align-items: flex-start;
+    }
+
+    .product-images-heading h4 {
+        font-size: 16px;
+    }
+
+    .product-images-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .product-image-frame {
+        height: 120px;
+    }
 }

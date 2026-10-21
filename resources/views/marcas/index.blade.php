@@ -33,7 +33,7 @@
                     $imageSrc = $imagePath ? asset('storage/' . $imagePath->image_path) : asset('images/marcas/default.png');
                     @endphp
 
-                    <img src="{{ $imageSrc }}" alt="{{ $marca }}" class="brand-logo">
+                    <img src="{{ $imageSrc }}" alt="{{ $marca }}" class="brand-logo" loading="lazy">
                 </div>
             </a>
             @endforeach

@@ -43,7 +43,7 @@
                     @endphp
 
                     @if (!empty($images) && is_array($images))
-                    <img src="{{ asset($images[0]) }}" alt="{{ $resultado->nombre_es }}">
+                    <img src="{{ asset($images[0]) }}" alt="{{ $resultado->nombre_es }}" loading="lazy">
                     @else
                     <div class="no-image">No hay imagen disponible</div>
                     @endif

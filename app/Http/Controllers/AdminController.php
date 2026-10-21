@@ -249,8 +249,10 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'referencia' => 'max:255',
             'marca' => 'nullable|max:255',
-            'img'   => 'nullable',
-            'img.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'img'   => 'nullable|array',
+            'img.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'delete_images' => 'nullable|array',
+            'delete_images.*' => 'integer|min:0',
             'pdf' => 'nullable|mimes:pdf|max:10000',
             'delete_pdf' => 'nullable|boolean',
             'main_category_id' => 'required|exists:main_categories,id',
@@ -262,7 +264,6 @@ class AdminController extends Controller
             'descripcion' => 'nullable|string|max:5000',
             'detalles_lista' => 'nullable|array',
             'detalles_lista.*' => 'nullable|string|max:5000',
-            'delete_images' => 'nullable|array',
             'proveedor_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'delete_proveedor_logo' => 'nullable|boolean',
             'stock' => 'required|integer|min:0',
@@ -294,40 +295,62 @@ class AdminController extends Controller
         ]);
 
         // --------------------------
-        // 🔹 IMÁGENES DEL PRODUCTO
+        // IMÁGENES DEL PRODUCTO
         // --------------------------
-        $existingImages = json_decode($product->getOriginal('img'), true);
+
+        // Recuperar las imágenes actuales, incluidas las de productos antiguos
+        $rawImages = $product->getOriginal('img');
+        $existingImages = json_decode($rawImages, true);
+
+        // Si la imagen antigua no estaba guardada como JSON,
+        // la tratamos como una imagen individual.
         if (!is_array($existingImages)) {
-            $existingImages = [];
+            $existingImages = !empty($rawImages)
+                ? [$rawImages]
+                : [];
         }
 
-        // Eliminar imágenes
-        if ($request->has('delete_images')) {
-            foreach ($request->input('delete_images') as $index) {
-                if (isset($existingImages[$index])) {
-                    $toUnlink = public_path($existingImages[$index]);
-                    if (file_exists($toUnlink)) {
-                        @unlink($toUnlink);
-                    }
-                    unset($existingImages[$index]);
+        // --------------------------
+        // ELIMINAR IMÁGENES MARCADAS
+        // --------------------------
+
+        $deleteIndexes = $request->input('delete_images', []);
+
+        foreach ($deleteIndexes as $index) {
+            $index = (int) $index;
+
+            if (array_key_exists($index, $existingImages)) {
+                $imagePath = $existingImages[$index];
+                $fullPath = public_path($imagePath);
+
+                // Eliminar el archivo físico si existe
+                if (is_file($fullPath)) {
+                    @unlink($fullPath);
                 }
+
+                unset($existingImages[$index]);
             }
-            $existingImages = array_values($existingImages);
         }
 
-        // Agregar imágenes
+        // Reindexar la lista después de eliminar
+        $existingImages = array_values($existingImages);
+
+        // --------------------------
+        // AÑADIR NUEVAS IMÁGENES
+        // --------------------------
+
         if ($request->hasFile('img')) {
             foreach ($request->file('img') as $imgFile) {
                 if ($imgFile && $imgFile->isValid()) {
                     $path = $imgFile->store('img', 'public');
+
                     $existingImages[] = 'storage/' . $path;
                 }
             }
         }
 
-        if (!empty($existingImages)) {
-            $product->img = json_encode($existingImages);
-        }
+        // Guardar siempre el resultado, incluso si no queda ninguna imagen
+        $product->img = json_encode(array_values($existingImages));
 
         // --------------------------
         // 🔹 PDF

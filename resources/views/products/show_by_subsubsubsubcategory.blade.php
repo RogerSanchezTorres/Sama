@@ -118,7 +118,7 @@
                         @endphp
 
                         @if (!empty($images))
-                        <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}">
+                        <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}" loading="lazy">
                         @else
                         <div class="no-image">No hay imagen disponible</div>
                         @endif
