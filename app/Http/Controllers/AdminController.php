@@ -249,8 +249,8 @@ class AdminController extends Controller
             'proveedor' => 'max:255',
             'referencia' => 'max:255',
             'marca' => 'nullable|max:255',
-            'img'   => 'nullable|array',
-            'img.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'img' => 'nullable|array',
+            'img.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:2048',
             'delete_images' => 'nullable|array',
             'delete_images.*' => 'integer|min:0',
             'pdf' => 'nullable|mimes:pdf|max:10000',
@@ -298,59 +298,60 @@ class AdminController extends Controller
         // IMÁGENES DEL PRODUCTO
         // --------------------------
 
-        // Recuperar las imágenes actuales, incluidas las de productos antiguos
-        $rawImages = $product->getOriginal('img');
-        $existingImages = json_decode($rawImages, true);
-
-        // Si la imagen antigua no estaba guardada como JSON,
-        // la tratamos como una imagen individual.
-        if (!is_array($existingImages)) {
-            $existingImages = !empty($rawImages)
-                ? [$rawImages]
-                : [];
-        }
-
-        // --------------------------
-        // ELIMINAR IMÁGENES MARCADAS
-        // --------------------------
-
+        // Solo tocar las imágenes cuando el usuario las modifica
         $deleteIndexes = $request->input('delete_images', []);
 
-        foreach ($deleteIndexes as $index) {
-            $index = (int) $index;
+        $hasImageChanges = $request->hasFile('img')
+            || !empty($deleteIndexes);
 
-            if (array_key_exists($index, $existingImages)) {
-                $imagePath = $existingImages[$index];
-                $fullPath = public_path($imagePath);
+        if ($hasImageChanges) {
 
-                // Eliminar el archivo físico si existe
-                if (is_file($fullPath)) {
-                    @unlink($fullPath);
-                }
+            // Leer el valor original de la base de datos, sin accessor
+            $rawImages = $product->getRawOriginal('img');
+            $existingImages = json_decode($rawImages, true);
 
-                unset($existingImages[$index]);
+            // Compatibilidad con productos antiguos de una sola imagen
+            if (!is_array($existingImages)) {
+                $existingImages = !empty($rawImages)
+                    ? [$rawImages]
+                    : [];
             }
-        }
 
-        // Reindexar la lista después de eliminar
-        $existingImages = array_values($existingImages);
+            // Eliminar las imágenes seleccionadas
+            foreach ($deleteIndexes as $index) {
+                $index = (int) $index;
 
-        // --------------------------
-        // AÑADIR NUEVAS IMÁGENES
-        // --------------------------
+                if (array_key_exists($index, $existingImages)) {
+                    $imagePath = $existingImages[$index];
+                    $fullPath = public_path($imagePath);
 
-        if ($request->hasFile('img')) {
-            foreach ($request->file('img') as $imgFile) {
-                if ($imgFile && $imgFile->isValid()) {
-                    $path = $imgFile->store('img', 'public');
+                    if (is_file($fullPath)) {
+                        @unlink($fullPath);
+                    }
 
-                    $existingImages[] = 'storage/' . $path;
+                    unset($existingImages[$index]);
                 }
             }
-        }
 
-        // Guardar siempre el resultado, incluso si no queda ninguna imagen
-        $product->img = json_encode(array_values($existingImages));
+            $existingImages = array_values($existingImages);
+
+            // Añadir todas las imágenes nuevas
+            if ($request->hasFile('img')) {
+                foreach ($request->file('img') as $imgFile) {
+                    if ($imgFile && $imgFile->isValid()) {
+                        $path = $imgFile->store('img', 'public');
+
+                        $existingImages[] = 'storage/' . $path;
+                    }
+                }
+            }
+
+            // Guardar la lista actualizada
+            $product->img = json_encode(
+                array_values($existingImages),
+                JSON_UNESCAPED_SLASHES
+            );
+        }
 
         // --------------------------
         // 🔹 PDF
@@ -383,6 +384,69 @@ class AdminController extends Controller
         $product->save();
 
         return redirect()->route('admin-view-products')->with('success', 'Producto actualizado exitosamente');
+    }
+
+    public function updateProductImages(Request $request, $id)
+    {
+        $request->validate([
+            'img' => 'nullable|array',
+            'img.*' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'delete_images' => 'nullable|array',
+            'delete_images.*' => 'integer|min:0',
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        // Recuperar imágenes guardadas
+        $rawImages = $product->getRawOriginal('img');
+        $images = json_decode($rawImages, true);
+
+        // Compatibilidad con productos antiguos de una sola imagen
+        if (!is_array($images)) {
+            $images = !empty($rawImages) ? [$rawImages] : [];
+        }
+
+        // Eliminar las imágenes seleccionadas
+        foreach ($request->input('delete_images', []) as $index) {
+            $index = (int) $index;
+
+            if (array_key_exists($index, $images)) {
+                $imagePath = $images[$index];
+                $fullPath = public_path($imagePath);
+
+                if (is_file($fullPath)) {
+                    @unlink($fullPath);
+                }
+
+                unset($images[$index]);
+            }
+        }
+
+        $images = array_values($images);
+
+        // Añadir todas las imágenes nuevas
+        if ($request->hasFile('img')) {
+            foreach ($request->file('img') as $file) {
+                if ($file && $file->isValid()) {
+                    $path = $file->store('img', 'public');
+
+                    $images[] = 'storage/' . $path;
+                }
+            }
+        }
+
+        // Guardar únicamente las imágenes del producto
+        $product->img = json_encode(
+            array_values($images),
+            JSON_UNESCAPED_SLASHES
+        );
+
+        $product->save();
+
+        return response()->json([
+            'message' => 'Imágenes actualizadas correctamente.',
+            'count' => count($images),
+        ]);
     }
 
     public function deleteProduct($id)

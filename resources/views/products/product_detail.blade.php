@@ -12,6 +12,59 @@
 
 </head>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-product-gallery]').forEach(function(gallery) {
+            const mainImage = gallery.querySelector('[data-gallery-main-image]');
+            const thumbnails = Array.from(
+                gallery.querySelectorAll('[data-gallery-index]')
+            );
+
+            if (!mainImage || thumbnails.length < 2) return;
+
+            let currentIndex = 0;
+
+            function showImage(index) {
+                currentIndex = (index + thumbnails.length) % thumbnails.length;
+
+                const selected = thumbnails[currentIndex];
+
+                mainImage.src = selected.dataset.imageSrc;
+                mainImage.alt = selected.getAttribute('aria-label') || 'Imagen del producto';
+
+                thumbnails.forEach(function(thumb, i) {
+                    const active = i === currentIndex;
+
+                    thumb.classList.toggle('is-active', active);
+                    thumb.setAttribute('aria-pressed', active ? 'true' : 'false');
+                });
+            }
+
+            thumbnails.forEach(function(thumb, index) {
+                thumb.addEventListener('click', function() {
+                    showImage(index);
+                });
+            });
+
+            const previous = gallery.querySelector('[data-gallery-prev]');
+            const next = gallery.querySelector('[data-gallery-next]');
+
+            if (previous) {
+                previous.addEventListener('click', function() {
+                    showImage(currentIndex - 1);
+                });
+            }
+
+            if (next) {
+                next.addEventListener('click', function() {
+                    showImage(currentIndex + 1);
+                });
+            }
+        });
+    });
+</script>
+
+
 <body>
     <x-header />
     <x-headersama />
@@ -23,47 +76,86 @@
         <div class="product-image">
 
             @php
-            // Intentamos decodificar las imágenes
-            $images = [];
+            // Obtener el valor original guardado en la base de datos
+            $rawImages = $product->getRawOriginal('img');
 
-            if (!empty($product->img)) {
-            // Si es JSON válido, lo decodificamos
-            $decoded = json_decode($product->img, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-            $images = $decoded;
+            // Intentar interpretar el JSON
+            $productImages = json_decode($rawImages, true);
+
+            // Compatibilidad si el JSON contiene otro JSON codificado
+            if (is_string($productImages)) {
+            $decodedAgain = json_decode($productImages, true);
+
+            if (is_array($decodedAgain)) {
+            $productImages = $decodedAgain;
             } else {
-            // Si no es JSON, asumimos una sola imagen
-            $images = [$product->img];
+            // Producto antiguo con una sola imagen
+            $productImages = trim($productImages) !== ''
+            ? [$productImages]
+            : [];
             }
             }
 
-            // Normalizamos las rutas
-            $images = array_filter(array_map(function ($image) {
-            return str_replace('\\', '/', $image);
-            }, $images));
+            // Compatibilidad con rutas antiguas que no están en JSON
+            if (!is_array($productImages)) {
+            $productImages = is_string($rawImages) && trim($rawImages) !== ''
+            ? [$rawImages]
+            : [];
+            }
+
+            // Quitar valores vacíos y reindexar la lista
+            $productImages = array_values(array_filter(
+            $productImages,
+            fn ($image) => is_string($image) && trim($image) !== ''
+            ));
             @endphp
+            <div class="product-gallery" data-product-gallery>
 
-            @if (!empty($images))
-            <div class="gallery-container" style="text-align:center;">
-                <!-- Imagen principal -->
-                <div class="main-image" style="margin-bottom: 15px;">
-                    <img src="{{ asset($images[0]) }}" alt="{{ $product->nombre_es }}" id="currentImage" class="img-fluid" style="max-width: 300px; border: 1px solid #ccc; border-radius: 5px;">
+                @if(count($productImages) > 0)
+
+                {{-- Imagen principal --}}
+                <div class="product-gallery-main">
+
+                    <img src="{{ asset($productImages[0]) }}" alt="{{ $product->nombre_es }}" class="product-gallery-main-image" data-gallery-main-image>
+
+                    @if(count($productImages) > 1)
+                    <button type="button" class="product-gallery-arrow product-gallery-prev" data-gallery-prev aria-label="Imagen anterior">
+                        &#10094;
+                    </button>
+
+                    <button type="button" class="product-gallery-arrow product-gallery-next" data-gallery-next aria-label="Imagen siguiente">
+                        &#10095;
+                    </button>
+                    @endif
+
                 </div>
 
-                <!-- Miniaturas -->
-                @if(count($images) > 1)
-                <div class="thumbnail-container" style="display: flex; gap: 10px; justify-content: center;">
-                    @foreach($images as $image)
-                    <img src="{{ asset($image) }}" alt="{{ $product->nombre_es }}" class="thumbnail" onclick="changeImage('{{ asset($image) }}')" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent;" onmouseover="this.style.borderColor='#ccc';" onmouseout="this.style.borderColor='transparent';">
+                {{-- Miniaturas de todas las imágenes --}}
+                @if(count($productImages) > 1)
+
+                <div class="product-gallery-thumbnails">
+
+                    @foreach($productImages as $index => $image)
+
+                    <button type="button" class="product-gallery-thumb {{ $loop->first ? 'is-active' : '' }}" data-gallery-index="{{ $index }}" data-image-src="{{ asset($image) }}" aria-label="Ver imagen {{ $index + 1 }}" aria-pressed="{{ $loop->first ? 'true' : 'false' }}">
+                        <img src="{{ asset($image) }}" alt="Miniatura {{ $index + 1 }}" loading="lazy">
+                    </button>
+
                     @endforeach
+
                 </div>
+
                 @endif
+
+                @else
+
+                <div class="product-gallery-empty">
+                    No hay imágenes disponibles para este producto.
+                </div>
+
+                @endif
+
             </div>
-            @else
-            <div class="no-image">
-                No hay imagen disponible
-            </div>
-            @endif
         </div>
 
         <div class="product-info">

@@ -223,26 +223,6 @@ body {
     font-size: 18px;
 }
 
-/*.product-image {
-    text-align: center;
-}
-
-.product-image img {
-    max-width: 100%;
-    max-height: 400px;
-    width: auto;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-.no-image {
-    color: #777;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-}*/
-
 .product-info {
     padding: 20px;
 }
@@ -342,7 +322,7 @@ body {
     text-decoration: none;
     padding: 8px;
     border-radius: 4px;
-    
+
 }
 
 .login-btn {
@@ -626,6 +606,131 @@ form textarea {
     line-height: 1.5;
 }
 
+/* Galería del producto */
+.product-gallery {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+/* Marco fijo para la imagen grande */
+.product-gallery-main {
+    position: relative;
+    width: 100%;
+    height: clamp(280px, 40vw, 480px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+}
+
+/* Todas las imágenes principales ocupan el mismo marco */
+.product-gallery-main-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+
+    object-fit: contain;
+    object-position: center;
+}
+
+/* Flechas de navegación */
+.product-gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    font-size: 18px;
+
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.product-gallery-arrow:hover {
+    background: #ffc106;
+    color: #111;
+}
+
+.product-gallery-prev {
+    left: 12px;
+}
+
+.product-gallery-next {
+    right: 12px;
+}
+
+/* Miniaturas */
+.product-gallery-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.product-gallery-thumb {
+    height: 85px;
+    padding: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.product-gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-gallery-thumb:hover,
+.product-gallery-thumb.is-active {
+    border: 2px solid #ffc106;
+}
+
+/* Cuando no hay imágenes */
+.product-gallery-empty {
+    padding: 30px 15px;
+    color: #777;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+    .product-gallery-main {
+        height: 300px;
+    }
+
+    .product-gallery-thumbnails {
+        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+        gap: 7px;
+    }
+
+    .product-gallery-thumb {
+        height: 70px;
+    }
+}
+
 
 
 @media only screen and (max-width: 768px) {
@@ -830,5 +935,101 @@ form textarea {
     .politica-cookies {
         margin-left: 95px;
         width: 83%;
+    }
+}
+
+/* Evitar que los estilos antiguos recorten la galería */
+.product-image {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+}
+
+/* Galería completa */
+.product-image .product-gallery {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    overflow: visible;
+    margin: 0 auto;
+}
+
+/* Imagen principal */
+.product-image .product-gallery-main {
+    position: relative;
+    width: 100%;
+    height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fff;
+}
+
+.product-image .product-gallery-main-image {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    object-fit: contain;
+}
+
+/* Mostrar siempre la fila de miniaturas */
+.product-image .product-gallery-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 85px));
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    margin-top: 15px;
+    position: static;
+    overflow: visible;
+    visibility: visible;
+}
+
+/* Miniaturas de tamaño uniforme */
+.product-image .product-gallery-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85px;
+    height: 85px;
+    padding: 5px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.product-image .product-gallery-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-image .product-gallery-thumb.is-active,
+.product-image .product-gallery-thumb:hover {
+    border: 2px solid #ffc106;
+}
+
+/* Mantener las miniaturas en horizontal */
+.product-thumbnails {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.product-thumbnails>* {
+    flex: 0 0 auto !important;
+}
+
+@media (max-width: 600px) {
+    .product-image .product-gallery-main {
+        height: 300px;
     }
 }

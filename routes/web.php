@@ -134,7 +134,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/subsubsubsubcategories/create', [SubSubSubSubcategoryController::class, 'create'])->name('admin.createSubSubSubSubcategory');
     Route::post('/admin/subsubsubsubcategories/store', [SubSubSubSubcategoryController::class, 'store'])->name('admin.storeSubSubSubSubcategory');
 
-
+    Route::post(
+        '/admin/edit-products/{id}/images',
+        [AdminController::class, 'updateProductImages']
+    )->name('admin-update-product-images');
 
 
     Route::post('/upload', [ImageController::class, 'upload'])->name('images.upload');

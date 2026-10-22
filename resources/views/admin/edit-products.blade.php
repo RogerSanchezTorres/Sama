@@ -173,14 +173,19 @@
 
                     {{-- GALERÍA DE IMÁGENES DEL PRODUCTO --}}
                     @php
-                    $images = json_decode($product->img, true);
+                    $rawImages = $product->getRawOriginal('img');
+                    $images = json_decode($rawImages, true);
 
-                    // Compatibilidad con productos que tengan una sola imagen antigua
                     if (!is_array($images)) {
-                    $images = !empty($product->img)
-                    ? [$product->img]
+                    $images = !empty($rawImages)
+                    ? [$rawImages]
                     : [];
                     }
+
+                    $images = array_values(array_filter(
+                    $images,
+                    fn ($image) => is_string($image) && trim($image) !== ''
+                    ));
                     @endphp
 
                     <div class="product-images-admin mb-4">
@@ -247,13 +252,7 @@
                                 Añadir imágenes nuevas
                             </label>
 
-                            <input
-                                type="file"
-                                id="productImages"
-                                name="img[]"
-                                class="form-control"
-                                accept="image/jpeg,image/png,image/gif,image/webp"
-                                multiple>
+                            <input type="file" id="productImages" name="img[]" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/jpg" multiple>
 
                             <small class="text-muted">
                                 Puedes seleccionar varias imágenes. Las miniaturas aparecerán aquí antes de guardar.
@@ -262,6 +261,12 @@
                             <div id="newImagesPreview" class="product-images-grid mt-3"></div>
 
                         </div>
+                        <button type="button" id="saveProductImages" class="btn btn-warning fw-bold mt-3" data-url="{{ route('admin-update-product-images', $product->id) }}">
+                            <i class="fas fa-images"></i>
+                            Guardar imágenes
+                        </button>
+
+                        <p id="productImagesStatus" class="mt-2 mb-0" role="status" aria-live="polite"></p>
 
                     </div>
 
@@ -536,6 +541,82 @@
 
             // Ejecutar al cargar la página
             actualizarSubsubsubsubcategorias();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('saveProductImages');
+            const input = document.getElementById('productImages');
+            const status = document.getElementById('productImagesStatus');
+
+            if (!button || !input || !status) return;
+
+            button.addEventListener('click', async function() {
+                const files = Array.from(input.files);
+
+                const deleteCheckboxes = Array.from(
+                    document.querySelectorAll('input[name="delete_images[]"]:checked')
+                );
+
+                if (files.length === 0 && deleteCheckboxes.length === 0) {
+                    status.textContent = 'Selecciona imágenes nuevas o marca alguna para eliminar.';
+                    return;
+                }
+
+                const form = button.closest('form');
+                const csrf = form?.querySelector('input[name="_token"]')?.value;
+
+                if (!csrf) {
+                    status.textContent = 'No se ha podido obtener el token de seguridad.';
+                    return;
+                }
+
+                const data = new FormData();
+                data.append('_token', csrf);
+
+                files.forEach(function(file) {
+                    data.append('img[]', file);
+                });
+
+                deleteCheckboxes.forEach(function(checkbox) {
+                    data.append('delete_images[]', checkbox.value);
+                });
+
+                button.disabled = true;
+                status.textContent = 'Guardando imágenes...';
+
+                try {
+                    const response = await fetch(button.dataset.url, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: data
+                    });
+
+                    const result = await response.json().catch(() => ({}));
+
+                    if (!response.ok) {
+                        const errors = result.errors ?
+                            Object.values(result.errors).flat().join(' ') :
+                            result.message;
+
+                        throw new Error(errors || 'No se han podido guardar las imágenes.');
+                    }
+
+                    status.textContent =
+                        result.message + ' Total de imágenes: ' + result.count + '.';
+
+                    // Recargar la misma pantalla de edición para mostrar el resultado
+                    window.setTimeout(function() {
+                        window.location.reload();
+                    }, 900);
+
+                } catch (error) {
+                    status.textContent = error.message;
+                    button.disabled = false;
+                }
+            });
         });
     </script>
 
