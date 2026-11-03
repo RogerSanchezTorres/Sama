@@ -189,9 +189,7 @@
             {{-- USUARIO NO LOGUEADO --}}
             @guest
             <div class="catalogo-info">
-                <span class="catalogo-badge">
-                    {{ $shopEnabled ? 'Acceso requerido' : 'Modo catálogo' }}
-                </span>
+                
 
                 <p class="catalogo-text">
                     @if($shopEnabled)
